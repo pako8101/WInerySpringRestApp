@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>Paradise Winery Website</title>
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<header th:fragment="nav" data-role="Header" id="navbar">
+    <div id="sidebar">
+        <div class="logged-user"><br>
+<!--            th:text="#{nav_bar_welcome}"-->
+            <a>Welcome,</a>
+            <th:block sec:authentication="name"></th:block>
+            !
+        </div>
+        <a th:href="@{/}" class="logo"><img src="/images/logo.jpg" alt=""></a>
+        <ul>
+            <li class="selected">
+                <span><a th:href="@{/}">home</a></span>
+            </li>
+            <li>
+                <span><a href="wines.html">our wines</a></span>
+            </li>
+            <li>
+                <span><a href="history.html">history</a></span>
+            </li>
+            <li>
+                <span><a th:href="@{/about}">about</a></span>
+            </li>
+            <th:block sec:authorize="!isAuthenticated()">
+            <li>
+                <span><a th:href="@{/users/register}">register</a></span>
+            </li><li>
+                <span><a th:href="@{/users/login}">login</a></span>
+            </li>
+            </th:block>
+            <li>
+                <span><a href="blog.html">blog</a></span>
+            </li>
+            <li>
+                <span><a href="contact.html">contact</a></span>
+            </li>
+        </ul>
+        <div class="contact">
+            <ul>
+                <li class="address">
+                    <span>address</span>
+                    <ul>
+                        <li>
+                           Aleko Konstantinov 39
+                        </li>
+                        <li>
+                            5000 Veliko Tarnovo
+                        </li>
+                        <li>
+                            Bulgaria
+                        </li>
+                    </ul>
+                </li>
+                <li class="contactInfo">
+                    <span>contact info</span>
+                    <ul>
+                        <li>
+                            +00359 899 199 149
+                        </li>
+                        <li>
+                            +00359 886 236 483
+                        </li>
+                    </ul>
+                </li>
+                <li class="mail">
+                    <span>email</span>
+                    <ul>
+                        <li>
+                            <a href="#">info@kamenoviWinery.co.uk</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="connect">
+            <b>follow us</b>
+            <p>
+                In hendrerit sollicitudin eros, sit amet tincidunt magna condimentum id.
+            </p>
+            <ul>
+                <li id="facebook">
+                    <a href="http://freewebsitetemplates.com/go/facebook/">facebook</a>
+                </li>
+                <li id="twitter">
+                    <a href="http://freewebsitetemplates.com/go/twitter/">twitter</a>
+                </li>
+                <li id="googleplus">
+                    <a href="http://freewebsitetemplates.com/go/googleplus/">googleplus</a>
+                </li>
+                <li id="connectemail">
+                    <a href="http://www.freewebsitetemplates.com/misc/contact">email</a>
+                </li>
+            </ul>
+        </div>
+        <div class="newsletter">
+            <b>join our mailing list</b>
+            <form action="index.html">
+                <input type="text" name="email" value="Enter email-address" id="email">
+                <input type="submit" name="submit1" value="Sign up!" id="submit1">
+            </form>
+        </div>
+    </div>
+
+</header>
+<body >
+
+</body>
+<div th:fragment="footer" id="footer">
+    <ul>
+        <li class="selected">
+            <a href="index.html">home</a>
+        </li>
+        <li>
+            <a href="wines.html">our wines</a>
+        </li>
+        <li>
+            <a href="history.html">history</a>
+        </li>
+        <li>
+            <a href="about.html">about</a>
+        </li>
+        <li>
+            <a href="blog.html">blog</a>
+        </li>
+        <li>
+            <a href="contact.html">contact</a>
+        </li>
+    </ul>
+    <p>
+        &copy; <a href="">Paradise Kamenovi Winery</a> 2024. All Rights Reserved.
+    </p>
+</div>
+</html>
