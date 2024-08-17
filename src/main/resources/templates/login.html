@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <th:block th:replace="~{fragments/commons::head}"></th:block>
 </head>
+<link rel="stylesheet" href="/css/reset-css.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/login.css">
 <body>
+<th:block th:replace="~{fragments/commons::nav}"></th:block>
+<section>
+
+    <h4 >Log in Please</h4>
+    <!--                                    th:text="#{loginHeader}"-->
+
+    <!--                                <p class="alert alert-danger" th:if="${wrongCredentials}" th:text="#{wrongLogin}"></p>-->
+    <form th:action="@{/users/login}" method="post"
+          th:object="${userLoginDto}"
+    >
+        <!--                                    <p th:text="#{pleaseLogin}"></p>-->
+
+        <div class="login">
+            <input type="text" id="username" name="username" class="form-control"
+                   th:field="*{username}"/>
+            <label class="form-label" for="username"></label>
+        </div>
+
+        <div class="login">
+            <input type="password" th:field="*{password}" id="password" name="password"
+                   class="form-control"/>
+            <label class="form-label" for="password"></label>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="checkbox" id="rememberMe" name="rememberMe">
+            <label for="rememberMe" ></label>
+        </div>
+        <!--                                    th:text="#{login}" th:text="#{rememberMe}"-->
+        <div class="text">
+            <button class="btn"
+                    type="submit" >Log
+                in
+            </button>
+            <!--                                        <a class="text-muted" th:href="@{/users/forgot-password}" th:text="#{passwordForgotten}"></a>-->
+        </div>
+
+        <div class="">
+            <!--                                        <p class="mb-0 me-2" th:text="#{dontHaveAccount}"></p>-->
+            <button type="button" class="btn btn-outline-danger"
+                    onclick="location.href = '/users/register'" >
+                <!--                                            th:text="#{createNew}"-->
+            </button>
+        </div>
+    </form>
+
+</section>
 
 </body>
+<th:block th:replace="~{fragments/commons::footer}"></th:block>
 </html>
