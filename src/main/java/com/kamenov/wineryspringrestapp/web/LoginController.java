@@ -46,6 +46,11 @@ public class LoginController {
 
 //        redirectAttributes.addFlashAttribute("username", username);
         return "redirect:/users/login";
+//        if (userServiceModel == null) {
+//            redirectAttributes.addFlashAttribute("userLoginBindingModel", userLoginBindingModel());
+//            redirectAttributes.addFlashAttribute("isFound", false);
+//            return "redirect:login";
+//        }
 
     }
 }

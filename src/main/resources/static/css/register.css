@@ -6,7 +6,9 @@
     box-sizing: border-box;
     font-family: 'Open Sans', sans-serif;
 }
-
+.wrapper{
+    margin: -10rem auto 2rem 10rem ;
+}
 body {
     display: flex;
     align-items: center;
@@ -14,14 +16,17 @@ body {
     padding: 0 10px;
     min-height: 100vh;
     background: #1BB295;
+
 }
+
 
 form {
     padding: 25px;
     background: #fff;
     max-width: 500px;
     width: 100%;
-    border-radius: 7px;
+    border-radius: 7px ;
+    border: solid firebrick;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
 }
 
