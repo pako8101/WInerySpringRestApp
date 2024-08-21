@@ -29,7 +29,17 @@ form {
     border: solid firebrick;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
 }
-
+input[type=checkbox] {
+    transform: scale(0.5);
+    vertical-align:middle;
+}
+.field__toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
 form h2 {
     font-size: 27px;
     text-align: center;

@@ -57,13 +57,63 @@
 
                         <div class="form-group password">
                             <label for="password">Password</label>
-                            <input type="password" id="password" placeholder="Enter your password">
-                            <i id="pass-toggle-btn" class="fa-solid fa-eye"></i>
+                            <input th:field="*{password}"
+                                   th:errorclass="is-invalid"
+                                   required minlength="3" maxlength="20"
+                                    type="password"
+                                   id="password"
+                                    name="password"
+                                   placeholder="Enter your password">
+<!--                            <label for="show-password" class="field__toggle">-->
+<!--&lt;!&ndash;                                th:text="#{nav_bar_showPass}"&ndash;&gt;-->
+<!--                                <input type="checkbox" id="show-password"-->
+<!--                                       class="field__toggle-input" />-->
+<!--                            </label>-->
+                            <small th:if="${#fields.hasErrors('password')}"
+                                   id="passwordError" class="bg-danger text-light rounded invalid-feedback">
+                                Password length must be more than 3 characters long.
+                            </small>
+<!--                            <small th:each="e :${#fields.errors('password')}" th:text="${e}"-->
+<!--                                   id="passwordError" class="invalid-feedback  form-text bg-danger rounded">-->
+<!--                                Password length must be between 3 and 20 characters and passwords should match.</small>-->
+<!--                            th:text="#{nav_bar_showPass}"-->
                         </div>
-                        <div class="form-group date">
-                            <label for="date">Birth Date</label>
-                            <input type="date" id="date" placeholder="Select your date">
+<!--        th:text="#{nav_bar_confirmPass}"-->
+        <label for="confirmPassword"
+               >Re-type Password:</label>
+
+        <input th:field="*{confirmPassword}"
+               required minlength="3" maxlength="20"
+               th:errorclass="is-invalid"
+               type="password"
+               id="confirmPassword"
+               name="confirmPassword"
+               placeholder="Confirm password"/>
+        <label for="show-password" class="field__toggle" >
+            <input style="" type="checkbox" id="show-password" value="yes"
+                   class="field__toggle-input" />Show password</label>
+            <!--                                th:text="#{nav_bar_showPass}"-->
+
+        <small th:if="${#fields.hasErrors('confirmPassword')}"
+                id="confirmPasswordHelpInline" class="bg-danger text-light rounded invalid-feedback">
+            Password length must be more than 3 characters long.
+        </small>
+<!--        <small th:each="e :${#fields.errors('password')}" th:text="${e}"-->
+<!--               id="confirmPasswordError" class="invalid-feedback  form-text bg-danger rounded">-->
+<!--            Password length must be between 3 and 20 characters and passwords should match.</small>-->
+        <div class="form-group date">
+                            <label for="age">Birth Date</label>
+                            <input th:field="*{age}"
+                                   min="18" max="90"
+                                   th:errorclass="'is-invalid alert-danger'"
+                                    type="date"
+                                    id="age"
+                                    name="age"
+                                   placeholder="Select your date">
+            <small th:each="e :${#fields.errors('age')}" th:text="${e}"
+                   class="invalid-feedback text-danger">Age is invalid!</small>
                         </div>
+
                         <div class="form-group gender">
                             <label for="gender">Gender</label>
                             <select id="gender">
@@ -73,6 +123,21 @@
                                 <option value="Other">Other</option>
                             </select>
                         </div>
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <div class="col-sm-12">
+                    <input type="checkbox"
+                           name="personal_info_agreement"
+                           value="1">
+                    <span style="font-size: 12px;">
+                                        &nbsp;<b>By submitting this form,
+                        I accept that the information entered may be
+                        processed by Ancient HP within corporate purposes only and be kept for 3 years for future articles.</b>
+                                    </span>
+
+                </div>
+            </div>
+        </div>
                         <div class="form-group submit-btn">
                             <input type="submit" value="Submit">
                         </div>
@@ -166,4 +231,41 @@
 
 </body>
 <div style="margin: 0 auto -60rem -40rem;" ><footer th:replace="fragments/commons::footer"></footer></div>
+
+<script type="text/javascript">
+
+
+    var username = document.querySelector( "#username" );
+    var password = document.querySelector( "#password" );
+    var confirmPassword = document.querySelector( "#confirmPassword" );
+    var toggle = document.querySelector( "#show-password" );
+
+
+
+    username.value = "";
+    password.value = "";
+    confirmPassword.value = "";
+
+    toggle.addEventListener( "click", handleToggleClick, false );
+
+    function handleToggleClick( event ) {
+
+        if ( this.checked ) {
+
+            console.warn( "Change input 'type' to: text" );
+            password.type = "text";
+            confirmPassword.type = "text";
+
+        } else {
+
+            console.warn( "Change input 'type' to: password" );
+            password.type = "password";
+            console.warn( "Change input 'type' to: confirmPassword" );
+            confirmPassword.type = "confirmPassword";
+
+        }
+
+    }
+
+</script>
 </html>
