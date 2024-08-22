@@ -7,6 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 public class UserEntity extends BaseEntity {
+
     @Column(nullable = false,name = "first_name")
     private String firstName;
     @Column(nullable = false,name = "last_name")
@@ -25,8 +26,21 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> roles ;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    private ProfileImage image;
+
     public UserEntity() {
     }
+
+    public ProfileImage getImage() {
+        return image;
+    }
+
+    public UserEntity setImage(ProfileImage image) {
+        this.image = image;
+        return this;
+    }
+
     public String getFullName() {
         return firstName + " " + lastName;
     }

@@ -46,6 +46,9 @@ dependencies {
     implementation 'com.sun.mail:jakarta.mail:1.6.7'
     implementation 'org.projectlombok:lombok:1.18.28'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '0.11.0'
+
+    implementation 'com.cloudinary:cloudinary-http44:1.32.2'
+
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
