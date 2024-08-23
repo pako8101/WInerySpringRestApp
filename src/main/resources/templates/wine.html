@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="~{fragments/commons::head}"></th:block>
+</head>
+
+<body>
+<th:block th:replace="~{fragments/commons::nav}"></th:block>
+<th:block th:object="${boughtWineDto}">
+<h1 th:text="*{name}">Item Name</h1>
+<p>Price: <span th:text="*{price}">0</span></p>
+<p>Available Quantity: <span th:text="*{quantity}">0</span></p>
+
+<form th:action="@{/wine/buy/{id}(id=${wine.id})}" method="post">
+    <button type="submit">Buy Now</button>
+</form>
+</th:block>
+</body>
+<th:block th:replace="~{fragments/commons::footer}"></th:block>
+</html>

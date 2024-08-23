@@ -36,13 +36,29 @@
                 <span><a th:href="@{/users/login}">login</a></span>
             </li>
             </th:block>
+            <th:block sec:authorize="!isAuthenticated()">
+                <li>
+                    <form class=" navbar-link"
+                          th:action="@{/users/logout}" method="post">
+                        <button
+                                type="submit" class="navbar-link">
+<!--                            th:text="#{nav_bar_logout}"-->
+                            <a >LOGOUT</a>
+                        </button>
+                    </form>
+                </li>
+                <li>
+                    <span><a th:href="@{/wine}">Buy wine</a></span>
+                </li>
             <li>
                 <span><a href="blog.html">blog</a></span>
             </li>
             <li>
                 <span><a href="contact.html">contact</a></span>
             </li>
+            </th:block>
         </ul>
+
         <div class="contact">
             <ul>
                 <li class="address">

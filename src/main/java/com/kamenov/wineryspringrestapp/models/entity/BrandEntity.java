@@ -27,4 +27,21 @@ public class BrandEntity extends BaseEntity {
 
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public BrandEntity setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public List<CategoryEntity> getCategories() {
+        return categories;
+    }
+
+    public BrandEntity setCategories(List<CategoryEntity> categories) {
+        this.categories = categories;
+        return this;
+    }
 }
