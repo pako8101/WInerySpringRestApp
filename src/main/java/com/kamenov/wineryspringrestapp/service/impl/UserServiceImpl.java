@@ -40,7 +40,7 @@ private final ModelMapper modelMapper;
                                 Consumer<Authentication> successfulRegister) {
         UserEntity user = modelMapper.map(userRegisterDto, UserEntity.class);
         user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
-        user.getRoles().add(roleService.findByName(UserRoleEnum.USER));
+       // user.getRoles().add(roleService.findByName(UserRoleEnum.USER));
         if (userRegisterDto.getImage() == null || Objects.equals(userRegisterDto.getImage().getOriginalFilename(), "")) {
             user.setImage(profileImageService.getDefaultProfileImage());
 

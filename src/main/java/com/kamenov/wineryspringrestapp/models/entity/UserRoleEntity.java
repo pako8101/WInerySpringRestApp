@@ -10,17 +10,17 @@ public class UserRoleEntity extends BaseEntity {
     @NotNull
     @Column(unique = true)
     @Enumerated(EnumType.STRING)
-    private UserRoleEnum name;
+    private UserRoleEnum role;
 
     public UserRoleEntity() {
     }
 
-    public @NotNull UserRoleEnum getName() {
-        return name;
+    public @NotNull UserRoleEnum getRole() {
+        return role;
     }
 
-    public UserRoleEntity setName(@NotNull UserRoleEnum name) {
-        this.name = name;
+    public UserRoleEntity setRole(@NotNull UserRoleEnum role) {
+        this.role = role;
         return this;
     }
 }

@@ -27,7 +27,7 @@
                 <span><a href="history.html">history</a></span>
             </li>
             <li>
-                <span><a th:href="@{/about}">about</a></span>
+                <span><a th:href="@{/about}">about us</a></span>
             </li>
             <th:block sec:authorize="!isAuthenticated()">
             <li>
@@ -36,7 +36,7 @@
                 <span><a th:href="@{/users/login}">login</a></span>
             </li>
             </th:block>
-            <th:block sec:authorize="!isAuthenticated()">
+            <th:block sec:authorize="isAuthenticated()">
                 <li>
                     <form class=" navbar-link"
                           th:action="@{/users/logout}" method="post">
@@ -47,16 +47,18 @@
                         </button>
                     </form>
                 </li>
+            </th:block>
                 <li>
                     <span><a th:href="@{/wine}">Buy wine</a></span>
                 </li>
+
             <li>
                 <span><a href="blog.html">blog</a></span>
             </li>
             <li>
                 <span><a href="contact.html">contact</a></span>
             </li>
-            </th:block>
+
         </ul>
 
         <div class="contact">

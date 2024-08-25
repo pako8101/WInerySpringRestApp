@@ -3,10 +3,13 @@ package com.kamenov.wineryspringrestapp.web;
 import com.kamenov.wineryspringrestapp.models.dto.UserLoginDto;
 import com.kamenov.wineryspringrestapp.models.dto.UserRegisterDto;
 import com.kamenov.wineryspringrestapp.service.UserService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class RegisterController {
     private final UserService userService;
     private final SecurityContextRepository securityContextRepository;
+    private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
     private final ModelMapper modelMapper;
 
@@ -41,10 +45,6 @@ public class RegisterController {
         return new UserRegisterDto();
     }
 
-    @ModelAttribute("userLoginDto")
-    public UserLoginDto userLoginDto() {
-        return new UserLoginDto();
-    }
 
     @GetMapping("/register")
     public String registerForm(Model model) {
@@ -62,12 +62,16 @@ public class RegisterController {
                                Model model,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
+        logger.info("Registering user: {}", userRegisterDto.getUsername());
 
         if (bindingResult.hasErrors() || !userRegisterDto.getPassword()
                 .equals(userRegisterDto.getConfirmPassword())) {
-            redirectAttributes.addFlashAttribute("userRegisterDto", userRegisterDto);
+            logger.warn("Registration failed for user: {}", userRegisterDto.getUsername());
+            redirectAttributes.addFlashAttribute("registerDto",
+                    userRegisterDto);
             redirectAttributes.addFlashAttribute(
-                    "org.springframework.validation.BindingResult.userRegisterDto", bindingResult);
+                    "org.springframework.validation.BindingResult." +
+                            "registerDto", bindingResult);
 
             return "redirect:/users/register";
         }
@@ -81,9 +85,16 @@ public class RegisterController {
 
             strategy.setContext(context);
             securityContextRepository.saveContext(context, request, response);
+            logger.info("Security context updated for user: {}", userRegisterDto.getUsername());
         });
-
+//        Cookie cookie = new Cookie("jwt", jwtService.generateToken(user));
+//        cookie.setPath("/");
+//        cookie.setMaxAge(60 * 60 * 24);
+//        cookie.setHttpOnly(true);
+//        response.addCookie(cookie);
+//        return "redirect:/";
         model.addAttribute("message", "Registration successful");
+        logger.info("Registration successful for user: {}", userRegisterDto.getUsername());
         return "redirect:/";
     }
 

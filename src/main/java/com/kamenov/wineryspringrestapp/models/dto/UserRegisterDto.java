@@ -1,33 +1,36 @@
 package com.kamenov.wineryspringrestapp.models.dto;
 
 
+import com.kamenov.wineryspringrestapp.validation.passwordMatcher.PasswordMatcher;
+import com.kamenov.wineryspringrestapp.validation.uniqueEmail.UniqueEmail;
+import com.kamenov.wineryspringrestapp.validation.uniqueUsername.UniqueUsername;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.web.multipart.MultipartFile;
 
-//@PasswordMatcher(
-//        password = "password",
-//        confirmPassword = "confirmPassword"
-//)
+@PasswordMatcher(
+        password = "password",
+        confirmPassword = "confirmPassword"
+)
 public class UserRegisterDto {
 
     private MultipartFile image;
 
     @Size(min = 3,max = 20,message = "Username must be between 3 and 20 symbols!")
     @NotNull(message = "Username must not be empty!")
+    @UniqueUsername
     private String username;
     @NotEmpty
-    @Size(min = 3,max = 20,message = "Full name must be between 2 and 20 symbols!")
+    @Size(min = 3,max = 20,message = "Full name must be between 3 and 20 symbols!")
     private String fullName;
     @Email(message = "Email must be valid format!")
     @NotBlank(message = "Email must not be empty!")
-
-//    @UniqueEmail
+    @UniqueEmail
     private String email;
-    @Size(min = 4,max = 20,message = "Password must be between 3 and 20 symbols!")
+    @Size(min = 3,max = 20,message = "Password must be between 3 and 20 symbols!")
     @NotNull(message = "Password must not be empty!")
     private String password;
-    @Size(min = 4,max = 20,message = "Password must be between 3 and 20 symbols!")
+    @Size(min = 3,max = 20,message = "Password must be between 3 and 20 symbols!")
     @NotNull(message = "Password must not be empty!")
     private String confirmPassword;
     @Min(value = 18,message = "Over 18 years! ")
@@ -57,11 +60,11 @@ public class UserRegisterDto {
         return this;
     }
 
-    public @NotEmpty @Size(min = 3, max = 20, message = "Full name must be between 2 and 20 symbols!") String getFullName() {
+    public @NotEmpty @Size(min = 3, max = 20, message = "Full name must be between 3 and 20 symbols!") String getFullName() {
         return fullName;
     }
 
-    public UserRegisterDto setFullName(@NotEmpty @Size(min = 3, max = 20, message = "Full name must be between 2 and 20 symbols!") String fullName) {
+    public UserRegisterDto setFullName(@NotEmpty @Size(min = 3, max = 20, message = "Full name must be between 3 and 20 symbols!") String fullName) {
         this.fullName = fullName;
         return this;
     }
@@ -104,5 +107,18 @@ public class UserRegisterDto {
     public UserRegisterDto setAge(@Min(value = 18, message = "Over 18 years! ") @Max(120) @NotNull @Positive int age) {
         this.age = age;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "UserRegisterDto{" +
+                "image=" + image +
+                ", username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

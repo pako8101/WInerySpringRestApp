@@ -1,6 +1,7 @@
 package com.kamenov.wineryspringrestapp.models.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -8,16 +9,18 @@ import java.util.List;
 @Table(name = "user")
 public class UserEntity extends BaseEntity {
 
-    @Column(nullable = false,name = "first_name")
-    private String firstName;
-    @Column(nullable = false,name = "last_name")
-    private String lastName;
+    @Column(name = "full_name")
+    private String fullName;
+
     @Column(name = "age")
+    @NotNull
     private int age;
     @Column(nullable = false,unique = true)
+    @NotNull
     private String email;
 
     @Column(unique = true,nullable = false)
+    @NotNull
     private String username;
 
     @Column(nullable = false)
@@ -41,29 +44,6 @@ public class UserEntity extends BaseEntity {
         return this;
     }
 
-    public String getFullName() {
-        return firstName + " " + lastName;
-    }
-
-
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public UserEntity setFirstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public UserEntity setLastName(String lastName) {
-        this.lastName = lastName;
-        return this;
-    }
 
     public int getAge() {
         return age;
@@ -108,5 +88,27 @@ public class UserEntity extends BaseEntity {
     public UserEntity setRoles(List<UserRoleEntity> roles) {
         this.roles = roles;
         return this;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public UserEntity setFullName(String fullName) {
+        this.fullName = fullName;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "fullName='" + fullName + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                ", image=" + image +
+                '}';
     }
 }

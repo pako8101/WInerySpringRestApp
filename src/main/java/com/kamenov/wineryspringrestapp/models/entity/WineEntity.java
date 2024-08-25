@@ -14,7 +14,6 @@ public class WineEntity extends BaseEntity {
 
     private String name;
 @Column(columnDefinition = "TEXT")
-@NotEmpty
     private String description;
     @NotNull
     private BigDecimal price;

@@ -50,7 +50,7 @@ public class ApplicationUserDetailsService implements UserDetailsService {
     }
 
     private static GrantedAuthority mapRole(UserRoleEntity userRoleEntity) {
-        return new SimpleGrantedAuthority("ROLE_" + userRoleEntity.getName().name());
+        return new SimpleGrantedAuthority("ROLE_" + userRoleEntity.getRole().name());
 
     }
 }

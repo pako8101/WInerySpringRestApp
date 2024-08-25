@@ -27,7 +27,7 @@ spring:
       cache:
         period: 0
 logging:
-  level:
+  level: 
     org:
       hibernate:
         type:
@@ -35,6 +35,8 @@ logging:
         SQL: DEBUG
       nodeValue: WARN
     blog: WARN
+  pattern:
+    level:
 server:
   port: 8022
 
