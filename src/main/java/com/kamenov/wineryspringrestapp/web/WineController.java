@@ -38,7 +38,7 @@ public class WineController {
         return "wine";
 
     }
-    @PostMapping("/item/buy/{id}")
+    @PostMapping("/wine/buy/{id}")
     public String buyItem(@PathVariable Long id, Model model) {
         boolean success = wineService.buyWine(id, 1,boughtWineDto()); // Може да се добави поле за избор на количество
         if (success) {

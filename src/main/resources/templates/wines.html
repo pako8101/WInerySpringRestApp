@@ -1,12 +1,16 @@
-<!DOCTYPE HTML>
-<!-- Website Template by freewebsitetemplates.com -->
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>Wines - Paredes Winery Website Template</title>
-	<link rel="stylesheet" href="css/style.css" type="text/css">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/commons::head">
+
 </head>
+<link rel="stylesheet" href="/css/reset-css.css">
+<link rel="stylesheet" href="/css/register.css">
+<link rel="stylesheet" href="/css/style.css">
 <body>
+<header th:replace="fragments/commons::nav"></header><br>
 	<div id="background">
 		<div id="page">
 			<div id="sidebar">
@@ -102,13 +106,25 @@
 					<h1>our wines</h1>
 				</div>
 				<div id="body">
-					<h3>we have free templates for everyone.</h3>
+					<h3></h3>
 					<p>
-						Our website templates are created with inspiration, checked for quality and originality and meticulously sliced and coded. What’s more, they’re absolutely free! You can do a lot with them. You can modify them. You can use them to design websites for clients, so long as you agree with the <a href="http://www.freewebsitetemplates.com/about/terms">Terms of Use</a>. You can even remove all our links if you want to.
+						Wine Cellar Kamenovi Paradise is a family-owned producer of brave wines from indigenous and international
+						grapes with a distinct Balkan character.
+						We own 30 hectares of vineyards near the town of Balkan and a modern winery, which is open for visitors every day.
 					</p>
-					<h3>lorem ipsum dolor sit amet</h3>
+					<h2>OUR WINERY</h2>
 					<p>
-						If you’re experiencing issues and concerns about this website template, join the discussion on <a href="http://www.freewebsitetemplates.com/forums/">on our forum</a> and meet other people in the community who share the same interests with you.
+						Our new, modern winery opened doors in the spring of 2013. Thus, we began to write our modern legend.
+						Our winery’s capacity is 250 tonnes of grapes per year. It is built on three levels,
+						and the cellars are dug into the sandy hill.
+						The wine-making process is organized so that the flow of the wine moves by the force of gravity through
+						the three levels of the building.
+						In addition to being extremely energy efficient, this method allows us to treat the wine gently,
+						without putting unnecessary stress on the grapes, and maintaining the wine’s natural structure.
+						The winery is equipped with state-of-the-art vessels from leading Bulgarian and international producers.
+						Our stainless steel fermenters vary in capacity from 100 liters to 10 tonnes.
+						We have a pneumatic wine press with a central membrane and a fully automatic bottling machine with a
+						600 bottles per hour capacity. Our winery has a modern laboratory where we analyse the grapes and the wine.
 					</p>
 					<ul>
 						<li>
@@ -161,31 +177,7 @@
 						</li>
 					</ul>
 				</div>
-				<div id="footer">
-					<ul>
-						<li>
-							<a href="index.html">home</a>
-						</li>
-						<li class="selected">
-							<a href="wines.html">our wines</a>
-						</li>
-						<li>
-							<a href="history.html">history</a>
-						</li>
-						<li>
-							<a href="about.html">about</a>
-						</li>
-						<li>
-							<a href="blog.html">blog</a>
-						</li>
-						<li>
-							<a href="contact.html">contact</a>
-						</li>
-					</ul>
-					<p>
-						&copy; <a href="">Paredes Winery</a> 2032. All Rights Reserved.
-					</p>
-				</div>
+				<div style="margin: 0 auto -60rem -40rem;" ><footer th:replace="fragments/commons::footer"></footer></div>
 			</div>
 		</div>
 	</div>

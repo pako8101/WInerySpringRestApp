@@ -12,5 +12,11 @@ public class HomeController {
     } @GetMapping("/about")
     public String about() {
         return "about";
+    } @GetMapping("/history")
+    public String history() {
+        return "history";
+    } @GetMapping("/wines")
+    public String wines() {
+        return "wines";
     }
 }

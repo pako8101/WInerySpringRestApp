@@ -2,6 +2,8 @@ package com.kamenov.wineryspringrestapp.web;
 
 import com.kamenov.wineryspringrestapp.models.dto.UserLoginDto;
 import com.kamenov.wineryspringrestapp.models.dto.UserRegisterDto;
+import com.kamenov.wineryspringrestapp.models.entity.UserEntity;
+import com.kamenov.wineryspringrestapp.service.JwtService;
 import com.kamenov.wineryspringrestapp.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,12 +34,13 @@ public class RegisterController {
     private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
     private final ModelMapper modelMapper;
-
+private final JwtService jwtService;
     @Autowired
-    public RegisterController(UserService userService, SecurityContextRepository securityContextRepository, ModelMapper modelMapper) {
+    public RegisterController(UserService userService, SecurityContextRepository securityContextRepository, ModelMapper modelMapper, JwtService jwtService) {
         this.userService = userService;
         this.securityContextRepository = securityContextRepository;
         this.modelMapper = modelMapper;
+        this.jwtService = jwtService;
     }
 
     @ModelAttribute("userRegisterDto")
@@ -76,7 +79,7 @@ public class RegisterController {
             return "redirect:/users/register";
         }
 
-
+        UserEntity user =
         userService.registerUser(userRegisterDto, successfulAuth -> {
             SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
 
@@ -85,16 +88,19 @@ public class RegisterController {
 
             strategy.setContext(context);
             securityContextRepository.saveContext(context, request, response);
-            logger.info("Security context updated for user: {}", userRegisterDto.getUsername());
+
         });
-//        Cookie cookie = new Cookie("jwt", jwtService.generateToken(user));
-//        cookie.setPath("/");
-//        cookie.setMaxAge(60 * 60 * 24);
-//        cookie.setHttpOnly(true);
-//        response.addCookie(cookie);
-//        return "redirect:/";
+        Cookie cookie = new Cookie("jwt", jwtService.generateToken(user));
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
+        logger.debug("Username: " + userRegisterDto.getUsername());
+        logger.debug("Password: " + userRegisterDto.getPassword());
+        logger.debug("Login Error: " + bindingResult);
         model.addAttribute("message", "Registration successful");
-        logger.info("Registration successful for user: {}", userRegisterDto.getUsername());
+
         return "redirect:/";
     }
 

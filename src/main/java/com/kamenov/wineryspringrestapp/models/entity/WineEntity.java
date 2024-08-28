@@ -11,11 +11,12 @@ import java.util.List;
 @Table(name = "wines")
 @Entity
 public class WineEntity extends BaseEntity {
-
+@Column(nullable = false, unique = true,name = "name", length = 50)
     private String name;
-@Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String description;
     @NotNull
+    @Column
     private BigDecimal price;
 //    @Enumerated(EnumType.STRING)
 //    private CategoryEnum category;

@@ -1,0 +1,62 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+>
+
+<head th:replace="fragments/commons::head">
+</head>
+<link rel="stylesheet" href="/css/reset-css.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/profile.css">
+<body>
+<header th:replace="fragments/commons::nav">
+</header>
+
+<main class="p-5 align-content-center bg-blur my-register-div">
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-7">
+                <div class="profile-card p-3 py-4">
+                    <!--                    <i class="fas fa-user-ninja"></i>-->
+                    <div class="text-center"><img
+                           src="/images/default-profile-image.png" width="100"
+                            class="rounded-circle"></div>
+                    <div class="text-center mt-3" th:object="${userProfileViewModel}">
+
+                        <h5 style="text-decoration-line: underline" class="mt-4 mb-0">Full name</h5>
+                        <span th:text="*{fullName}">UI/UX Designer</span>
+                        <h5 style="text-decoration-line: underline" class="mt-2 mb-0">Username</h5>
+                        <span th:text="*{username}">UI/UX Designer</span>
+                        <h5 style="text-decoration-line: underline" class="mt-2 mb-0">Age</h5>
+                        <span th:text="*{age}">33</span>
+                        <div class="px-4 mt-5">
+                            <p class="fonts">*Your profile is fully protected by the law on the
+                                protection of personal data. </p>
+                        </div>
+                        <ul class="social-list">
+                            <li><i class="fab fa-facebook-square"></i></li>
+                            <li><i class="fab fa-instagram"></i></li>
+                            <li><i class="fab fa-linkedin"></i></li>
+                            <li><i class="fab fa-google"></i></li>
+                        </ul>
+
+                        <div class="buttons">
+                            <button
+
+                                    type="submit"
+                                    class="button"  >
+                                <a style="color: #9fcdff" th:href="@{/}">Go back!</a>
+                            </button>
+                            <!--                            <button class="btn btn-primary px-4 ms-3">Contact</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+<footer th:replace="fragments/commons::footer">
+
+</footer>
+</html>

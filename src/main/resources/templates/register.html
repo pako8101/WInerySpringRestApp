@@ -113,14 +113,14 @@
 <!--               id="confirmPasswordError" class="invalid-feedback  form-text bg-danger rounded">-->
 <!--            Password length must be between 3 and 20 characters and passwords should match.</small>-->
         <div class="form-group date">
-                            <label for="age">Birth Date</label>
+                            <label for="age">Age</label>
                             <input th:field="*{age}"
                                  required  min="18" max="90"
                                    th:errorclass="'is-invalid alert-danger'"
                                     type="number"
                                     id="age"
                                     name="age"
-                                   placeholder="Select your date">
+                                   placeholder="Enter your age">
             <small th:each="e :${#fields.errors('age')}" th:text="${e}"
                    class="invalid-feedback text-danger">Age is invalid!</small>
                         </div>
