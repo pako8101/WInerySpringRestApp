@@ -9,14 +9,21 @@ public class HomeController {
     @GetMapping("/")
     public String home() {
         return "index";
-    } @GetMapping("/about")
+    }
+    @GetMapping("/about")
     public String about() {
         return "about";
-    } @GetMapping("/history")
+    }
+    @GetMapping("/history")
     public String history() {
         return "history";
-    } @GetMapping("/wines")
+    }
+    @GetMapping("/wines")
     public String wines() {
         return "wines";
+    } @GetMapping("/wine")
+    public String wine() {
+        return "wine";
     }
+
 }

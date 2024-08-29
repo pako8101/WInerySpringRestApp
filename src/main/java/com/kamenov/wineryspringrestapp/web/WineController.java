@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Controller
@@ -24,13 +25,18 @@ public class WineController {
         this.wineService = wineService;
         this.modelMapper = modelMapper;
     }
-    @ModelAttribute()
+    @ModelAttribute("boughtWineDto")
     BoughtWineDto boughtWineDto (){
         return new BoughtWineDto();
     }
-
+    @GetMapping("/wines")
+    public String viewWines(Model model) {
+        List<WineEntity> items = wineService.getAllWInes();
+        model.addAttribute("wines", items);
+        return "wines";
+    }
     @GetMapping("/wine/{id}")
-    public String wine(@PathVariable Long id, Model model) {
+    public String viewWine(@PathVariable Long id, Model model) {
 
         WineEntity wine = wineService.getWineById(id).orElseThrow(NoSuchElementException::new);
 
@@ -40,12 +46,24 @@ public class WineController {
     }
     @PostMapping("/wine/buy/{id}")
     public String buyItem(@PathVariable Long id, Model model) {
-        boolean success = wineService.buyWine(id, 1,boughtWineDto()); // Може да се добави поле за избор на количество
+        boolean success = wineService.buyWine(id, 1); // Може да се добави поле за избор на количество
         if (success) {
             model.addAttribute("message", "Purchase successful!");
         } else {
             model.addAttribute("message", "Not enough items in stock.");
         }
+        return "wines";
+    }
+    @GetMapping("/wine/add")
+    public String addWIneForm(Model model) {
+        model.addAttribute("item", new WineEntity());
+        return "addWine";
+    }
+
+    @PostMapping("/wine/add")
+    public String addItem(@ModelAttribute WineEntity wine, Model model) {
+        wineService.addWIne(wine);
+        model.addAttribute("message", "Wine added successfully!");
         return "wines";
     }
 }
