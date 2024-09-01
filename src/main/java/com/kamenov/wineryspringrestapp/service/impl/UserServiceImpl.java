@@ -60,12 +60,12 @@ private final ModelMapper modelMapper;
                 getImage(), user));
 
 
-//                setFullName(userRegisterDto.getFullName()).
-//             setAge(userRegisterDto.getAge()).
-//                setEmail(userRegisterDto.getEmail()).
-//                setUsername(userRegisterDto.getUsername()).
-//                setPassword(passwordEncoder.encode(userRegisterDto.getPassword())
-//                );
+              user. setFullName(userRegisterDto.getFullName()).
+             setAge(userRegisterDto.getAge()).
+                setEmail(userRegisterDto.getEmail()).
+                setUsername(userRegisterDto.getUsername()).
+                setPassword(passwordEncoder.encode(userRegisterDto.getPassword())
+                );
 
         userRepository.save(user);
 

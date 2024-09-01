@@ -18,10 +18,11 @@ public class HomeController {
     public String history() {
         return "history";
     }
-    @GetMapping("/wines")
-    public String wines() {
-        return "wines";
-    } @GetMapping("/wine")
+//    @GetMapping("/wines")
+//    public String wines() {
+//        return "wines";
+//    }
+    @GetMapping("/wine")
     public String wine() {
         return "wine";
     }

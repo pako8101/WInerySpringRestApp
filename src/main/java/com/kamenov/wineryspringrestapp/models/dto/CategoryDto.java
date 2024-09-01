@@ -1,4 +1,6 @@
 package com.kamenov.wineryspringrestapp.models.dto;
 
-public record CategoryDto(long id,String name) {
+import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
+
+public record CategoryDto(long id, CategoryEnum name) {
 }

@@ -7,10 +7,12 @@ import jakarta.persistence.*;
 @Table(name = "categories")
 public class CategoryEntity extends BaseEntity {
 
-    private String name;
-
     @Enumerated(EnumType.STRING)
-    private CategoryEnum category;
+    @Column(unique = true,nullable = false)
+    private CategoryEnum name;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @ManyToOne
     private BrandEntity brand;
@@ -18,21 +20,21 @@ public class CategoryEntity extends BaseEntity {
     public CategoryEntity() {
     }
 
-    public String getName() {
+    public CategoryEnum getName() {
         return name;
     }
 
-    public CategoryEntity setName(String name) {
+    public CategoryEntity setName(CategoryEnum name) {
         this.name = name;
         return this;
     }
 
-    public CategoryEnum getCategory() {
-        return category;
+    public String getDescription() {
+        return description;
     }
 
-    public CategoryEntity setCategory(CategoryEnum category) {
-        this.category = category;
+    public CategoryEntity setDescription(String description) {
+        this.description = description;
         return this;
     }
 

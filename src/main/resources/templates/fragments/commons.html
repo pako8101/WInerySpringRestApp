@@ -60,7 +60,31 @@
             </li>
 
         </ul>
+        <div id="admin" sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown">
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="/">Admin Panel</a>
+                        <ul>
+                            <li>
+<!--                                th:text="#{nav_bar_statistics}"-->
+                            <li><a
+                                   th:href="@{/statistic}">Statistics</a></li>
+<!--                            th:text="#{nav_bar_add_articles}"-->
+                            <li><a
+                                   th:href="@{/wine/add}">Add wine</a></li>
+<!--                            th:text="#{nav_bar_all_articles}"-->
+                            <li><a
+                                   th:href="@{/wines }">All Wines</a></li>
 
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+
+        </div>
         <div class="contact">
             <ul>
                 <li class="address">

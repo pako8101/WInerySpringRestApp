@@ -1,19 +1,25 @@
 package com.kamenov.wineryspringrestapp.service.impl;
 
+import com.kamenov.wineryspringrestapp.models.dto.WIneAddDto;
 import com.kamenov.wineryspringrestapp.models.entity.WineEntity;
+import com.kamenov.wineryspringrestapp.models.service.WineServiceModel;
 import com.kamenov.wineryspringrestapp.repository.WineRepository;
+import com.kamenov.wineryspringrestapp.service.CategoryService;
 import com.kamenov.wineryspringrestapp.service.WineService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class WineServiceImpl implements WineService {
-
+private final CategoryService categoryService;
     private final WineRepository wineRepository;
 private final ModelMapper modelMapper;
-    public WineServiceImpl(WineRepository wineRepository, ModelMapper modelMapper) {
+    public WineServiceImpl(CategoryService categoryService, WineRepository wineRepository, ModelMapper modelMapper) {
+        this.categoryService = categoryService;
         this.wineRepository = wineRepository;
         this.modelMapper = modelMapper;
     }
@@ -40,8 +46,20 @@ private final ModelMapper modelMapper;
         return wineRepository.findById(wineId);
     }
     @Override
-    public WineEntity addWIne(WineEntity item) {
-        return wineRepository.save(item);
+    public void  addWIne(WineServiceModel wineServiceModel) {
+        WineEntity wine = modelMapper.map(wineServiceModel,WineEntity.class);
+
+        //article.setAuthor(userService.findCurrentUserLoginEntity());
+//        if (wine.g() == null) {
+//            throw new IllegalArgumentException("User ID cannot be null");
+//        }
+        wine.setCategory(wineServiceModel.getCategory()
+                .stream()
+                .map(categoryService::findCategoryByName)
+                .collect(Collectors.toSet()));
+
+        wineRepository.save(wine);
+
     }
 @Override
     public List<WineEntity> getAllWInes() {

@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Table(name = "wines")
 @Entity
@@ -22,7 +23,7 @@ public class WineEntity extends BaseEntity {
 //    private CategoryEnum category;
 
     @OneToMany
-    private List<CategoryEntity> category;
+    private Set<CategoryEntity> category;
     @NotNull
     @ManyToOne
     private BrandEntity brand;
@@ -72,11 +73,11 @@ public class WineEntity extends BaseEntity {
         return this;
     }
 
-    public List<CategoryEntity> getCategory() {
+    public Set<CategoryEntity> getCategory() {
         return category;
     }
 
-    public WineEntity setCategory(List<CategoryEntity> category) {
+    public WineEntity setCategory(Set<CategoryEntity> category) {
         this.category = category;
         return this;
     }
