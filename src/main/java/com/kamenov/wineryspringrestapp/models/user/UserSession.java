@@ -17,7 +17,7 @@ public class UserSession {
         this.userRepository = userRepository;
     }
     public boolean isLogged() {
-        return !hasRole(UserRoleEnum.USER);
+        return hasRole(UserRoleEnum.USER);
     }
 
     public boolean isAdmin() {

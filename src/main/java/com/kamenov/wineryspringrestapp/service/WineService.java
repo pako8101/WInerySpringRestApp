@@ -4,6 +4,8 @@ import com.kamenov.wineryspringrestapp.models.dto.BoughtWineDto;
 import com.kamenov.wineryspringrestapp.models.dto.WIneAddDto;
 import com.kamenov.wineryspringrestapp.models.entity.WineEntity;
 import com.kamenov.wineryspringrestapp.models.service.WineServiceModel;
+import com.kamenov.wineryspringrestapp.models.view.WIneViewModel;
+import com.kamenov.wineryspringrestapp.models.view.WineDetailsViewModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +21,14 @@ public interface WineService {
     public void addWIne(WineServiceModel wineServiceModel);
 
     List<WineEntity> getAllWInes();
+
+    void delete(Long id);
+
+    WineDetailsViewModel getDetails(Long id);
+
+    WineDetailsViewModel findWineBId(Long id);
+
+    WineEntity findWineById(Long id);
+
+    WineEntity updateWine(Long id, WineEntity updatedWine);
 }

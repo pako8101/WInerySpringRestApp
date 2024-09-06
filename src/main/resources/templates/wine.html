@@ -7,6 +7,7 @@
 
 <body>
 <th:block th:replace="~{fragments/commons::nav}"></th:block>
+
 <th:block th:object="${boughtWineDto}">
 <h1 th:text="*{name}">Item Name</h1>
 <p>Price: <span th:text="*{price}">0</span></p>
@@ -15,7 +16,17 @@
 <form th:action="@{/wine/buy/{id}(id=${wine.id})}" method="post">
     <button type="submit">Buy Now</button>
 </form>
+    <div id="admin" sec:authorize="hasRole('ROLE_ADMIN')" >
+    <form class="button" style="margin-top: 1rem" th:method="delete"
+          th:action="@{/wine/{id}(id=${wine.getId()})}">
+        <input style="background-color: #0a7eb3;
+                            color: darkorange;
+                            font-size: medium"
+               type="submit" value="Remove"/>
+    </form>
+    </div>
 </th:block>
+
 </body>
 <th:block th:replace="~{fragments/commons::footer}"></th:block>
 </html>

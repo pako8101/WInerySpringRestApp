@@ -1,23 +1,26 @@
 package com.kamenov.wineryspringrestapp.web;
 
+import com.kamenov.wineryspringrestapp.exceptions.WineNotFoundException;
 import com.kamenov.wineryspringrestapp.models.dto.BoughtWineDto;
 import com.kamenov.wineryspringrestapp.models.dto.WIneAddDto;
 import com.kamenov.wineryspringrestapp.models.entity.WineEntity;
 import com.kamenov.wineryspringrestapp.models.service.WineServiceModel;
+import com.kamenov.wineryspringrestapp.models.view.WIneViewModel;
+import com.kamenov.wineryspringrestapp.models.view.WineDetailsViewModel;
 import com.kamenov.wineryspringrestapp.service.WineService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -43,8 +46,8 @@ public class WineController {
     }
     @GetMapping("/wines")
     public String viewWines(Model model) {
-        List<WineEntity> items = wineService.getAllWInes();
-        model.addAttribute("wines", items);
+        List<WineEntity> wines = wineService.getAllWInes();
+        model.addAttribute("wines", wines);
         return "wines";
     }
     @GetMapping("/wine/{id}")
@@ -68,7 +71,7 @@ public class WineController {
     }
     @GetMapping("/wine/add")
     public String addWIneForm(Model model) {
-        model.addAttribute("item", new WineEntity());
+        model.addAttribute("wine", new WineEntity());
         return "add-wine";
     }
 
@@ -95,5 +98,45 @@ WineServiceModel wineServiceModel = modelMapper.map(wIneAddDto, WineServiceModel
         wineService.addWIne(wineServiceModel);
         model.addAttribute("message", "Wine added successfully!");
         return "wines";
+    }
+        @DeleteMapping("/{id}")
+    public ResponseEntity<WIneAddDto> deleteById(@PathVariable("id") Long id,
+                                                 @AuthenticationPrincipal UserDetails userDetails) {
+        wineService.delete(id);
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+    @GetMapping("/details/{id}")
+    public String details(@PathVariable("id") Long id, Model model) {
+        WineDetailsViewModel wine =
+                wineService.getDetails(id);
+
+        if (wine == null) throw  new WineNotFoundException();
+
+        model.addAttribute("wine",
+                wineService.findWineBId(id));
+
+        return "wine-details";
+    }
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        WineEntity wine = wineService.findWineById(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+//        if (!wine.getUser().getUsername().equals(currentUsername)) {
+//            throw new WineNotAuthorisedToEditException(
+//                    "You are not authorized to edit this article.");
+//        }
+
+        model.addAttribute("wine", wine);
+        return "edit-wine";
+    }
+
+    @PatchMapping("/{id}")
+    public String updateArticle(@PathVariable Long id, @ModelAttribute WineEntity wine) {
+        wineService.updateWine(id, wine);
+        return "redirect:/wines";
     }
 }

@@ -15,10 +15,6 @@ public class AppConfig {
         return new ModelMapper();
     }
 
-    @Bean
-    public PasswordEncoder create() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public Gson gson() {

@@ -1,14 +1,16 @@
 <!DOCTYPE HTML>
-<!-- Website Template by freewebsitetemplates.com -->
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>Blog - Paredes Winery Website Template</title>
-	<link rel="stylesheet" href="/css/style.css" type="text/css">
+
+<html  lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	   xmlns:th="http://www.thymeleaf.org"
+	   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/commons::head">
 </head>
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/reset-css.css">
 <body>
 	<div id="background">
 		<div id="page">
+			<div th:replace="fragments/commons::nav"></div>
 			<div id="sidebar">
 				<a href="index.html" class="logo"><img src="images/logo.jpg" alt=""></a>
 				<ul>
@@ -185,31 +187,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="footer">
-					<ul>
-						<li>
-							<a href="index.html">home</a>
-						</li>
-						<li>
-							<a href="wines.html">our wines</a>
-						</li>
-						<li>
-							<a href="history.html">history</a>
-						</li>
-						<li>
-							<a href="about.html">about</a>
-						</li>
-						<li class="selected">
-							<a href="blog.html">blog</a>
-						</li>
-						<li>
-							<a href="contact.html">contact</a>
-						</li>
-					</ul>
-					<p>
-						&copy; <a href="">Paredes Winery</a> 2032. All Rights Reserved.
-					</p>
-				</div>
+				<div th:replace="fragments/commons::footer" id="footer"></div>
 			</div>
 		</div>
 	</div>

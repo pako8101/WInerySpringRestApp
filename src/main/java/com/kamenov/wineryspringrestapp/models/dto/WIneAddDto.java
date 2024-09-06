@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Set;
 
 public class WIneAddDto {
+
+    private String imageUrl;
+
     private String name;
 
     private String description;
@@ -31,6 +34,15 @@ public class WIneAddDto {
     private int year;
 
     public WIneAddDto() {
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public WIneAddDto setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
     }
 
     public String getName() {

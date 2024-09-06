@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="~{fragments/commons::head}"></th:block>
+</head>
+
+<body>
+<th:block th:replace="~{fragments/commons::nav}"></th:block>
+
+<div class="wine-details-main">
+    <th:block th:each="w : ${wine}">
+    <a class="figure" href="#"><img th:src="${wine.imageUrl}" alt=""></a>
+    <h3 th:text="${wine.name}">Lorem ipsum</h3>
+    <p th:text="${wine.description}">
+        Pellentesque a placerat dui. Suspendisse laoreet placerat turpis vel semper.
+    </p>
+    <h2 > <span >Quantity:</span>  <span th:text="${wine.quantity}"></span></h2><br>
+    <h2 > <span >Category:</span>  <span th:text="${wine.category}"></span></h2>
+    <h2 > <span >Band:</span>  <span th:text="${wine.brand}"></span></h2>
+    <h2 > <span >Price:</span>  <span th:text="${wine.price}"></span></h2>
+
+    <form th:action="@{/wine/buy/{id}(id=${wine.id})}" method="post">
+        <button type="submit">Buy Now</button>
+    </form>
+    <div id="admin" sec:authorize="hasRole('ROLE_ADMIN')" >
+        <form class="button" style="margin-top: 1rem" th:method="delete"
+              th:action="@{/wine/{id}(id=${wine.getId()})}">
+            <input style="background-color: #0a7eb3;
+                            color: darkorange;
+                            font-size: medium"
+                   type="submit" value="Remove"/>
+            <a th:href="@{/wine/edit/{id}(id=${w.id})}" class="button">Edit Wine</a>
+        </form>
+    </div>
+</th:block>
+</div>
+</body>
+<th:block th:replace="~{fragments/commons::footer}"></th:block>
+</html>

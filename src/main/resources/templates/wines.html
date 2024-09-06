@@ -7,26 +7,26 @@
 
 </head>
 <link rel="stylesheet" href="/css/reset-css.css">
-<link rel="stylesheet" href="/css/register.css">
 <link rel="stylesheet" href="/css/style.css">
 <body>
-<header th:replace="fragments/commons::nav"></header><br>
-	<div id="background">
-		<div id="page">
 
+	<div id="background">
+
+		<div id="page">
+			<header th:replace="fragments/commons::nav"></header>
 			<div id="content">
 				<div id="header">
 					<img src="images/mountains.jpg" alt="">
 					<h1>our wines</h1>
 				</div>
 				<div id="body">
-					<h3></h3>
+					<h2 style="margin:1rem auto 2rem 3rem;">OUR WINERY</h2>
 					<p>
 						Wine Cellar Kamenovi Paradise is a family-owned producer of brave wines from indigenous and international
 						grapes with a distinct Balkan character.
 						We own 30 hectares of vineyards near the town of Balkan and a modern winery, which is open for visitors every day.
 					</p>
-					<h2>OUR WINERY</h2>
+
 					<p>
 						Our new, modern winery opened doors in the spring of 2013. Thus, we began to write our modern legend.
 						Our winery’s capacity is 250 tonnes of grapes per year. It is built on three levels,
@@ -40,7 +40,26 @@
 						We have a pneumatic wine press with a central membrane and a fully automatic bottling machine with a
 						600 bottles per hour capacity. Our winery has a modern laboratory where we analyse the grapes and the wine.
 					</p>
+
 					<ul>
+						<li><th:block th:each="w : ${wines}">
+							<a class="figure" href="#"><img th:src="${w.imageUrl}" alt=""></a>
+							<h3 th:text="${w.name}">Lorem ipsum</h3>
+							<p th:text="${w.description}">
+								Pellentesque a placerat dui. Suspendisse laoreet placerat turpis vel semper.
+							</p>
+							<h2 > <span >Quantity:</span>  <span th:text="${w.quantity}"></span></h2><br>
+							<h2 > <span >Category:</span>  <span th:text="${w.category}"></span></h2>
+							<h2 > <span >Band:</span>  <span th:text="${w.brand}"></span></h2>
+							<h2 > <span >Price:</span>  <span th:text="${w.price}"></span></h2>
+							<a th:href="@{/wine}" class="buy-wine">Buy Wine</a>
+							<a th:href="@{/wine/details/{id}(id=${w.id})}" class="button">
+								Learn More</a><br><br><br>
+
+
+							</section> <br>
+							</th:block>
+						</li>
 						<li>
 							<a class="figure" href="#"><img src="images/wine1.png" alt=""></a>
 							<h3>Lorem ipsum</h3>
@@ -91,9 +110,10 @@
 						</li>
 					</ul>
 				</div>
-				<div style="margin: 0 auto -60rem -40rem;" ><footer th:replace="fragments/commons::footer"></footer></div>
+
 			</div>
 		</div>
+		<footer th:replace="fragments/commons::footer"></footer>
 	</div>
 </body>
 </html>

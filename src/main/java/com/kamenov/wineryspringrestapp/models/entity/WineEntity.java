@@ -32,9 +32,20 @@ public class WineEntity extends BaseEntity {
 
     @NotNull
     private int year;
+    @Column(name = "image_url",nullable = false)
+    private String imageUrl;
 
     public WineEntity() {
 
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public WineEntity setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
     }
 
     public int getQuantity() {

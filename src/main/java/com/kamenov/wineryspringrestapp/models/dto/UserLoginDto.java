@@ -32,11 +32,11 @@ public class UserLoginDto {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "UserLoginDto{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "UserLoginDto{" +
+//                "username='" + username + '\'' +
+//                ", password='" + password + '\'' +
+//                '}';
+//    }
 }

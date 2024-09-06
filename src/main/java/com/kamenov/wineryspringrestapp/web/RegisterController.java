@@ -65,11 +65,11 @@ private final JwtService jwtService;
                                Model model,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
-        logger.info("Registering user: {}", userRegisterDto.getUsername());
+
 
         if (bindingResult.hasErrors() || !userRegisterDto.getPassword()
                 .equals(userRegisterDto.getConfirmPassword())) {
-            logger.warn("Registration failed for user: {}", userRegisterDto.getUsername());
+
             redirectAttributes.addFlashAttribute("registerDto",
                     userRegisterDto);
             redirectAttributes.addFlashAttribute(
@@ -79,7 +79,7 @@ private final JwtService jwtService;
             return "redirect:/users/register";
         }
 
-        UserEntity user =
+//        UserEntity user =
         userService.registerUser(userRegisterDto, successfulAuth -> {
             SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
 
@@ -90,15 +90,12 @@ private final JwtService jwtService;
             securityContextRepository.saveContext(context, request, response);
 
         });
-        Cookie cookie = new Cookie("jwt", jwtService.generateToken(user));
-        cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24);
-        cookie.setHttpOnly(true);
-        response.addCookie(cookie);
+//        Cookie cookie = new Cookie("jwt", jwtService.generateToken(user));
+//        cookie.setPath("/");
+//        cookie.setMaxAge(60 * 60 * 24);
+//        cookie.setHttpOnly(true);
+//        response.addCookie(cookie);
 
-        logger.debug("Username: " + userRegisterDto.getUsername());
-        logger.debug("Password: " + userRegisterDto.getPassword());
-        logger.debug("Login Error: " + bindingResult);
         model.addAttribute("message", "Registration successful");
 
         return "redirect:/";

@@ -45,11 +45,10 @@ private final ModelMapper modelMapper;
     }
 
     @Override
-    public   UserEntity  registerUser(UserRegisterDto userRegisterDto,
+    public void  registerUser(UserRegisterDto userRegisterDto,
                                       Consumer<Authentication> successfulRegister) {
         UserEntity user = modelMapper.map(userRegisterDto, UserEntity.class);
         user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
-        logger.debug("Encoded password: {}", user.getPassword());
 
        // user.getRoles().add(roleService.findByName(UserRoleEnum.USER));
         if (userRegisterDto.getImage() == null || Objects.equals(userRegisterDto.getImage().getOriginalFilename(), "")) {
@@ -79,7 +78,7 @@ private final ModelMapper modelMapper;
         );
 
         successfulRegister.accept(authentication);
-        return user;
+//        return user;
     }
 
     @Override
@@ -90,8 +89,11 @@ private final ModelMapper modelMapper;
 
     @Override
     public UserViewModel findBId(Long id) {
-        UserEntity user = loggedUser.get();
-        user = userRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        return modelMapper.map(user,UserViewModel.class);
+        return userRepository.findById(id).
+                map(user -> modelMapper.map(user,UserViewModel.class))
+                .orElse(null);
+//        UserEntity user = loggedUser.get();
+//        user = userRepository.findById(id).orElseThrow(NoSuchElementException::new);
+//        return modelMapper.map(user,UserViewModel.class);
     }
 }
