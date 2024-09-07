@@ -4,20 +4,110 @@
 <head>
     <th:block th:replace="~{fragments/commons::head}"></th:block>
 </head>
-
+<link rel="stylesheet" href="/css/add-wine.css">
+<link rel="stylesheet" href="/css/reset-css.css">
 <body>
 <th:block th:replace="~{fragments/commons::nav}"></th:block>
 <h1>Add New Wine</h1>
 <form th:action="@{/wine/add}"
       th:object="${wIneAddDto}"
       method="post">
-    <label>Name: <input
-            type="text"
-            th:field="*{name}"
-    /></label><br />
-    <label>Price: <input type="text" th:field="*{price}" /></label><br />
-    <label>Quantity: <input type="text" th:field="*{quantity}" /></label><br />
-    <button type="submit">Add Item</button>
+    <div class="form-style-5 ">
+
+        <!--                            <textarea name="field3" placeholder="About yourself"></textarea>-->
+
+        <fieldset>
+            <!--                <label             th:text="#{nav_bar_login_art_title}"></label>-->
+            <input th:field="*{name}"
+                   th:errorclass="'is-invalid bg-danger'"
+                   minlength="5"
+                   required
+                   type="text" name="name"
+                   placeholder="Wine name">
+            <small th:each="error :${#fields.errors('name')}"
+                   th:text="${error}"
+                   th:class="'invalid-feedback text-danger'"  id="inputNameError"> Name must be more then 5 letters!</small>
+            <label >
+
+                <!--                    <label th:text="#{nav_bar_login_art_content}" ></label>-->
+                <textarea th:field="*{description}"
+                          th:errorclass="'is-invalid bg-danger'"
+                          required
+                          class="description" name="description"
+                          placeholder="Wine description"></textarea>
+            </label>
+            <small th:each="error :${#fields.errors('description')}"
+                   th:text="${error}"
+                   th:class="'invalid-feedback text-danger'"
+                   id="inputContentError"> Description must be more then 10 letters!</small>
+
+            <input th:field="*{brand}"
+                   th:errorclass="'is-invalid bg-danger'"
+                   minlength="5"
+                   required
+                   type="text" name="brand"
+                   placeholder="Wine brand">
+            <small th:each="error :${#fields.errors('brand')}"
+                   th:text="${error}"
+                   th:class="'invalid-feedback text-danger'"  id="inputBrandError"> can't be empty!</small>
+
+            <label for="category" >Category:</label>
+            <select th:field="*{category}"
+                   th:errorclass="'is-invalid bg-danger'"
+                   required
+                    id="category"
+                   type="text" name="category"
+                  >
+                <optgroup label="">
+                    <option value="period">Select category</option>
+                    <option th:each="c:${T(com.kamenov.wineryspringrestapp.models.enums.CategoryEnum).values()}"
+                            th:value="${c}" th:text="${c}"
+                            value="white"></option>
+                </optgroup>
+            </select>
+            <small th:each="error :${#fields.errors('category')}"
+                   th:text="${error}"
+                   th:class="'invalid-feedback text-danger'"  id="inputCategoryError"> Category can't be empty!</small>
+
+            <input th:field="*{price}"
+                   th:errorclass="'is-invalid bg-danger'"
+                   minlength="5"
+                   required
+                   type="number" name="price"
+                   placeholder="Wine price">
+            <small th:each="error :${#fields.errors('price')}"
+                   th:text="${error}"
+                   th:class="'invalid-feedback text-danger'"  id="inputPriceError"> can't be empty!</small>
+
+            <input th:field="*{year}"
+                   th:errorclass="'is-invalid bg-danger'"
+                   minlength="5"
+                   required
+                   type="number" name="year"
+                   placeholder="Article Title">
+            <small th:each="error :${#fields.errors('name')}"
+                   th:text="${error}"
+                   th:class="'invalid-feedback text-danger'"  id="inputYearError"> can't be empty!</small>
+
+            <input th:field="*{imageUrl}"
+                   th:errorclass="'is-invalid bg-danger'"
+                   required
+                   type="text"
+                   name="imageUrl"
+                   id="imageUrl"
+                   class="form-control"
+                   placeholder="Image Url"
+                   accept="image/png, image/jpeg">
+            <small th:each="error :${#fields.errors('imageUrl')}"
+                   th:text="${error}"
+                   th:class="'invalid-feedback text-danger'"  id="inputImageError">can't be empty!</small>
+
+
+        </fieldset>
+        <input type="submit" value="Add wine">
+
+    </div>
+
 </form>
 </body>
 <th:block th:replace="~{fragments/commons::footer}"></th:block>

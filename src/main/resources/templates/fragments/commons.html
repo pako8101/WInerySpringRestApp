@@ -52,8 +52,9 @@
                     <span><a th:href="@{/wine}">Buy wine</a></span>
                 </li>
             <li>
-            <th:block  sec:authorize="hasRole('ROLE_ADMIN')" >
                 <a th:href="@{/wine/add}">Add New Wine</a>
+            <th:block  sec:authorize="hasRole('ROLE_ADMIN')" >
+
             </th:block>
             </li>
             <li>

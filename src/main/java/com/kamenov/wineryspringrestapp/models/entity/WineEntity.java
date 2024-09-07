@@ -27,7 +27,7 @@ public class WineEntity extends BaseEntity {
     @NotNull
     @ManyToOne
     private BrandEntity brand;
-
+@Column
     private int quantity;
 
     @NotNull

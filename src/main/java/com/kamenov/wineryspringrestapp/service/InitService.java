@@ -52,15 +52,17 @@ public class InitService {
     private void initUsers() {
         if (userRepository.count() == 0) {
             initAdmin();
-
             initNormalUser();
         }
     }
 
     private void initAdmin(){
+
+
         var adminUser = new UserEntity().
                 setEmail("admin@example.com").
                 setFullName("Admin").
+                setAge(33).
                 setUsername("admin").
                 setPassword(passwordEncoder.encode(defaultPassword)).
                 setRoles(userRoleRepository.findAll());
@@ -84,12 +86,16 @@ public class InitService {
 //    }
 
     private void initNormalUser(){
+        var userRole = userRoleRepository.
+                findUserRoleEntityByRole(UserRoleEnum.USER).orElseThrow();
 
         var normalUser = new UserEntity().
                 setEmail("user@example.com").
                 setFullName("User").
-                setUsername("user").
-                setPassword(passwordEncoder.encode(defaultPassword));
+                setAge(22)
+                .setUsername("user").
+                setPassword(passwordEncoder.encode(defaultPassword))
+                .setRoles(List.of(userRole));
 
         userRepository.save(normalUser);
     }

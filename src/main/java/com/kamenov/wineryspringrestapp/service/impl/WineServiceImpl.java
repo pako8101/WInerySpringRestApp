@@ -125,12 +125,12 @@ public class WineServiceImpl implements WineService {
         if (optionalWine.isPresent()) {
             WineEntity existingWine = optionalWine.get();
 
-            boolean isAdmin = authentication.getAuthorities().stream()
-                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
-
-            if (!isAdmin) {
-                throw new WineNotAuthorisedToEditException("You are not authorized to edit this wine.");
-            }
+//            boolean isAdmin = authentication.getAuthorities().stream()
+//                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+//
+//            if (!isAdmin) {
+//                throw new WineNotAuthorisedToEditException("You are not authorized to edit this wine.");
+//            }
 
             existingWine.setName(updatedWine.getName());
             existingWine.setDescription(updatedWine.getDescription());

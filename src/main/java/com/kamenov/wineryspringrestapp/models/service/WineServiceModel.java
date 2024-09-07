@@ -15,7 +15,7 @@ public class WineServiceModel {
 
     private BigDecimal price;
 
-
+    private String imageUrl;
 
     private Set<CategoryEnum> category;
 
@@ -99,5 +99,29 @@ public class WineServiceModel {
     public WineServiceModel setYear(int year) {
         this.year = year;
         return this;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public WineServiceModel setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "WineServiceModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", category=" + category +
+                ", brand=" + brand +
+                ", quantity=" + quantity +
+                ", year=" + year +
+                '}';
     }
 }

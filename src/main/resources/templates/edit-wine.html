@@ -29,18 +29,31 @@
                        th:errorclass="'is-invalid bg-danger'"
                        minlength="5"
                        required
-                       type="text" name="title"
-                       placeholder="Article Title">
+                       type="text" name="name"
+                       placeholder="Wine name">
                 <small th:each="error :${#fields.errors('name')}"
                        th:text="${error}"
                        th:class="'invalid-feedback text-danger'"  id="inputNameError"> Name must be more then 5 letters!</small>
+                <label >
+
+                    <!--                    <label th:text="#{nav_bar_login_art_content}" ></label>-->
+                    <textarea th:field="*{description}"
+                              th:errorclass="'is-invalid bg-danger'"
+                              required
+                              class="description" name="description"
+                              placeholder=" Your Article Content"></textarea>
+                </label>
+                <small th:each="error :${#fields.errors('description')}"
+                       th:text="${error}"
+                       th:class="'invalid-feedback text-danger'"
+                       id="inputContentError"> Description must be more then 10 letters!</small>
 
                 <input th:field="*{brand}"
                        th:errorclass="'is-invalid bg-danger'"
                        minlength="5"
                        required
-                       type="text" name="title"
-                       placeholder="Article Title">
+                       type="text" name="brand"
+                       placeholder="Wine brand">
                 <small th:each="error :${#fields.errors('brand')}"
                        th:text="${error}"
                        th:class="'invalid-feedback text-danger'"  id="inputBrandError"> can't be empty!</small>
@@ -49,9 +62,9 @@
                        th:errorclass="'is-invalid bg-danger'"
                        minlength="5"
                        required
-                       type="text" name="title"
-                       placeholder="Article Title">
-                <small th:each="error :${#fields.errors('name')}"
+                       type="text" name="category"
+                       placeholder="Category">
+                <small th:each="error :${#fields.errors('category')}"
                        th:text="${error}"
                        th:class="'invalid-feedback text-danger'"  id="inputCategoryError"> Category can't be empty!</small>
 
@@ -59,45 +72,33 @@
                        th:errorclass="'is-invalid bg-danger'"
                        minlength="5"
                        required
-                       type="text" name="title"
-                       placeholder="Article Title">
-                <small th:each="error :${#fields.errors('name')}"
+                       type="number" name="price"
+                       placeholder="Wine price">
+                <small th:each="error :${#fields.errors('price')}"
                        th:text="${error}"
-                       th:class="'invalid-feedback text-danger'"  id="inputPriceError"> Name must be more then 5 letters!</small>
+                       th:class="'invalid-feedback text-danger'"  id="inputPriceError"> can't be empty!</small>
 
-                <input th:field="*{name}"
+                <input th:field="*{year}"
                        th:errorclass="'is-invalid bg-danger'"
                        minlength="5"
                        required
-                       type="text" name="title"
+                       type="number" name="year"
                        placeholder="Article Title">
                 <small th:each="error :${#fields.errors('name')}"
                        th:text="${error}"
-                       th:class="'invalid-feedback text-danger'"  id="inputTitleError"> Name must be more then 5 letters!</small>
+                       th:class="'invalid-feedback text-danger'"  id="inputYearError"> can't be empty!</small>
 
-                <input th:field="*{name}"
+                <input th:field="*{imageUrl}"
                        th:errorclass="'is-invalid bg-danger'"
                        minlength="5"
                        required
-                       type="text" name="title"
+                       type="image" name="image"
                        placeholder="Article Title">
                 <small th:each="error :${#fields.errors('name')}"
                        th:text="${error}"
-                       th:class="'invalid-feedback text-danger'"  id="inputTitleError"> Name must be more then 5 letters!</small>
+                       th:class="'invalid-feedback text-danger'"  id="inputImageError">can't be empty!</small>
 
-                <label >
 
-<!--                    <label th:text="#{nav_bar_login_art_content}" ></label>-->
-                    <textarea th:field="*{description}"
-                              th:errorclass="'is-invalid bg-danger'"
-                              required
-                              class="article" name="article"
-                              placeholder=" Your Article Content"></textarea>
-                </label>
-                <small th:each="error :${#fields.errors('description')}"
-                       th:text="${error}"
-                       th:class="'invalid-feedback text-danger'"
-                       id="inputContentError"> Description must be more then 10 letters!</small>
             </fieldset>
             <input  type="submit" value="Save" />
 
