@@ -1,5 +1,6 @@
 package com.kamenov.wineryspringrestapp.service.impl;
 
+import com.kamenov.wineryspringrestapp.exceptions.CategoryNotFoundException;
 import com.kamenov.wineryspringrestapp.models.entity.CategoryEntity;
 import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
 import com.kamenov.wineryspringrestapp.repository.CategoryRepository;
@@ -18,8 +19,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryEntity findCategoryByName(CategoryEnum categoryNameEnum) {
-        return categoryRepository.findByName(categoryNameEnum)
+    public CategoryEntity findCategoryByName(CategoryEnum categoryEnum) {
+        return categoryRepository.findByName(categoryEnum)
                 .orElse(null);
     }
 
@@ -34,4 +35,15 @@ public class CategoryServiceImpl implements CategoryService {
             this.categoryRepository.saveAllAndFlush(categories);
         }
     }
+
+    @Override
+    public List<CategoryEntity> getAllCategories() {
+        return categoryRepository.findAll();
+    }
+    @Override
+    public CategoryEntity getCategoryById(Long id) {
+        return categoryRepository.findById(id).
+                orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+    }
+
 }

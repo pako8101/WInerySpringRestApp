@@ -79,7 +79,7 @@ private final JwtService jwtService;
             return "redirect:/users/register";
         }
 
-//        UserEntity user =
+        UserEntity user =
         userService.registerUser(userRegisterDto, successfulAuth -> {
             SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
 
@@ -90,11 +90,11 @@ private final JwtService jwtService;
             securityContextRepository.saveContext(context, request, response);
 
         });
-//        Cookie cookie = new Cookie("jwt", jwtService.generateToken(user));
-//        cookie.setPath("/");
-//        cookie.setMaxAge(60 * 60 * 24);
-//        cookie.setHttpOnly(true);
-//        response.addCookie(cookie);
+        Cookie cookie = new Cookie("jwt", jwtService.generateToken(user));
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
 
         model.addAttribute("message", "Registration successful");
 

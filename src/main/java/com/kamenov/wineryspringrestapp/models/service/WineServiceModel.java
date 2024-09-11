@@ -1,9 +1,11 @@
 package com.kamenov.wineryspringrestapp.models.service;
 
 import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
+import com.kamenov.wineryspringrestapp.models.entity.CategoryEntity;
 import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 public class WineServiceModel {
@@ -17,17 +19,19 @@ public class WineServiceModel {
 
     private String imageUrl;
 
-    private Set<CategoryEnum> category;
+    private List<CategoryEnum> category;
 
     private BrandEntity brand;
 
     private int quantity;
 
 
+
     private int year;
 
     public WineServiceModel() {
     }
+
 
     public long getId() {
         return id;
@@ -65,11 +69,11 @@ public class WineServiceModel {
         return this;
     }
 
-    public Set<CategoryEnum> getCategory() {
+    public List<CategoryEnum> getCategory() {
         return category;
     }
 
-    public WineServiceModel setCategory(Set<CategoryEnum> category) {
+    public WineServiceModel setCategory(List<CategoryEnum> category) {
         this.category = category;
         return this;
     }

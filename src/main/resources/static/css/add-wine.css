@@ -132,6 +132,12 @@ textarea:invalid:required{
 input:invalid:required{
     background-image: linear-gradient(to right,darkseagreen,lightcoral);
 }
+.title-add-wine{
+    color: darkblue;
+    text-decoration: underline black;
+    font-size: xx-large ;
+    text-align: center
+}
 /*input {*/
 /*    display: block;*/
 /*    width: 100%;*/

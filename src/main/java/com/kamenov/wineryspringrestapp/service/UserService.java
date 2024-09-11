@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 public interface UserService {
 
 
-    public void registerUser(UserRegisterDto userRegisterDto,
+    public UserEntity registerUser(UserRegisterDto userRegisterDto,
                             Consumer<Authentication> successfulRegister);
 
     public UserViewModel getUserProfile();

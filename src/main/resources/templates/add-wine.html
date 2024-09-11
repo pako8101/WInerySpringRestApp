@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/css/reset-css.css">
 <body>
 <th:block th:replace="~{fragments/commons::nav}"></th:block>
-<h1>Add New Wine</h1>
+<h1 class="title-add-wine" >Add New Wine</h1>
 <form th:action="@{/wine/add}"
       th:object="${wIneAddDto}"
       method="post">
@@ -41,15 +41,15 @@
                    th:class="'invalid-feedback text-danger'"
                    id="inputContentError"> Description must be more then 10 letters!</small>
 
-            <input th:field="*{brand}"
-                   th:errorclass="'is-invalid bg-danger'"
-                   minlength="5"
-                   required
-                   type="text" name="brand"
-                   placeholder="Wine brand">
-            <small th:each="error :${#fields.errors('brand')}"
-                   th:text="${error}"
-                   th:class="'invalid-feedback text-danger'"  id="inputBrandError"> can't be empty!</small>
+<!--            <input th:field="*{brand}"-->
+<!--                   th:errorclass="'is-invalid bg-danger'"-->
+<!--                   minlength="5"-->
+<!--                   required-->
+<!--                   type="text" name="brand"-->
+<!--                   placeholder="Wine brand">-->
+<!--            <small th:each="error :${#fields.errors('brand')}"-->
+<!--                   th:text="${error}"-->
+<!--                   th:class="'invalid-feedback text-danger'"  id="inputBrandError"> can't be empty!</small>-->
 
             <label for="category" >Category:</label>
             <select th:field="*{category}"
@@ -59,7 +59,7 @@
                    type="text" name="category"
                   >
                 <optgroup label="">
-                    <option value="period">Select category</option>
+                    <option value="category">Select category</option>
                     <option th:each="c:${T(com.kamenov.wineryspringrestapp.models.enums.CategoryEnum).values()}"
                             th:value="${c}" th:text="${c}"
                             value="white"></option>
@@ -101,9 +101,28 @@
             <small th:each="error :${#fields.errors('imageUrl')}"
                    th:text="${error}"
                    th:class="'invalid-feedback text-danger'"  id="inputImageError">can't be empty!</small>
-
-
         </fieldset>
+        <form>
+        <label for="brand">Select Brand:</label>
+        <select id="brand" th:field="*{brandId}" required>
+            <option value="" disabled selected>Select a Brand</option>
+            <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}">Select a Brand</option>
+        </select><br/>
+            <small th:if="${#fields.hasErrors('brandId')}" th:errors="*{brandId}" class="text-danger"></small>
+        <!-- Create New Brand (Optional) -->
+            <h3>Or Add New Brand</h3>
+            <label for="newBrandName">New Brand Name:</label>
+            <input type="text" id="newBrandName" th:field="*{newBrandName}" /><br/>
+            <small th:if="${#fields.hasErrors('newBrandName')}" th:errors="*{newBrandName}" class="text-danger"></small>
+
+            <label for="newBrandDescription">New Brand Description:</label>
+            <textarea id="newBrandDescription" th:field="*{newBrandDescription}"></textarea><br/>
+            <small th:if="${#fields.hasErrors('newBrandDescription')}" th:errors="*{newBrandDescription}" class="text-danger"></small>
+
+
+            <!-- Submit -->
+
+</form>
         <input type="submit" value="Add wine">
 
     </div>

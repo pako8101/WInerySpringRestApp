@@ -14,17 +14,28 @@ public class BrandEntity extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String name;
-
+    @Column(nullable = false,columnDefinition = "TEXT")
+    private String description;
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "brand"
     )
+
     private List<CategoryEntity> categories;
 
 
     public BrandEntity() {
 
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public BrandEntity setDescription(String description) {
+        this.description = description;
+        return this;
     }
 
     public String getName() {
@@ -43,5 +54,9 @@ public class BrandEntity extends BaseEntity {
     public BrandEntity setCategories(List<CategoryEntity> categories) {
         this.categories = categories;
         return this;
+    }
+    public void addCategory(CategoryEntity category) {
+        category.setBrand(this);
+        this.categories.add(category);
     }
 }

@@ -3,10 +3,14 @@ package com.kamenov.wineryspringrestapp.service.impl;
 import com.kamenov.wineryspringrestapp.exceptions.WineNotAuthorisedToEditException;
 import com.kamenov.wineryspringrestapp.exceptions.WineNotFoundException;
 import com.kamenov.wineryspringrestapp.models.dto.WIneAddDto;
+import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
+import com.kamenov.wineryspringrestapp.models.entity.CategoryEntity;
 import com.kamenov.wineryspringrestapp.models.entity.WineEntity;
+import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
 import com.kamenov.wineryspringrestapp.models.service.WineServiceModel;
 import com.kamenov.wineryspringrestapp.models.user.UserSession;
 import com.kamenov.wineryspringrestapp.models.view.WIneViewModel;
+import com.kamenov.wineryspringrestapp.models.view.WineCategoryViewModel;
 import com.kamenov.wineryspringrestapp.models.view.WineDetailsViewModel;
 import com.kamenov.wineryspringrestapp.repository.WineRepository;
 import com.kamenov.wineryspringrestapp.service.CategoryService;
@@ -61,13 +65,17 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
-    public void addWIne(WineServiceModel wineServiceModel) {
+    public void addWIne(WineServiceModel wineServiceModel, BrandEntity brand) {
         WineEntity wine = modelMapper.map(wineServiceModel, WineEntity.class);
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
         //article.setAuthor(userService.findCurrentUserLoginEntity());
-//        if (wine.g() == null) {
-//            throw new IllegalArgumentException("User ID cannot be null");
-//        }
+        if (currentUsername== null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
+        wine.setDescription(wineServiceModel.getDescription());
+        wine.setName(wineServiceModel.getName());
+        wine.setBrand(brand);
         wine.setCategory(wineServiceModel.getCategory()
                 .stream()
                 .map(categoryService::findCategoryByName)
@@ -144,5 +152,15 @@ public class WineServiceImpl implements WineService {
         } else {
             throw new WineNotFoundException("Wine not found with id: " + id);
         }
+    }
+
+    @Override
+    public List<WineCategoryViewModel> getAllByCategory(CategoryEnum categoryName) {
+      List<WineEntity> wines = wineRepository.findAllByCategory_Name(categoryName);
+      List<WineCategoryViewModel> vieWInes = wines.stream()
+              .map(wine -> modelMapper.map(wine, WineCategoryViewModel.class))
+              .toList();
+
+        return vieWInes;
     }
 }

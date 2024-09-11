@@ -15,6 +15,7 @@ public class CategoryEntity extends BaseEntity {
     private String description;
 
     @ManyToOne
+    @JoinColumn(name = "brand_id")
     private BrandEntity brand;
 
     public CategoryEntity() {

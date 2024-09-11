@@ -2,9 +2,13 @@ package com.kamenov.wineryspringrestapp.service;
 
 import com.kamenov.wineryspringrestapp.models.dto.BoughtWineDto;
 import com.kamenov.wineryspringrestapp.models.dto.WIneAddDto;
+import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
+import com.kamenov.wineryspringrestapp.models.entity.CategoryEntity;
 import com.kamenov.wineryspringrestapp.models.entity.WineEntity;
+import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
 import com.kamenov.wineryspringrestapp.models.service.WineServiceModel;
 import com.kamenov.wineryspringrestapp.models.view.WIneViewModel;
+import com.kamenov.wineryspringrestapp.models.view.WineCategoryViewModel;
 import com.kamenov.wineryspringrestapp.models.view.WineDetailsViewModel;
 
 import java.util.List;
@@ -18,7 +22,7 @@ public interface WineService {
 
     Optional<WineEntity> getWineById(Long id);
 
-    public void addWIne(WineServiceModel wineServiceModel);
+    public void addWIne(WineServiceModel wineServiceModel, BrandEntity brand);
 
     List<WineEntity> getAllWInes();
 
@@ -31,4 +35,6 @@ public interface WineService {
     WineEntity findWineById(Long id);
 
     WineEntity updateWine(Long id, WineEntity updatedWine);
+
+    List<WineCategoryViewModel> getAllByCategory(CategoryEnum categoryName);
 }

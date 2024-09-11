@@ -4,6 +4,7 @@ import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
 import com.kamenov.wineryspringrestapp.models.entity.CategoryEntity;
 import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
 import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.*;
@@ -28,9 +29,11 @@ public class WIneAddDto {
 @NotNull
     private String imageUrl;
 @NotNull
-    private Set<CategoryEnum> category;
-@NotNull
-    private BrandEntity brand;
+    private List<CategoryEnum> category;
+//@ManyToOne
+//@JoinColumn(name = "brand_id")
+//@NotNull(message = "Brand must not be null")
+//    private BrandEntity brand;
     @NotNull(message = "You have to write quantity of wine!")
     @PositiveOrZero
     private int quantity;
@@ -38,8 +41,40 @@ public class WIneAddDto {
 @NotNull
 @Positive
     private int year;
+    @NotNull(message = "You have to select a brand or create a new one")
+    private Long brandId;
 
+    // Fields for new brand creation (optional)
+    private String newBrandName;
+    private String newBrandDescription;
     public WIneAddDto() {
+    }
+
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public WIneAddDto setBrandId(Long brandId) {
+        this.brandId = brandId;
+        return this;
+    }
+
+    public String getNewBrandName() {
+        return newBrandName;
+    }
+
+    public WIneAddDto setNewBrandName(String newBrandName) {
+        this.newBrandName = newBrandName;
+        return this;
+    }
+
+    public String getNewBrandDescription() {
+        return newBrandDescription;
+    }
+
+    public WIneAddDto setNewBrandDescription(String newBrandDescription) {
+        this.newBrandDescription = newBrandDescription;
+        return this;
     }
 
     public long getId() {
@@ -69,11 +104,11 @@ public class WIneAddDto {
         return this;
     }
 
-    public Set<CategoryEnum> getCategory() {
+    public @NotNull List<CategoryEnum> getCategory() {
         return category;
     }
 
-    public WIneAddDto setCategory(Set<CategoryEnum> category) {
+    public WIneAddDto setCategory(@NotNull List<CategoryEnum> category) {
         this.category = category;
         return this;
     }
@@ -97,14 +132,14 @@ public class WIneAddDto {
     }
 
 
-    public BrandEntity getBrand() {
-        return brand;
-    }
-
-    public WIneAddDto setBrand(BrandEntity brand) {
-        this.brand = brand;
-        return this;
-    }
+//    public BrandEntity getBrand() {
+//        return brand;
+//    }
+//
+//    public WIneAddDto setBrand(BrandEntity brand) {
+//        this.brand = brand;
+//        return this;
+//    }
 
     public int getQuantity() {
         return quantity;
@@ -124,17 +159,5 @@ public class WIneAddDto {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "WIneAddDto{" +
-                "imageUrl='" + imageUrl + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", category=" + category +
-                ", brand=" + brand +
-                ", quantity=" + quantity +
-                ", year=" + year +
-                '}';
-    }
+
 }

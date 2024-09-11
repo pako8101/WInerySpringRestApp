@@ -45,7 +45,7 @@ private final ModelMapper modelMapper;
     }
 
     @Override
-    public void  registerUser(UserRegisterDto userRegisterDto,
+    public UserEntity  registerUser(UserRegisterDto userRegisterDto,
                                       Consumer<Authentication> successfulRegister) {
         UserEntity user = modelMapper.map(userRegisterDto, UserEntity.class);
         user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
@@ -78,7 +78,7 @@ private final ModelMapper modelMapper;
         );
 
         successfulRegister.accept(authentication);
-//        return user;
+        return user;
     }
 
     @Override

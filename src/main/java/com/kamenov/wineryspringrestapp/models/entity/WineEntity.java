@@ -35,6 +35,7 @@ public class WineEntity extends BaseEntity {
     @Column(name = "image_url",nullable = false)
     private String imageUrl;
 
+
     public WineEntity() {
 
     }
