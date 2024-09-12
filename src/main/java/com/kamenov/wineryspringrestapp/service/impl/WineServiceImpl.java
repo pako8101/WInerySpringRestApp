@@ -2,6 +2,7 @@ package com.kamenov.wineryspringrestapp.service.impl;
 
 import com.kamenov.wineryspringrestapp.exceptions.WineNotAuthorisedToEditException;
 import com.kamenov.wineryspringrestapp.exceptions.WineNotFoundException;
+import com.kamenov.wineryspringrestapp.models.dto.BrandDto;
 import com.kamenov.wineryspringrestapp.models.dto.WIneAddDto;
 import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
 import com.kamenov.wineryspringrestapp.models.entity.CategoryEntity;
@@ -15,6 +16,8 @@ import com.kamenov.wineryspringrestapp.models.view.WineDetailsViewModel;
 import com.kamenov.wineryspringrestapp.repository.WineRepository;
 import com.kamenov.wineryspringrestapp.service.CategoryService;
 import com.kamenov.wineryspringrestapp.service.WineService;
+import jakarta.transaction.NotSupportedException;
+import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -67,6 +70,8 @@ public class WineServiceImpl implements WineService {
     @Override
     public void addWIne(WineServiceModel wineServiceModel, BrandEntity brand) {
         WineEntity wine = modelMapper.map(wineServiceModel, WineEntity.class);
+        BrandDto brandDto = modelMapper.map(brand, BrandDto.class);
+       BrandEntity newBrand = modelMapper.map(brandDto, BrandEntity.class);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
         //article.setAuthor(userService.findCurrentUserLoginEntity());
@@ -75,7 +80,7 @@ public class WineServiceImpl implements WineService {
         }
         wine.setDescription(wineServiceModel.getDescription());
         wine.setName(wineServiceModel.getName());
-        wine.setBrand(brand);
+        wine.setBrand(newBrand);
         wine.setCategory(wineServiceModel.getCategory()
                 .stream()
                 .map(categoryService::findCategoryByName)
@@ -163,4 +168,30 @@ public class WineServiceImpl implements WineService {
 
         return vieWInes;
     }
+
+    @Override
+    public WIneViewModel findById(Long id){
+        return wineRepository.findWineById(id);
+    }
+
+    @Override
+    public List<WIneViewModel> findAllWinesView() {
+        return wineRepository
+                .findAll()
+                .stream()
+                .map(wine -> {
+                    WIneViewModel viewModel =
+                            modelMapper.map(wine, WIneViewModel.class);
+
+                    viewModel.
+                            setImageUrl(wine.getImageUrl()
+                                    .isEmpty() ?
+                                    "resources/static/images/wine6.png" :
+                                    wine.getImageUrl());
+
+                    return viewModel;
+
+                }).collect(Collectors.toList());
+    }
+
 }

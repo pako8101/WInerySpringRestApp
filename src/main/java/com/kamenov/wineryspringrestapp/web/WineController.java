@@ -10,6 +10,7 @@ import com.kamenov.wineryspringrestapp.models.entity.WineEntity;
 import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
 import com.kamenov.wineryspringrestapp.models.service.WineServiceModel;
 
+import com.kamenov.wineryspringrestapp.models.view.WIneViewModel;
 import com.kamenov.wineryspringrestapp.models.view.WineCategoryViewModel;
 import com.kamenov.wineryspringrestapp.models.view.WineDetailsViewModel;
 import com.kamenov.wineryspringrestapp.service.BrandService;
@@ -56,9 +57,9 @@ private final CategoryService categoryService;
     WIneAddDto wIneAddDto (){
         return new WIneAddDto();
     }
-    @GetMapping("/wines")
+    @GetMapping("/wines/all")
     public String viewWines(Model model) {
-        List<WineEntity> wines = wineService.getAllWInes();
+        List<WIneViewModel> wines = wineService.findAllWinesView();
         model.addAttribute("wines", wines);
         return "wines";
     }
@@ -94,10 +95,11 @@ private final CategoryService categoryService;
     @PostMapping("/wine/add")
     public String addWine(@Valid WIneAddDto wIneAddDto,
                           Model model,
+                          BrandDto brandDto,
                           BindingResult bindingResult,
                           RedirectAttributes redirectAttributes,
                           @AuthenticationPrincipal UserDetails principal) {
-        BrandEntity brand;
+        BrandEntity brand = modelMapper.map(brandDto, BrandEntity.class);
         if (principal.getUsername() == null) {
             throw  new UsernameNotFoundException("No user with that name subscribed");
 
@@ -142,7 +144,7 @@ private final CategoryService categoryService;
         wineServiceModel.setCategory(wIneAddDto.getCategory());
         wineService.addWIne(wineServiceModel,brand);
         model.addAttribute("message", "Wine added successfully!");
-        return "redirect:/wines";
+        return "redirect:/wines/all";
     }
     @GetMapping("/{categoryName}")
     public ModelAndView getByCategory(@PathVariable("categoryName") CategoryEnum categoryName) {
@@ -198,7 +200,7 @@ private final CategoryService categoryService;
     }
 
     @PatchMapping("/{id}")
-    public String updateArticle(@PathVariable Long id, @ModelAttribute WineEntity wine) {
+    public String updateWine(@PathVariable Long id, @ModelAttribute WineEntity wine) {
         wineService.updateWine(id, wine);
         return "redirect:/wines";
     }

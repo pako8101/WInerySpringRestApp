@@ -31,9 +31,9 @@ public class HomeController {
 //    public String wines() {
 //        return "wines";
 //    }
-//    @GetMapping("/wine")
-//    public String wine() {
-//        return "wine";
-//    }
+    @GetMapping("/wine")
+    public String wine() {
+        return "wine";
+    }
 
 }

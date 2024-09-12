@@ -2,6 +2,7 @@ package com.kamenov.wineryspringrestapp.models.entity;
 
 import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "categories")
@@ -11,10 +12,11 @@ public class CategoryEntity extends BaseEntity {
     @Column(unique = true,nullable = false)
     private CategoryEnum name;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT",nullable = false)
+    @NotNull
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "brand_id")
     private BrandEntity brand;
 

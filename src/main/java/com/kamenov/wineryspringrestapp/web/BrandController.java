@@ -26,7 +26,7 @@ public class BrandController {
     // Извличане на всички марки (brands) за попълване на селект опцията
     @GetMapping("/all")
     @ResponseBody
-    public List<BrandDto> getAllBrands() {
+    public List<BrandEntity> getAllBrands() {
         return brandService.getAllBrands();
     }
 

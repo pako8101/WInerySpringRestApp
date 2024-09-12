@@ -11,12 +11,22 @@ public class WIneViewModel {
     private BrandEntity brand;
     private String imageUrl;
     private int quantity;
+    private int price;
 
     private int year;
     private CategoryEnum category;
     private String description;
 
     public WIneViewModel() {
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public WIneViewModel setPrice(int price) {
+        this.price = price;
+        return this;
     }
 
     public String getImageUrl() {

@@ -42,7 +42,8 @@
 					</p>
 
 					<ul>
-						<li><th:block th:each="w : ${wines}">
+						<li><div th:each="w : ${wines}">
+
 							<a class="figure" href="#"><img th:src="${w.imageUrl}" alt=""></a>
 							<h3 th:text="${w.name}">Lorem ipsum</h3>
 							<p th:text="${w.description}">
@@ -57,8 +58,8 @@
 								Learn More</a><br><br><br>
 
 
-							</section> <br>
-							</th:block>
+							</div> <br>
+
 						</li>
 						<li>
 							<a class="figure" href="#"><img src="images/wine1.png" alt=""></a>

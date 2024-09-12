@@ -26,7 +26,7 @@ public class BrandRestController {
 
     // Fetch all brands with their categories
     @GetMapping
-    public ResponseEntity<List<BrandDto>> getAllBrands() {
+    public ResponseEntity<List<BrandEntity>> getAllBrands() {
         return ResponseEntity.ok(brandService.getAllBrands());
     }
 
