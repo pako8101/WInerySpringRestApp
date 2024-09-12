@@ -17,7 +17,7 @@ public class BrandEntity extends BaseEntity {
     @Column(nullable = false,columnDefinition = "TEXT")
     private String description;
     @OneToMany(
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             mappedBy = "brand"
     )

@@ -30,18 +30,18 @@ private final RestClient restClient;
     @Override
     public List<BrandEntity> getAllBrands() {
 
-       // return brandRepository.findAll();
-        return brandRepository.getAllBrands().stream()
-                .map(brand -> new BrandEntity(
-                        brand.getName(),
-                        brand.getDescription(),
-                        brand.getCategories().stream()
-                                .map(category -> new CategoryEntity())
-                                .sorted(Comparator.comparing(CategoryEntity::getName))
-                                .collect(Collectors.toList())
-                ))
-                .sorted(Comparator.comparing(BrandEntity::getName))
-                .collect(Collectors.toList());
+        return brandRepository.findAll();
+//        return brandRepository.getAllBrands().stream()
+//                .map(brand -> new BrandEntity(
+//                        brand.getName(),
+//                        brand.getDescription(),
+//                        brand.getCategories().stream()
+//                                .map(category -> new CategoryEntity())
+//                                .sorted(Comparator.comparing(CategoryEntity::getName))
+//                                .collect(Collectors.toList())
+//                ))
+//                .sorted(Comparator.comparing(BrandEntity::getName))
+//                .collect(Collectors.toList());
     }
 @Override
     public BrandEntity getBrandById(Long id) {
