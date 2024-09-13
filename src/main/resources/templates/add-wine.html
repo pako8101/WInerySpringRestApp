@@ -84,7 +84,7 @@
                    minlength="5"
                    required
                    type="number" name="year"
-                   placeholder="Article Title">
+                   placeholder="Wine year">
             <small th:each="error :${#fields.errors('name')}"
                    th:text="${error}"
                    th:class="'invalid-feedback text-danger'"  id="inputYearError"> can't be empty!</small>

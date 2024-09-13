@@ -45,19 +45,18 @@
 						<li><div th:each="w : ${wines}">
 
 							<a class="figure" href="#"><img th:src="${w.imageUrl}" alt=""></a>
-							<h3 th:text="${w.name}">Lorem ipsum</h3>
-							<p th:text="${w.description}">
-								Pellentesque a placerat dui. Suspendisse laoreet placerat turpis vel semper.
-							</p>
+							<h3 th:text="${w.name}"></h3>
+							<p th:text="${w.description}"></p>
 							<h2 > <span >Quantity:</span>  <span th:text="${w.quantity}"></span></h2><br>
 							<h2 > <span >Category:</span>  <span th:text="${w.category}"></span></h2>
-							<h2 > <span >Band:</span>  <span th:text="${w.brand}"></span></h2>
-							<h2 > <span >Price:</span>  <span th:text="${w.price}"></span></h2>
-							<a th:href="@{/wine}" class="buy-wine">Buy Wine</a>
-							<a th:href="@{/wine/details/{id}(id=${w.id})}" class="button">
+							<h2 > <span >Brand name:</span>  <span th:text="${w.brand.name}"></span></h2><br>
+							<h2 > <span >Brand description:</span>  <span th:text="${w.brand.description}"></span></h2><br>
+							<h2 > <span >Price:</span>  <span th:text="${w.price}"></span></h2><br>
+
+							<a th:href="@{/wine}" class="buy-wine">Buy Wine</a><br>
+
+							<a th:href="@{/details/{id}(id=${w.id})}" class="button">
 								Learn More</a><br><br><br>
-
-
 							</div> <br>
 
 						</li>
@@ -85,30 +84,9 @@
 							</p>
 							<a href="#" class="more">learn more</a>
 						</li>
-						<li>
-							<a class="figure" href="#"><img src="images/wine4.png" alt=""></a>
-							<h3>Lorem ipsum</h3>
-							<p>
-								Pellentesque a placerat dui. Suspendisse laoreet placerat turpis vel semper.
-							</p>
-							<a href="#" class="more">learn more</a>
-						</li>
-						<li>
-							<a class="figure" href="#"><img src="images/wine5.png" alt=""></a>
-							<h3>Dolor sit amet</h3>
-							<p>
-								Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-							</p>
-							<a href="#" class="more">learn more</a>
-						</li>
-						<li>
-							<a class="figure" href="#"><img src="images/wine6.png" alt=""></a>
-							<h3>Lorem ipsum</h3>
-							<p>
-								Vivamus at lectus purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-							</p>
-							<a href="#" class="more">learn more</a>
-						</li>
+
+
+
 					</ul>
 				</div>
 

@@ -77,4 +77,9 @@ private final BrandRepository brandRepository;
                 orElseThrow(() -> new CategoryNotFoundException("Category not found"));
     }
 
+    @Override
+    public List<CategoryEntity> findAll() {
+        return categoryRepository.findAll();
+    }
+
 }

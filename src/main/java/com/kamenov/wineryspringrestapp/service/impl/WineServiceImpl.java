@@ -74,7 +74,7 @@ public class WineServiceImpl implements WineService {
        BrandEntity newBrand = modelMapper.map(brandDto, BrandEntity.class);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
-        //article.setAuthor(userService.findCurrentUserLoginEntity());
+
         if (currentUsername== null) {
             throw new IllegalArgumentException("User ID cannot be null");
         }

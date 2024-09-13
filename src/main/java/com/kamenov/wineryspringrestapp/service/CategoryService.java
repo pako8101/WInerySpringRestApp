@@ -14,4 +14,6 @@ public interface CategoryService {
     List<CategoryEntity> getAllCategories();
 
     CategoryEntity getCategoryById(Long id);
+
+    List<CategoryEntity> findAll();
 }

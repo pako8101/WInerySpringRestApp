@@ -195,13 +195,20 @@ private final CategoryService categoryService;
 //                    "You are not authorized to edit this article.");
 //        }
 
+
+        List<CategoryEntity> categories = categoryService.findAll();
+
         model.addAttribute("wine", wine);
+        model.addAttribute("categories", categories);
         return "edit-wine";
     }
 
     @PatchMapping("/{id}")
-    public String updateWine(@PathVariable Long id, @ModelAttribute WineEntity wine) {
+    public String updateWine(@PathVariable Long id, @ModelAttribute WineEntity wine,BindingResult result) {
+    if (result.hasErrors()){
+        return "edit-wine";
+    }
         wineService.updateWine(id, wine);
-        return "redirect:/wines";
+        return "redirect:/wines/all";
     }
 }

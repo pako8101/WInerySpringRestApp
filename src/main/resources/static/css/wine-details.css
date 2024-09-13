@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font: 18px/1.5 Poppins, sans-serif;
+}
+
+body {
+
+}
+
+img {
+    display: block;
+    width: 10%;
+    height: auto;
+}
+h3,h2,p,h1{
+    text-shadow: 2px 2px 5px #117a8b;
+}
+.container {
+    max-width: 1200px;
+    margin: 2rem 1rem 1rem 2rem;
+
+
+}
+
+.section-header {
+    text-align: center;
+    padding-bottom: 2em;
+}
+
+.section-header h2 span {
+    color: #327DC4;
+}
+
+.section-content {
+    display: flex;
+    gap: 1.5em;
+
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.section-content article,
+.section-content article .media {
+    overflow: hidden;
+    border-radius: 1em;
+}
+
+.section-content article {
+    flex: 1 1 30%;
+    background-image: url("static/images/tutmos.jpg");
+    height: 500px;
+    background-color: #cccccc;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    /*background: #819DAF;*/
+    color: #000;
+}
+
+.section-content article .entry-content {
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-weight: bold;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.section-content article .entry-content p {
+    margin: 1em 0 1em 0;
+}
+
+.section-content article .button {
+    color: #fff;
+    display: block;
+    text-decoration: none;
+    background: #327DC4;
+    border: 1px solid #323CC4;
+    outline: 1px solid #fff;
+    padding: 0.5em 1em 1em;
+    border-radius: 2em;
+
+}
+
+.entry-content{
+    margin-bottom: 1rem;
+}
+.button{
+    color: darkred;
+    background-color: #9fcdff;
+}

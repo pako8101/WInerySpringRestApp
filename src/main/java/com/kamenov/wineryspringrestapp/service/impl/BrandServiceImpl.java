@@ -54,6 +54,7 @@ private final RestClient restClient;
         BrandEntity newBrand = new BrandEntity();
         newBrand.setName(brandDTO.getName());
         newBrand.setDescription(brandDTO.getDescription());
+        newBrand.setCategories(brandDTO.getCategories());
         return brandRepository.save(newBrand);
     } else {
         if (!existingBrands.isEmpty()) {

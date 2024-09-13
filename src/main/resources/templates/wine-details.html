@@ -4,7 +4,8 @@
 <head>
     <th:block th:replace="~{fragments/commons::head}"></th:block>
 </head>
-
+<link rel="stylesheet" href="/css/reset-css.css">
+<link rel="stylesheet" href="/css/wine-details.css">
 <body>
 <th:block th:replace="~{fragments/commons::nav}"></th:block>
 
@@ -17,21 +18,23 @@
     </p>
     <h2 > <span >Quantity:</span>  <span th:text="${wine.quantity}"></span></h2><br>
     <h2 > <span >Category:</span>  <span th:text="${wine.category}"></span></h2>
-    <h2 > <span >Band:</span>  <span th:text="${wine.brand}"></span></h2>
-    <h2 > <span >Price:</span>  <span th:text="${wine.price}"></span></h2>
+        <h2 > <span >Brand name:</span>  <span th:text="${wine.brand.name}"></span></h2><br>
+        <h2 > <span >Brand description:</span>  <span th:text="${wine.brand.description}"></span></h2><br>
+    <h2 > <span >Price:</span>  <span th:text="${wine.price}"></span></h2><br>
 
     <form th:action="@{/wine/buy/{id}(id=${wine.id})}" method="post">
         <button type="submit">Buy Now</button>
     </form>
-    <div id="admin" sec:authorize="hasRole('ROLE_ADMIN')" >
+<!--        sec:authorize="hasRole('ROLE_ADMIN')"-->
+        <div id="admin" >
         <form class="button" style="margin-top: 1rem" th:method="delete"
               th:action="@{/wine/{id}(id=${wine.getId()})}">
             <input style="background-color: #0a7eb3;
                             color: darkorange;
                             font-size: medium"
-                   type="submit" value="Remove"/>
+                   type="submit" value="Remove"/><br><br>
 
-            <a th:href="@{/wine/edit/{id}(id=${w.id})}" class="button">Edit Wine</a>
+            <a th:href="@{/edit/{id}(id=${wine.id})}" class="button">Edit Wine</a><br><br>
         </form>
     </div>
 </th:block>

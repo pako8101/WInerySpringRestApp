@@ -22,10 +22,13 @@ public class WineEntity extends BaseEntity {
 //    @Enumerated(EnumType.STRING)
 //    private CategoryEnum category;
 
-    @OneToMany
+    @OneToMany( fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
+    @NotNull
     private Set<CategoryEntity> category;
     @NotNull
-    @ManyToOne
+    @ManyToOne( fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
     private BrandEntity brand;
 @Column
     private int quantity;
