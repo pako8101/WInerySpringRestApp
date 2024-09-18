@@ -1,4 +1,21 @@
 
+.input-container {
+    position: relative;
+}
+
+.input-container input {
+    padding-left: 30px; /* Adjust based on the width of the "lv" text */
+}
+
+.input-container::before {
+    content: "lv";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555; /* Adjust color as needed */
+}
+
 .form-style-5 {
     display: flex;
     align-items: center;
@@ -110,7 +127,7 @@
 .form-style-5 input[type="button"]:hover {
     background: #109177;
 }
-.article{
+.wine{
     height: 88vh;
 }
 /*validation*/

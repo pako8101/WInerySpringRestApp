@@ -47,6 +47,8 @@ public class SecurityConfig {
                                                 "/about",
                                                 "/wines",
                                                 "/wine",
+                                                "/delete/**",
+                                                "/edit/**",
                                                 "/users/login-error",
                                                 "/users/login", "/users/register"
 

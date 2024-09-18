@@ -36,11 +36,11 @@ public class WIneAddDto {
 //    private BrandEntity brand;
     @NotNull(message = "You have to write quantity of wine!")
     @PositiveOrZero
-    private int quantity;
+    private Integer quantity;
 
 @NotNull
-@Positive
-    private int year;
+@Positive(message = "Please input correct year")
+    private Integer year;
     @NotNull(message = "You have to select a brand or create a new one")
     private Long brandId;
 
@@ -48,6 +48,24 @@ public class WIneAddDto {
     private String newBrandName;
     private String newBrandDescription;
     public WIneAddDto() {
+    }
+
+    public @NotNull(message = "You have to write quantity of wine!") @PositiveOrZero Integer getQuantity() {
+        return quantity;
+    }
+
+    public WIneAddDto setQuantity(@NotNull(message = "You have to write quantity of wine!") @PositiveOrZero Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
+    public @NotNull @Positive(message = "Please input correct year") Integer getYear() {
+        return year;
+    }
+
+    public WIneAddDto setYear(@NotNull @Positive(message = "Please input correct year") Integer year) {
+        this.year = year;
+        return this;
     }
 
     public Long getBrandId() {
@@ -141,23 +159,23 @@ public class WIneAddDto {
 //        return this;
 //    }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public WIneAddDto setQuantity(int quantity) {
-        this.quantity = quantity;
-        return this;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public WIneAddDto setYear(int year) {
-        this.year = year;
-        return this;
-    }
+//    public int getQuantity() {
+//        return quantity;
+//    }
+//
+//    public WIneAddDto setQuantity(int quantity) {
+//        this.quantity = quantity;
+//        return this;
+//    }
+//
+//    public int getYear() {
+//        return year;
+//    }
+//
+//    public WIneAddDto setYear(int year) {
+//        this.year = year;
+//        return this;
+//    }
 
 
 }

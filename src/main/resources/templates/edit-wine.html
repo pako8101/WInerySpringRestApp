@@ -69,12 +69,13 @@
                 <small th:each="error :${#fields.errors('brand.name')}"
                        th:text="${error}"
                        th:class="'invalid-feedback text-danger'"  id="inputBrandNameError"> can't be empty!</small>
+
                 <input th:field="*{brand.description}"
                        th:errorclass="'is-invalid bg-danger'"
                        minlength="5"
                        required
                        type="text" name="brand"
-                       placeholder="Wine brand">
+                       placeholder="Wine description">
                 <small th:each="error :${#fields.errors('brand.description')}"
                        th:text="${error}"
                        th:class="'invalid-feedback text-danger'"  id="inputBrandDescError"> can't be empty!</small>
@@ -111,13 +112,22 @@
 
                 <input th:field="*{price}"
                        th:errorclass="'is-invalid bg-danger'"
-                       minlength="5"
                        required
                        type="number" name="price"
                        placeholder="Wine price">
                 <small th:each="error :${#fields.errors('price')}"
                        th:text="${error}"
                        th:class="'invalid-feedback text-danger'"  id="inputPriceError"> can't be empty!</small>
+
+                <input th:field="*{quantity}"
+                       th:errorclass="'is-invalid bg-danger'"
+                       required
+                       type="number" name="quantity"
+                       placeholder="Wine quantity">
+                <small th:each="error :${#fields.errors('quantity')}"
+                       th:text="${error}"
+                       th:class="'invalid-feedback text-danger'"  id="inputQuantityError"> can't be empty!</small>
+
 
                 <input th:field="*{year}"
                        th:errorclass="'is-invalid bg-danger'"

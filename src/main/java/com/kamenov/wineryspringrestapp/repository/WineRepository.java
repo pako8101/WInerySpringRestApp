@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface WineRepository extends JpaRepository<WineEntity,Long> {
 
-    List<WineEntity> findAllByCategory_Name(CategoryEnum categoryName);
+    List<WineEntity> findAllByCategory(CategoryEnum category_name);
 
     WIneViewModel findWineById(Long id);
 }

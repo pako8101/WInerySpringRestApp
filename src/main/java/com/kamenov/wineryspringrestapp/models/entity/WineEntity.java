@@ -19,16 +19,16 @@ public class WineEntity extends BaseEntity {
     @NotNull
     @Column
     private BigDecimal price;
-//    @Enumerated(EnumType.STRING)
-//    private CategoryEnum category;
+    @Enumerated(EnumType.STRING)
+    private CategoryEnum category;
 
-    @OneToMany( fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
-    @NotNull
-    private Set<CategoryEntity> category;
+//    @OneToMany( fetch = FetchType.EAGER,
+//            cascade = CascadeType.ALL)
+//    @NotNull
+//    private Set<CategoryEntity> category;
     @NotNull
     @ManyToOne( fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.MERGE)
     private BrandEntity brand;
 @Column
     private int quantity;
@@ -41,6 +41,15 @@ public class WineEntity extends BaseEntity {
 
     public WineEntity() {
 
+    }
+
+    public CategoryEnum getCategory() {
+        return category;
+    }
+
+    public WineEntity setCategory(CategoryEnum category) {
+        this.category = category;
+        return this;
     }
 
     public String getImageUrl() {
@@ -88,14 +97,14 @@ public class WineEntity extends BaseEntity {
         return this;
     }
 
-    public Set<CategoryEntity> getCategory() {
-        return category;
-    }
-
-    public WineEntity setCategory(Set<CategoryEntity> category) {
-        this.category = category;
-        return this;
-    }
+//    public Set<CategoryEntity> getCategory() {
+//        return category;
+//    }
+//
+//    public WineEntity setCategory(Set<CategoryEntity> category) {
+//        this.category = category;
+//        return this;
+//    }
 
     public @NotNull BrandEntity getBrand() {
         return brand;

@@ -52,7 +52,7 @@ servlet:
     prefix: file:src/main/resources/templates/
   web:
     resources:
-      static-locations: file:src/main/resources/static/
+      static-locations: file:src/main/resources/static/**
       cache:
         period: 0
 #  mail:
@@ -91,6 +91,8 @@ cloudinary:
   name: ${CLOUDINARY_NAME:dy2y8i2de}
   api-key: ${CLOUDINARY_API_KEY:111187215981859}
   api-secret: ${CLOUDINARY_API_SECRET:H3gM21c_0mYpOPklNO3pR11s8HE}
+
+
 
 
 jwt:

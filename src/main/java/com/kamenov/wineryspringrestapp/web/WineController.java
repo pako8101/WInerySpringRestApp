@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Controller
+@RequestMapping
 public class WineController {
     @Autowired
     private final WineService wineService;
@@ -57,21 +58,22 @@ private final CategoryService categoryService;
     WIneAddDto wIneAddDto (){
         return new WIneAddDto();
     }
+
     @GetMapping("/wines/all")
     public String viewWines(Model model) {
         List<WIneViewModel> wines = wineService.findAllWinesView();
         model.addAttribute("wines", wines);
         return "wines";
     }
-    @GetMapping("/wine/{id}")
-    public String viewWine(@PathVariable Long id, Model model) {
-
-        WineEntity wine = wineService.getWineById(id).orElseThrow(NoSuchElementException::new);
-
-        model.addAttribute("wine", wine);
-        return "wine";
-
-    }
+//    @GetMapping("/wines/{id}")
+//    public String viewWine(@PathVariable Long id, Model model) {
+//
+//        WineEntity wine = wineService.getWineById(id).orElseThrow(WineNotFoundException::new);
+//
+//        model.addAttribute("wine", wine);
+//        return "wines";
+//
+//    }
     @PostMapping("/wine/buy/{id}")
     public String buyItem(@PathVariable Long id, Model model) {
         boolean success = wineService.buyWine(id, 1); // Може да се добави поле за избор на количество
@@ -133,13 +135,6 @@ private final CategoryService categoryService;
             return "redirect:/wine/add";
 
         }
-
-        // Add the wine with the selected or created brand
-//        wineService.addWine(wineDTO, brand);
-        System.out.println("Brand ID: " + wIneAddDto.getBrandId());
-        System.out.println("New Brand Name: " + wIneAddDto.getNewBrandName());
-
-
         WineServiceModel wineServiceModel = modelMapper.map(wIneAddDto, WineServiceModel.class);
         wineServiceModel.setCategory(wIneAddDto.getCategory());
         wineService.addWIne(wineServiceModel,brand);
@@ -164,13 +159,15 @@ private final CategoryService categoryService;
 
         return modelAndView;
     }
-        @DeleteMapping("/{id}")
-    public ResponseEntity<WIneAddDto> deleteById(@PathVariable("id") Long id,
+        @DeleteMapping("wine/{id}")
+    public String deleteById(@PathVariable("id") Long id,
                                                  @AuthenticationPrincipal UserDetails userDetails) {
         wineService.delete(id);
-        return ResponseEntity
-                .noContent()
-                .build();
+
+            return "redirect:/wines/all";
+//        return ResponseEntity
+//                .noContent()
+//                .build();
     }
     @GetMapping("/details/{id}")
     public String details(@PathVariable("id") Long id, Model model) {
@@ -199,7 +196,7 @@ private final CategoryService categoryService;
         List<CategoryEntity> categories = categoryService.findAll();
 
         model.addAttribute("wine", wine);
-        model.addAttribute("categories", categories);
+       // model.addAttribute("categories", categories);
         return "edit-wine";
     }
 

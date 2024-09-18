@@ -81,10 +81,11 @@ public class WineServiceImpl implements WineService {
         wine.setDescription(wineServiceModel.getDescription());
         wine.setName(wineServiceModel.getName());
         wine.setBrand(newBrand);
-        wine.setCategory(wineServiceModel.getCategory()
-                .stream()
-                .map(categoryService::findCategoryByName)
-                .collect(Collectors.toSet()));
+        wine.setCategory(wineServiceModel.getCategory().get(0));
+//                wineServiceModel.getCategory()
+//                .stream()
+//                .map(categoryService::findCategoryByName)
+//                .collect(Collectors.toSet()));
 
         wineRepository.save(wine);
 
@@ -97,11 +98,12 @@ public class WineServiceImpl implements WineService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+   // @PreAuthorize("hasRole('ADMIN')")
     public void delete(Long id) {
         if (userSession.isAdmin()) {
-            wineRepository.deleteById(id);
+
         }
+        wineRepository.deleteById(id);
     }
 
     @Override
@@ -148,7 +150,7 @@ public class WineServiceImpl implements WineService {
             existingWine.setName(updatedWine.getName());
             existingWine.setDescription(updatedWine.getDescription());
             existingWine.setImageUrl(updatedWine.getImageUrl());
-            existingWine.setCategory(updatedWine.getCategory());
+           // existingWine.setCategory(updatedWine.getCategory());
             existingWine.setBrand(updatedWine.getBrand());
             existingWine.setPrice(updatedWine.getPrice());
             existingWine.setQuantity(updatedWine.getQuantity());
@@ -161,7 +163,7 @@ public class WineServiceImpl implements WineService {
 
     @Override
     public List<WineCategoryViewModel> getAllByCategory(CategoryEnum categoryName) {
-      List<WineEntity> wines = wineRepository.findAllByCategory_Name(categoryName);
+      List<WineEntity> wines = wineRepository.findAllByCategory(categoryName);
       List<WineCategoryViewModel> vieWInes = wines.stream()
               .map(wine -> modelMapper.map(wine, WineCategoryViewModel.class))
               .toList();

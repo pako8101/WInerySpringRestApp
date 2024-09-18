@@ -69,19 +69,30 @@
                    th:text="${error}"
                    th:class="'invalid-feedback text-danger'"  id="inputCategoryError"> Category can't be empty!</small>
 
-            <input th:field="*{price}"
+      <div class="input-container">
+          <input th:field="*{price}"
                    th:errorclass="'is-invalid bg-danger'"
                    minlength="5"
                    required
                    type="number" name="price"
-                   placeholder="Wine price">
+                   placeholder="Wine price in lv.">
             <small th:each="error :${#fields.errors('price')}"
                    th:text="${error}"
                    th:class="'invalid-feedback text-danger'"  id="inputPriceError"> can't be empty!</small>
+    </div>
+    <input th:field="*{quantity}"
+                   th:errorclass="'is-invalid bg-danger'"
+                   minlength="5"
+                   required
+                   type="number" name="quantity"
+                   placeholder="Wine quantity">
+            <small th:each="error :${#fields.errors('quantity')}"
+                   th:text="${error}"
+                   th:class="'invalid-feedback text-danger'"  id="inputQuantityError"> can't be empty!</small>
 
             <input th:field="*{year}"
                    th:errorclass="'is-invalid bg-danger'"
-                   minlength="5"
+                   minlength="4"
                    required
                    type="number" name="year"
                    placeholder="Wine year">

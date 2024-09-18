@@ -3,7 +3,9 @@ package com.kamenov.wineryspringrestapp.service;
 import com.kamenov.wineryspringrestapp.models.dto.BrandDto;
 import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface BrandService {
     List<BrandEntity>getAllBrands();
@@ -19,5 +21,6 @@ public interface BrandService {
 
     void  updateBrand(BrandDto brandDTO);
 
+   // Optional<String> finBrand(String brandName);
 
 }
