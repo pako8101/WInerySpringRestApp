@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="~{fragments/commons::head}"></th:block>
+</head>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/cart-view.css">
+<link rel="stylesheet" href="/css/reset-css.css">
+<body>
+<th:block th:replace="~{fragments/commons::nav}"></th:block>
+<h1>Your Cart</h1>
+<table>
+    <tr>
+        <th>Wine</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+    <tr th:each="item : ${cart.items}">
+        <td th:text="${item.wine.name}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.wine.price * item.quantity}"></td>
+        <td>
+            <form th:action="@{/cart/remove}" method="post">
+                <input type="hidden" th:value="${item.id}" name="cartItemId" />
+                <button type="submit">Remove</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<a th:href="@{/order/checkout}">Checkout</a>
+
+</body>
+<th:block th:replace="~{fragments/commons::footer}"></th:block>
+</html>

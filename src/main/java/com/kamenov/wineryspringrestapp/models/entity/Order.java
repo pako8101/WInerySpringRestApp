@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "order")
 public class Order extends BaseEntity{
 
 @OneToMany(cascade = CascadeType.ALL)
-    private List<OrderItem>orders = new ArrayList<>();
+    private List<OrderItem> orders = new ArrayList<>();
 @ManyToOne
 private UserEntity user;
 

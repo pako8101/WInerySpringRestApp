@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Controller
-@RequestMapping
 public class WineController {
     @Autowired
     private final WineService wineService;

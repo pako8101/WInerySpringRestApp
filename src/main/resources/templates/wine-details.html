@@ -23,8 +23,20 @@
     <h2 > <span >Price:</span>  <span th:text="${wine.price}"></span></h2><br>
 
     <form th:action="@{/wine/buy/{id}(id=${wine.id})}" method="post">
-        <button type="submit">Buy Now</button>
+        <button type="submit">Buy Now</button><br><br>
+
     </form>
+        <form> <a th:method="post" th:href="@{/cart/add/{id}(id=${wine.id})}" type="submit">Add in cart</a></form>
+
+<!--        <form th:action="@{/cart/add/{id}(id=${wine.id})}" method="post">-->
+<!--            <input type="hidden" th:value="${wine.id}" name="productId"/>-->
+<!--            <button type="submit">Add to Cart</button>-->
+<!--        </form>-->
+<!--        <form class="media" th:method="post" th:action="@{/cart/add/{id}(id=${wine.id})}">-->
+<!--            <button type="submit" >Add to cart</button>-->
+<!--        </form>-->
+
+
 <!--        sec:authorize="hasRole('ROLE_ADMIN')"-->
         <div id="admin" >
         <form class="button" style="margin-top: 1rem" th:method="delete"

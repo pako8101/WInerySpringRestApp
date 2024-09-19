@@ -53,7 +53,11 @@
 							<h2 > <span >Brand description:</span>  <span th:text="${w.brand.description}"></span></h2><br>
 							<h2 > <span >Price:</span>  <span th:text="${w.price}"></span></h2><br>
 
-							<a th:href="@{/wine}" class="buy-wine">Buy Wine</a><br>
+							<form  th:action="@{/wine/buy/{id}(id=${w.id})}" method="post">
+								<button style="display: flex;
+align-items: center;
+justify-content: center;" type="submit">Buy Now</button>
+							</form>
 
 							<a th:href="@{/details/{id}(id=${w.id})}" class="button">
 								Learn More</a><br><br><br>

@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Paradise Winery Website</title>
     <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <header th:fragment="nav" data-role="Header" id="navbar">
     <div id="sidebar">
@@ -17,6 +18,13 @@
         </div>
         <a th:href="@{/}" class="logo"><img src="/images/logo.jpg" alt=""></a>
         <ul>
+<!--            <th:block th:object="${}"></th:block>-->
+            <li style="float:right;">
+                <a th:href="@{/cart}" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+<!--                    <span th:text="${cart.items.size()}">0</span>-->
+                </a>
+            </li>
             <li class="selected">
                 <span><a th:href="@{/}">home</a></span>
             </li>
