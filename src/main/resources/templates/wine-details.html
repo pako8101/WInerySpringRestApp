@@ -6,10 +6,12 @@
 </head>
 <link rel="stylesheet" href="/css/reset-css.css">
 <link rel="stylesheet" href="/css/wine-details.css">
+<link rel="stylesheet" href="/css/style.css">
 <body>
 <th:block th:replace="~{fragments/commons::nav}"></th:block>
 
 <div class="wine-details-main">
+    <div class="article">
     <th:block th:each="w : ${wine}">
     <a class="figure" href="#"><img th:src="${wine.imageUrl}" alt=""></a>
     <h3 th:text="${wine.name}">Lorem ipsum</h3>
@@ -26,12 +28,12 @@
         <button type="submit">Buy Now</button><br><br>
 
     </form>
-        <form> <a th:method="post" th:href="@{/cart/add/{id}(id=${wine.id})}" type="submit">Add in cart</a></form>
+<!--        <form> <a th:method="post" th:href="@{/cart/add/{id}(id=${wine.id})}" type="submit">Add in cart</a></form>-->
 
-<!--        <form th:action="@{/cart/add/{id}(id=${wine.id})}" method="post">-->
-<!--            <input type="hidden" th:value="${wine.id}" name="productId"/>-->
-<!--            <button type="submit">Add to Cart</button>-->
-<!--        </form>-->
+        <form th:action="@{/cart/add/{id}(id=${wine.id})}" method="post">
+            <input type="hidden" th:value="${wine.id}" name="productId"/>
+            <button type="submit">Add to Cart</button>
+        </form>
 <!--        <form class="media" th:method="post" th:action="@{/cart/add/{id}(id=${wine.id})}">-->
 <!--            <button type="submit" >Add to cart</button>-->
 <!--        </form>-->
@@ -48,8 +50,10 @@
 
             <a th:href="@{/edit/{id}(id=${wine.id})}" class="button">Edit Wine</a><br><br>
         </form>
+
     </div>
 </th:block>
+</div>
 </div>
 </body>
 <th:block th:replace="~{fragments/commons::footer}"></th:block>

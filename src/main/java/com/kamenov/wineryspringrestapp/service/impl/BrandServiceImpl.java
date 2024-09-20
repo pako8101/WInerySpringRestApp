@@ -132,6 +132,10 @@ private final RestClient restClient;
 //        brandRepository.save(brand);
     }
 
+    @Override
+    public BrandEntity findByName(String name) {
+        return brandRepository.findByName(name).get(0);
+    }
 
 
 }

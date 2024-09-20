@@ -1,5 +1,6 @@
 package com.kamenov.wineryspringrestapp.web;
 
+import com.kamenov.wineryspringrestapp.exceptions.WineNotAuthorisedToEditException;
 import com.kamenov.wineryspringrestapp.exceptions.WineNotFoundException;
 import com.kamenov.wineryspringrestapp.models.dto.BoughtWineDto;
 import com.kamenov.wineryspringrestapp.models.dto.BrandDto;
@@ -190,20 +191,26 @@ private final CategoryService categoryService;
 //            throw new WineNotAuthorisedToEditException(
 //                    "You are not authorized to edit this article.");
 //        }
-
+        if (wine == null) {
+            throw new WineNotAuthorisedToEditException("Wine not found with id: " + id);
+        }
 
         List<CategoryEntity> categories = categoryService.findAll();
 
         model.addAttribute("wine", wine);
-       // model.addAttribute("categories", categories);
+        model.addAttribute("categories", categories);
         return "edit-wine";
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("wines/{id}")
     public String updateWine(@PathVariable Long id, @ModelAttribute WineEntity wine,BindingResult result) {
     if (result.hasErrors()){
         return "edit-wine";
     }
+//        if (wineService.existsByName(wine.getName()) && !wine.getId().equals(id)) {
+//            result.rejectValue("name", "error.wine", "Wine with this name already exists.");
+//            return "edit-wine";
+//        }
         wineService.updateWine(id, wine);
         return "redirect:/wines/all";
     }

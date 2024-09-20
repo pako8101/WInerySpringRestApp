@@ -1,9 +1,7 @@
 package com.kamenov.wineryspringrestapp.models.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.cloudinary.EagerTransformation;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
 @Table(name = "shopping_cart")
 public class ShoppingCart extends BaseEntity {
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<CartItem> items = new ArrayList<>();
 @OneToOne
     private UserEntity userEntity;

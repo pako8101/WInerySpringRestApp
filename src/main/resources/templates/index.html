@@ -41,16 +41,19 @@
 					<div class="body">
 						<ul>
 							<li>
-								<a class="figure" href="wines.html">
+								<a class="figure" th:href="@{/wines/all}">
 									<img src="/images/our-wines.png" alt=""></a>
 								<h3>our wines</h3>
 								<p>
 									Pellentesque a placerat dui. Suspendisse laoreet placerat turpis vel semper.
 								</p>
-								<a href="wines.html" class="more">learn more</a>
+
+									<a th:href="@{/wines/all}"  class="more">
+									Learn More</a>
+
 							</li>
 							<li>
-								<a class="figure" href="history.html">
+								<a class="figure" th:href="@{/history}">
 									<img src="/images/history.png" alt=""></a>
 								<h3>history</h3>
 								<p>
@@ -59,7 +62,7 @@
 								<a href="history.html" class="more">learn more</a>
 							</li>
 							<li>
-								<a class="figure" href="about.html">
+								<a class="figure" th:href="@{/about}">
 									<img src="/images/about.png" alt=""></a>
 								<h3>about</h3>
 								<p>
@@ -69,6 +72,7 @@
 							</li>
 						</ul>
 					</div>
+
 					<div class="footer">
 						<div class="featured">
 							<h2>Featured wine</h2>

@@ -37,7 +37,7 @@ public interface WineService {
 
     WineEntity findWineById(Long id);
 
-    WineEntity updateWine(Long id, WineEntity updatedWine);
+    public  WineEntity updateWine(Long id, WineEntity updatedWine);
 
     List<WineCategoryViewModel> getAllByCategory(CategoryEnum categoryName);
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments/commons::head">
 
@@ -10,93 +10,92 @@
 <link rel="stylesheet" href="/css/style.css">
 <body>
 
-	<div id="background">
+<div id="background">
 
-		<div id="page">
-			<header th:replace="fragments/commons::nav"></header>
-			<div id="content">
-				<div id="header">
-					<img src="images/mountains.jpg" alt="">
-					<h1>our wines</h1>
-				</div>
-				<div id="body">
-					<h2 style="margin:1rem auto 2rem 3rem;">OUR WINERY</h2>
-					<p>
-						Wine Cellar Kamenovi Paradise is a family-owned producer of brave wines from indigenous and international
-						grapes with a distinct Balkan character.
-						We own 30 hectares of vineyards near the town of Balkan and a modern winery, which is open for visitors every day.
-					</p>
+    <div id="page">
+        <header th:replace="fragments/commons::nav"></header>
+        <div id="content">
+            <div id="header">
+                <img src="images/mountains.jpg" alt="">
+                <h1>our wines</h1>
+            </div>
+            <div id="body">
+                <h2 style="margin:1rem auto 2rem 3rem;">OUR WINERY</h2>
+                <p>
+                    Wine Cellar Kamenovi Paradise is a family-owned producer of brave wines from indigenous and
+                    international
+                    grapes with a distinct Balkan character.
+                    We own 30 hectares of vineyards near the town of Balkan and a modern winery, which is open for
+                    visitors every day.
+                </p>
 
-					<p>
-						Our new, modern winery opened doors in the spring of 2013. Thus, we began to write our modern legend.
-						Our winery’s capacity is 250 tonnes of grapes per year. It is built on three levels,
-						and the cellars are dug into the sandy hill.
-						The wine-making process is organized so that the flow of the wine moves by the force of gravity through
-						the three levels of the building.
-						In addition to being extremely energy efficient, this method allows us to treat the wine gently,
-						without putting unnecessary stress on the grapes, and maintaining the wine’s natural structure.
-						The winery is equipped with state-of-the-art vessels from leading Bulgarian and international producers.
-						Our stainless steel fermenters vary in capacity from 100 liters to 10 tonnes.
-						We have a pneumatic wine press with a central membrane and a fully automatic bottling machine with a
-						600 bottles per hour capacity. Our winery has a modern laboratory where we analyse the grapes and the wine.
-					</p>
+                <p>
+                    Our new, modern winery opened doors in the spring of 2013. Thus, we began to write our modern
+                    legend.
+                    Our winery’s capacity is 250 tonnes of grapes per year. It is built on three levels,
+                    and the cellars are dug into the sandy hill.
+                    The wine-making process is organized so that the flow of the wine moves by the force of gravity
+                    through
+                    the three levels of the building.
+                    In addition to being extremely energy efficient, this method allows us to treat the wine gently,
+                    without putting unnecessary stress on the grapes, and maintaining the wine’s natural structure.
+                    The winery is equipped with state-of-the-art vessels from leading Bulgarian and international
+                    producers.
+                    Our stainless steel fermenters vary in capacity from 100 liters to 10 tonnes.
+                    We have a pneumatic wine press with a central membrane and a fully automatic bottling machine with a
+                    600 bottles per hour capacity. Our winery has a modern laboratory where we analyse the grapes and
+                    the wine.
+                </p>
 
-					<ul>
-						<li><div th:each="w : ${wines}">
+                <ul>
+                    <li>
+						<div class="article">
+                        <div th:each="w : ${wines}">
 
-							<a class="figure" href="#"><img th:src="${w.imageUrl}" alt=""></a>
-							<h3 th:text="${w.name}"></h3>
-							<p th:text="${w.description}"></p>
-							<h2 > <span >Quantity:</span>  <span th:text="${w.quantity}"></span></h2><br>
-							<h2 > <span >Category:</span>  <span th:text="${w.category}"></span></h2>
-							<h2 > <span >Brand name:</span>  <span th:text="${w.brand.name}"></span></h2><br>
-							<h2 > <span >Brand description:</span>  <span th:text="${w.brand.description}"></span></h2><br>
-							<h2 > <span >Price:</span>  <span th:text="${w.price}"></span></h2><br>
+                            <a class="figure" href="#"><img style="width: 75%;margin-left: 1rem"
+															th:src="${w.imageUrl}" alt=""></a>
+                            <h3 th:text="${w.name}"></h3>
+                            <p th:text="${w.description}"></p>
+                            <h2><span>Quantity:</span> <span th:text="${w.quantity}"></span></h2><br>
+                            <h2><span>Category:</span> <span th:text="${w.category}"></span></h2>
+                            <h2><span>Brand name:</span> <span th:text="${w.brand.name}"></span></h2><br>
+                            <h2><span>Brand description:</span> <span th:text="${w.brand.description}"></span></h2><br>
+                            <h2><span>Price:</span> <span th:text="${w.price}"></span></h2>
 
-							<form  th:action="@{/wine/buy/{id}(id=${w.id})}" method="post">
-								<button style="display: flex;
-align-items: center;
-justify-content: center;" type="submit">Buy Now</button>
-							</form>
+                            <form th:action="@{/wine/buy/{id}(id=${w.id})}" method="post">
+                                <button style="display: flex;align-items: center;justify-content: center;" type="submit">
+                                    Buy Now
+                                </button>
+                            </form><br>
+                            <a th:href="@{/details/{id}(id=${w.id})}" class="button">
+                                Learn More</a><br><br><br>
+                        </div>
+						</div>
+                    </li>
 
-							<a th:href="@{/details/{id}(id=${w.id})}" class="button">
-								Learn More</a><br><br><br>
-							</div> <br>
+                    <li>
+                        <a class="figure" href="#"><img src="images/wine1.png" alt=""></a>
+                        <h3>Lorem ipsum</h3>
+                        <p>
+                            Pellentesque a placerat dui. Suspendisse laoreet placerat turpis vel semper.
+                        </p>
+                        <a href="#" class="more">learn more</a>
+                    </li>
+                    <li>
+                        <a class="figure" href="#"><img src="images/wine2.png" alt=""></a>
+                        <h3>Dolor sit amet</h3>
+                        <p>
+                            Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                        </p>
+                        <a href="#" class="more">learn more</a>
+                    </li>
 
-						</li>
-						<li>
-							<a class="figure" href="#"><img src="images/wine1.png" alt=""></a>
-							<h3>Lorem ipsum</h3>
-							<p>
-								Pellentesque a placerat dui. Suspendisse laoreet placerat turpis vel semper.
-							</p>
-							<a href="#" class="more">learn more</a>
-						</li>
-						<li>
-							<a class="figure" href="#"><img src="images/wine2.png" alt=""></a>
-							<h3>Dolor sit amet</h3>
-							<p>
-								Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-							</p>
-							<a href="#" class="more">learn more</a>
-						</li>
-						<li>
-							<a class="figure" href="#"><img src="images/wine3.png" alt=""></a>
-							<h3>Lorem ipsum</h3>
-							<p>
-								Vivamus at lectus purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-							</p>
-							<a href="#" class="more">learn more</a>
-						</li>
+                </ul>
+            </div>
 
-
-
-					</ul>
-				</div>
-
-			</div>
-		</div>
-		<footer th:replace="fragments/commons::footer"></footer>
-	</div>
+        </div>
+    </div>
+    <footer th:replace="fragments/commons::footer"></footer>
+</div>
 </body>
 </html>

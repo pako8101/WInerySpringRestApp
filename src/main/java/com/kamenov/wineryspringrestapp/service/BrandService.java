@@ -21,6 +21,8 @@ public interface BrandService {
 
     void  updateBrand(BrandDto brandDTO);
 
-   // Optional<String> finBrand(String brandName);
+    BrandEntity findByName(String name);
+
+    // Optional<String> finBrand(String brandName);
 
 }

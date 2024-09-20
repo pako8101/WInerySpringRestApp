@@ -31,7 +31,7 @@ public class CartController {
         return "/cart-view"; // thymeleaf страница за кошницата
     }
 
-    @PostMapping("/add{id}")
+    @PostMapping("/add/{id}")
     public String addToCart(@AuthenticationPrincipal UserEntity user,
                             @RequestParam Long wineId,
                             @RequestParam int quantity) throws NotSupportedException {

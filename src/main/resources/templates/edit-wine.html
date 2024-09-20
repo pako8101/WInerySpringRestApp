@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml">
@@ -27,10 +28,13 @@
             <fieldset>
                 <input th:field="*{imageUrl}"
                        th:errorclass="'is-invalid bg-danger'"
-                       minlength="5"
                        required
-                       type="image" name="imageUrl"
-                       placeholder="Article Title">
+                       type="text"
+                       name="imageUrl"
+                       id="imageUrl"
+                       class="form-control"
+                       placeholder="Image Url"
+                       accept="image/png, image/jpeg">
                 <small th:each="error :${#fields.errors('imageUrl')}"
                        th:text="${error}"
                        th:class="'invalid-feedback text-danger'"  id="inputImageError">can't be empty!</small>
@@ -87,28 +91,28 @@
 <!--                       th:text="${#strings.toLowerCase(c)}"-->
 <!--                       th:value="${c}">-->
 <!--                <br>-->
-<!--                <label for="category" >Category:</label>-->
-<!--                <select th:field="*{category}"-->
-<!--                        th:errorclass="'is-invalid bg-danger'"-->
-<!--                        required-->
-<!--                        id="category"-->
-<!--                        type="text" name="category">-->
-<!--                    <optgroup label="">-->
-<!--                        <option value="category">Select category</option>-->
-<!--                        <option th:each="category : ${categories}"-->
-<!--                                th:value="${category.id}"-->
-<!--                                th:text="${category.name}"-->
-<!--                                th:selected="${category.id} == ${wine.category?.contains(id)}"-->
-<!--                        >-->
-<!--                        </option>-->
+                <label for="category" >Category:</label>
+                <select th:field="*{category}"
+                        th:errorclass="'is-invalid bg-danger'"
+                        required
+                        id="category"
+                        type="text" name="category">
+                    <optgroup label="">
+                        <option value="category">Select category</option>
+                        <option th:each="category : ${T(com.kamenov.wineryspringrestapp.models.enums.CategoryEnum).values()}"
+                                th:value="${category}"
+                                th:text="${category.name}"
+                                th:selected="${wine.category}"
+                        >
+                        </option>
 <!--&lt;!&ndash;                        <option th:each="c:${T(com.kamenov.wineryspringrestapp.models.enums.CategoryEnum).values()}"&ndash;&gt;-->
 <!--&lt;!&ndash;                                th:value="${c}" th:text="${c}"&ndash;&gt;-->
 <!--&lt;!&ndash;                                value="white"></option> &ndash;&gt;-->
 <!--                    </optgroup>-->
 <!--                </select>-->
-<!--                <small th:each="error :${#fields.errors('category')}"-->
-<!--                       th:text="${error}"-->
-<!--                       th:class="'invalid-feedback text-danger'"  id="inputCategoryError"> Category can't be empty!</small>-->
+                <small th:each="error :${#fields.errors('category')}"
+                       th:text="${error}"
+                       th:class="'invalid-feedback text-danger'"  id="inputCategoryError"> Category can't be empty!</small>
 
                 <input th:field="*{price}"
                        th:errorclass="'is-invalid bg-danger'"

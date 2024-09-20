@@ -13,7 +13,9 @@ import com.kamenov.wineryspringrestapp.models.user.UserSession;
 import com.kamenov.wineryspringrestapp.models.view.WIneViewModel;
 import com.kamenov.wineryspringrestapp.models.view.WineCategoryViewModel;
 import com.kamenov.wineryspringrestapp.models.view.WineDetailsViewModel;
+import com.kamenov.wineryspringrestapp.repository.BrandRepository;
 import com.kamenov.wineryspringrestapp.repository.WineRepository;
+import com.kamenov.wineryspringrestapp.service.BrandService;
 import com.kamenov.wineryspringrestapp.service.CategoryService;
 import com.kamenov.wineryspringrestapp.service.WineService;
 import jakarta.transaction.NotSupportedException;
@@ -36,12 +38,16 @@ public class WineServiceImpl implements WineService {
     private final WineRepository wineRepository;
     private final ModelMapper modelMapper;
     private final UserSession userSession;
+    private final BrandService brandService;
+    private final BrandRepository brandRepository;
 
-    public WineServiceImpl(CategoryService categoryService, WineRepository wineRepository, ModelMapper modelMapper, UserSession userSession) {
+    public WineServiceImpl(CategoryService categoryService, WineRepository wineRepository, ModelMapper modelMapper, UserSession userSession, BrandService brandService, BrandRepository brandRepository) {
         this.categoryService = categoryService;
         this.wineRepository = wineRepository;
         this.modelMapper = modelMapper;
         this.userSession = userSession;
+        this.brandService = brandService;
+        this.brandRepository = brandRepository;
     }
 
     @Override
@@ -130,7 +136,7 @@ public class WineServiceImpl implements WineService {
                 .map(wine -> modelMapper.map(wine, WineEntity.class))
                 .orElseThrow(() -> new WineNotFoundException("Not found wine with id: " + id));
     }
-
+@Transactional
     @Override
     public WineEntity updateWine(Long id, WineEntity updatedWine) {
         Optional<WineEntity> optionalWine = wineRepository.findById(id);
@@ -147,11 +153,24 @@ public class WineServiceImpl implements WineService {
 //                throw new WineNotAuthorisedToEditException("You are not authorized to edit this wine.");
 //            }
 
+            BrandEntity existingBrand = brandService.findByName(existingWine.getBrand().getName());
+            if (existingBrand != null) {
+                // Актуализирайте виното с този съществуващ бранд
+                existingWine.setBrand(existingBrand);
+            } else {
+                // Ако няма такъв бранд, създайте нов
+                BrandEntity newBrand = new BrandEntity();
+                newBrand.setName(existingWine.getBrand().getName());
+                newBrand.setDescription(existingWine.getBrand().getDescription());
+                brandRepository.save(newBrand);
+                existingWine.setBrand(newBrand);
+            }
+
             existingWine.setName(updatedWine.getName());
             existingWine.setDescription(updatedWine.getDescription());
             existingWine.setImageUrl(updatedWine.getImageUrl());
-           // existingWine.setCategory(updatedWine.getCategory());
-            existingWine.setBrand(updatedWine.getBrand());
+            existingWine.setCategory(updatedWine.getCategory());
+//            existingWine.setBrand(updatedWine.getBrand());
             existingWine.setPrice(updatedWine.getPrice());
             existingWine.setQuantity(updatedWine.getQuantity());
 
