@@ -33,8 +33,8 @@ public class CartController {
 
     @PostMapping("/add/{id}")
     public String addToCart(@AuthenticationPrincipal UserEntity user,
-                            @RequestParam Long wineId,
-                            @RequestParam int quantity) throws NotSupportedException {
+                            @PathVariable("id") Long wineId,
+                            @RequestParam(defaultValue = "1") int quantity) throws NotSupportedException {
         cartService.addToCart(user, wineId, quantity);
         return "redirect:/wines/all";
     }

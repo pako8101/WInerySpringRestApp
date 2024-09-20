@@ -7,9 +7,113 @@
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/cart-view.css">
 <link rel="stylesheet" href="/css/reset-css.css">
+<link href="/skin/frontend/stenik/site/css/open-sans-font.css" rel="stylesheet">
 <body>
 <th:block th:replace="~{fragments/commons::nav}"></th:block>
-<h1>Your Cart</h1>
+
+<div class="shopping-cart-items" id="shopping-cart-table">
+    <div class="cart-row header-row">
+        <div class="cell col1">Продукт</div>
+        <div class="cell col2">Ед. цена</div>
+        <div class="cell col3">Брой</div>
+        <div class="cell col4">Сума</div>
+        <div class="cell col5">&nbsp;</div>
+    </div>
+
+    <div class="cart-row item">
+
+        <div class="cell col1">
+            <a href=""
+               title="Wine" class="cart-img-wrapper">
+                <img >
+            </a>
+
+            <div class="cart-info">
+                <a class="item-title"
+                   href="">
+                    </a>
+
+
+
+                <div class="attribute-list-content">
+
+                    <ul class="attribute-list">
+                        <li>
+                            <strong>
+                                Марка:					</strong>
+                            <span>
+						Cosori					</span>
+                        </li>
+                    </ul>
+                </div>
+                Доставка до <strong>26.09.2024</strong>
+            </div>
+
+        </div>
+
+        <div class="cell col2">
+            <div class="price-box">
+                <span class="old-price ">
+                        <span class="price-label ">ПЦД:</span>
+                        <span class="price">399<span class="precision">,99</span>&nbsp;<span class="currency">лв.</span></span>                    </span>
+
+                <span class="special-price">
+                    <span class="price">359<span class="precision">,99</span>&nbsp;<span class="currency">лв.</span></span>                                        </span>
+            </div>
+
+        </div>
+        <!-- inclusive price starts here -->
+
+        <div class="cell col3">
+            <div class="spinner-box">
+                <span class="ui-spinner ui-corner-all ui-widget ui-widget-content" style="height: 30px;"><input type="text" name="cart[32241637][qty]" class="amount ui-spinner-input" value="1" id="spinner-32241637" title="Брой" aria-valuemin="1" aria-valuemax="50" aria-valuenow="1" autocomplete="off" role="spinbutton"><a tabindex="-1" aria-hidden="true" class="ui-spinner-button ui-spinner-up ui-corner-tr"></a><a tabindex="-1" aria-hidden="true" class="ui-spinner-button ui-spinner-down ui-corner-br"></a></span>
+                <span class="loader" id="row_loader32241637" style="display: none;"></span>
+            </div>
+        </div>
+
+        <div class="cell col4">
+            <div class="price-box">
+            <span class="regular-price">
+                <span class="price">
+                                                                <span class="price">359<span class="precision">,99</span>&nbsp;<span class="currency">лв.</span></span>                                    </span>
+            </span>
+            </div>
+        </div>
+
+        <div class="cell col5">
+            <a href=""
+               id="delete_item" class="item-remove" title="Remove">
+                <svg aria-hidden="true" class="icon-svg close"><use
+                        xlink:href=""></use></svg>
+            </a>
+<!--            <script type="text/javascript">-->
+<!--                var productData_32241637 = {-->
+<!--                    ids:'SAFR0000109N',-->
+<!--                    value:'359.99',-->
+<!--                    currency:'BGN',-->
+<!--                    name:'Фритюрник с горещ въздух Cosori - Dual Blaze XXXL, 1750W, 6.4 l, черен'-->
+<!--                };-->
+<!--                jQuery('#delete_item-32241637').mouseup(function() {-->
+<!--                    sFbTrackRemoveFromCart(productData_32241637);-->
+<!--                });-->
+<!--            </script>-->
+        </div>
+    </div>
+
+
+
+    <div class="clearH2"></div>
+
+    <a href="javascript:;" class="button continue-shopping left white-background" onclick="window.history.back(); return false;">
+        <span class="back-arrow"></span>
+        Продължи с пазаруването                </a>
+</div>
+
+
+<!-- -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+<div class="article">
+<h1 class="cart-title">Your Cart</h1>
 <table>
     <tr>
         <th>Wine</th>
@@ -29,7 +133,8 @@
     </tr>
 </table>
 <a th:href="@{/order/checkout}">Checkout</a>
-
-</body>
+</div>
 <th:block th:replace="~{fragments/commons::footer}"></th:block>
+</body>
+
 </html>

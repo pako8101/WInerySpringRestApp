@@ -4,6 +4,7 @@ import com.kamenov.wineryspringrestapp.models.entity.CartItem;
 import com.kamenov.wineryspringrestapp.models.entity.ShoppingCart;
 import com.kamenov.wineryspringrestapp.models.entity.UserEntity;
 import com.kamenov.wineryspringrestapp.models.entity.WineEntity;
+import com.kamenov.wineryspringrestapp.repository.CartItemRepository;
 import com.kamenov.wineryspringrestapp.repository.ShoppingCartRepository;
 import com.kamenov.wineryspringrestapp.service.CartService;
 import com.kamenov.wineryspringrestapp.service.WineService;
@@ -15,11 +16,12 @@ import java.util.Objects;
 @Service
 public class CartServiceImpl implements CartService {
     private final ShoppingCartRepository shoppingCartRepository;
-
+private final CartItemRepository cartItemRepository;
     private final WineService wineService;
 
-    public CartServiceImpl(ShoppingCartRepository shoppingCartRepository, WineService wineService) {
+    public CartServiceImpl(ShoppingCartRepository shoppingCartRepository, CartItemRepository cartItemRepository, WineService wineService) {
         this.shoppingCartRepository = shoppingCartRepository;
+        this.cartItemRepository = cartItemRepository;
         this.wineService = wineService;
     }
 
@@ -36,8 +38,14 @@ public class CartServiceImpl implements CartService {
         item.setWine(wine);
         item.setQuantity(quantity);
         item.setCart(cart);
-        cart.getItems().add(item);
+
+        cartItemRepository.save(item);
+
+    cart.getItems().add(item);
         shoppingCartRepository.save(cart);
+
+
+
     }
 @Override
     public void removeFromCart(UserEntity user, Long cartItemId) {
