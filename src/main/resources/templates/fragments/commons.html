@@ -10,6 +10,25 @@
 </head>
 <header th:fragment="nav" data-role="Header" id="navbar">
     <div id="sidebar">
+        <div style="  margin-top: auto;  margin-left: 1.2rem" class="nav-item">
+            <form th:method="get">
+                <label class="text-white" style="font-size: small"
+                       for="lang" th:text="#{nav_bar_language}">Language</label>
+                <select style="background-color: #e4f0f4;
+                                            border-color: #4e555b"
+                        id="lang"
+                        name="lang"
+                        onchange="this.form.submit()">
+                    <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English
+                    </option>
+                    <option value="de_DE" th:selected="${#locale.toString()} == 'de_DE'">German
+                    </option>
+                    <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">Български
+                    </option>
+                </select>
+
+            </form>
+        </div>
         <div class="logged-user"><br>
 <!--            th:text="#{nav_bar_welcome}"-->
             <a>Welcome,</a>
@@ -26,31 +45,33 @@
                 </a>
             </li>
             <li class="selected">
-                <span><a th:href="@{/}">home</a></span>
+                <span><a th:href="@{/}"
+                         th:text="#{nav_bar_home}">home</a></span>
             </li>
             <li>
-                <span><a th:href="@{/wines/all}">our wines</a></span>
+                <span><a th:href="@{/wines/all}" th:text="#{nav_bar_all_wines}">our wines</a></span>
             </li>
             <li>
-                <span><a th:href="@{/history}">history</a></span>
+                <span><a th:href="@{/history}" th:text="#{nav_bar_history}">history</a></span>
             </li>
             <li>
-                <span><a th:href="@{/about}">about us</a></span>
+                <span><a th:href="@{/about}" th:text="#{nav_bar_about}">about us</a></span>
             </li>
             <th:block sec:authorize="!isAuthenticated()">
             <li>
-                <span><a th:href="@{/users/register}">register</a></span>
+                <span><a th:href="@{/users/register}" th:text="#{nav_bar_subscribe}">register</a></span>
             </li><li>
-                <span><a th:href="@{/users/login}">login</a></span>
+                <span><a th:href="@{/users/login}"
+                        th:text="#{nav_bar_login}">login</a></span>
             </li>
             </th:block>
             <th:block sec:authorize="isAuthenticated()">
                 <li>
                     <form class=" navbar-link"
-                          th:action="@{/users/logout}" method="post">
-                        <button
+                          th:action="@{/users/logout}"  method="post">
+                        <button                            th:text="#{nav_bar_logout}"
                                 type="submit" class="navbar-link">
-<!--                            th:text="#{nav_bar_logout}"-->
+
                             <a >LOGOUT</a>
                         </button>
                     </form>
@@ -60,16 +81,18 @@
                     <span><a th:href="@{/wine}">Buy wine</a></span>
                 </li>
             <li>
-                <a th:href="@{/wine/add}">Add New Wine</a>
+                <a th:href="@{/wine/add}" th:text="#{nav_bar_add_wine}">Add New Wine</a>
             <th:block  sec:authorize="hasRole('ROLE_ADMIN')" >
 
             </th:block>
             </li>
             <li>
-                <span><a th:href="@{/users/profile}">profile</a></span>
+                <span><a th:text="#{nav_bar_profile}"
+                        th:href="@{/users/profile}">profile</a></span>
             </li>
             <li>
-                <span><a href="contact.html">contact</a></span>
+                <span><a th:text="#{nav_bar_contact}"
+                        href="contact.html">contact</a></span>
             </li>
 
         </ul>

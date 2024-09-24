@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/commons :: head"></head>
+<body>
+
+<header th:replace="fragments/commons :: nav"></header>
+
+<!-- TODO: fix css-->
+
+<main class="p-5 align-content-center bg-blur"
+      style="font-size: xx-large;margin-top: 2.5rem;margin-left: 3rem;
+      color: yellowgreen;margin-bottom: 2rem;">
+
+  Ups... something went wrong! <br/>
+  <a> Please excuse us, we are working on it...</a><br><br>
+  <img style="width: 50%;height: auto;" th:src="@{/images/brokeSoft.jpg}" alt="error">
+
+</main>
+<footer th:replace="fragments/commons :: footer"></footer>
+</body>
+</html>

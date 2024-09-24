@@ -21,6 +21,7 @@ spring:
     mode: HTML
     encoding: UTF-8
     prefix: file:src/main/resources/templates/
+
   web:
     resources:
       static-locations: file:src/main/resources/static/
@@ -55,6 +56,10 @@ servlet:
       static-locations: file:src/main/resources/static/**
       cache:
         period: 0
+
+        server:
+          tomcat:
+            uri-encoding=UTF-8:
 #  mail:
 #    host: smtp.gmail.com
 #    port: 578
