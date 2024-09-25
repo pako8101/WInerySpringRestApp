@@ -10,7 +10,7 @@
 <link href="/skin/frontend/stenik/site/css/open-sans-font.css" rel="stylesheet">
 <body>
 <th:block th:replace="~{fragments/commons::nav}"></th:block>
-
+<div class="cart-sidebar-wrapper">
 <div class="shopping-cart-items" id="shopping-cart-table">
     <div class="cart-row header-row">
         <div class="cell col1">Продукт</div>
@@ -66,7 +66,10 @@
 
         <div class="cell col3">
             <div class="spinner-box">
-                <span class="ui-spinner ui-corner-all ui-widget ui-widget-content" style="height: 30px;"><input type="text" name="cart[32241637][qty]" class="amount ui-spinner-input" value="1" id="spinner-32241637" title="Брой" aria-valuemin="1" aria-valuemax="50" aria-valuenow="1" autocomplete="off" role="spinbutton"><a tabindex="-1" aria-hidden="true" class="ui-spinner-button ui-spinner-up ui-corner-tr"></a><a tabindex="-1" aria-hidden="true" class="ui-spinner-button ui-spinner-down ui-corner-br"></a></span>
+                <span class="ui-spinner ui-corner-all ui-widget ui-widget-content" style="height: 30px;">
+                    <input type="text" name="cart[32241637][qty]" class="amount ui-spinner-input" value="1" id="spinner-32241637" title="Брой" aria-valuemin="1" aria-valuemax="50" aria-valuenow="1" autocomplete="off" role="spinbutton">
+                    <a tabindex="-1" aria-hidden="true" class="ui-spinner-button ui-spinner-up ui-corner-tr"></a>
+                    <a tabindex="-1" aria-hidden="true" class="ui-spinner-button ui-spinner-down ui-corner-br"></a></span>
                 <span class="loader" id="row_loader32241637" style="display: none;"></span>
             </div>
         </div>
@@ -75,7 +78,7 @@
             <div class="price-box">
             <span class="regular-price">
                 <span class="price">
-                                                                <span class="price">359<span class="precision">,99</span>&nbsp;<span class="currency">лв.</span></span>                                    </span>
+                    <span class="price">359<span class="precision">,99</span>&nbsp;<span class="currency">лв.</span></span>                                    </span>
             </span>
             </div>
         </div>
@@ -102,12 +105,7 @@
 
 
 
-    <div class="clearH2"></div>
 
-    <a href="javascript:;" class="button continue-shopping left white-background" onclick="window.history.back(); return false;">
-        <span class="back-arrow"></span>
-        Продължи с пазаруването                </a>
-</div>
 
 
 <!-- -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
@@ -132,7 +130,16 @@
         </td>
     </tr>
 </table>
-<a th:href="@{/order/checkout}">Checkout</a>
+
+<a th:href="@{/order/checkout}" style="color: lightpink">Checkout</a>
+    <div class="clearH2"></div>
+
+    <a href="javascript:;" style="color: lightgoldenrodyellow"
+       class="button continue-shopping left white-background" onclick="window.history.back(); return false;">
+        <span class="back-arrow"></span>
+        Continue shopping               </a>
+</div>
+</div>
 </div>
 <th:block th:replace="~{fragments/commons::footer}"></th:block>
 </body>

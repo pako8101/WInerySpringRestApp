@@ -65,7 +65,7 @@ nav ul li a:hover {
     --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
     --fa-style-family-classic: "Font Awesome 6 Free";
     --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
-    color: #444;
+    color: lightskyblue;
     font-weight: normal;
     font-family: 'RobotoCondensed', sans-serif;
     direction: ltr;
@@ -77,7 +77,9 @@ nav ul li a:hover {
 }
 body {
 
-    color: #444;
+    color: whitesmoke;
+    text-decoration: #b84e64;
+
     font-size: 16px;
     line-height: 24px;
     font-weight: normal;
@@ -167,3 +169,10 @@ body {
     }
 
 }
+.cart-sidebar-wrapper{
+     text-shadow:
+             -1px -1px 0 #000,
+             1px -1px 0 #000,
+             -1px 1px 0 #000,
+             1px 1px 0 #000;
+ }
