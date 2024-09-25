@@ -1,0 +1,40 @@
+.main-video{
+    text-align: center;
+    margin-bottom: 1rem;
+
+
+
+}
+.video{
+    border: #bd4f2b 6px solid;
+}
+.info{
+    background-color: darkred;
+    display: flex;
+    align-items: center;
+    color: sandybrown;
+    text-align: center;
+    justify-content: center;
+    font-size: large;
+    font-family: "Wide Latin";
+    font-style: italic;
+    margin: 4rem 3rem 2rem 3rem;
+    text-shadow: -1px 1px 0 #000,
+    1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000;
+
+}
+.about-language{
+    padding: 2rem 4rem 2rem 4rem;
+
+}
+.title{
+    padding-top: 0.3rem;
+}
+.wrapper{
+
+    border-radius: 8px;
+    border: #555555;
+
+}

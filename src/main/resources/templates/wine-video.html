@@ -1,0 +1,42 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+>
+
+<head th:replace="fragments/commons::head">
+</head>
+<link rel="stylesheet" href="/css/reset-css.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/wine-video.css">
+<body>
+<header th:replace="fragments/commons::nav">
+</header>
+
+
+<div  class="info">
+    <div></div>
+    <div class="wrapper">
+        <h2 class="title">Kamenovi Winery Paradise</h2>
+        <p class="about-language">
+            Interesting videos of Our Family Winery
+        </p>
+        <!--        src="https://www.youtube.com/embed/{videoId}"-->
+        <h1>Watch our YouTube channel</h1><br>
+        <div class="main-video" >
+            <iframe class="video" width="560" height="315"  th:src="'https://www.youtube.com/embed/' + ${videoId}"
+                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+    <div>
+
+    </div>
+</div>
+
+<!-- Wrapper Ends -->
+</body>
+<div style="background-color: mediumblue">
+<footer th:replace="fragments/commons::footer">
+</footer>
+    </div>
+</html>
