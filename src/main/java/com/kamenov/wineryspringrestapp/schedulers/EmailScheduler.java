@@ -16,7 +16,7 @@ import java.util.List;
 @EnableScheduling
 @Component
 public class EmailScheduler {
-
+@Autowired
     private JavaMailSender mailSender;
     @Autowired
 private final UserRepository userRepository;

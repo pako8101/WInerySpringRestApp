@@ -7,7 +7,7 @@
     font-family: 'Open Sans', sans-serif;
 }
 .wrapper{
-    margin: -10rem auto 2rem 10rem ;
+    margin: -20rem auto 2rem 10rem ;
 }
 body {
     display: flex;
@@ -41,7 +41,7 @@ input[type=checkbox] {
     word-wrap: break-word;
 }
 form h2 {
-    font-size: 27px;
+    font-size: 20px;
     text-align: center;
     margin: 0px 0 30px;
 }
@@ -49,12 +49,13 @@ form h2 {
 form .form-group {
     margin-bottom: 15px;
     position: relative;
+    font-size: small;
 }
 
 form label {
     display: block;
-    font-size: 15px;
-    margin-bottom: 7px;
+    font-size: 12px;
+    margin-bottom: 5px;
 }
 
 form input,

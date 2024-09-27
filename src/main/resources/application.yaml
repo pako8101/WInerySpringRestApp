@@ -90,9 +90,9 @@ HistoryAppNew:
 #  ancient_images: greek.jpeg, changeImage1.png, changeImage2.jpg, sphinks2.jpg
 #  refresh-cron: "0 */10 * * * *"
 
-#recaptcha:
-#secret: ${secret_key}
-#site: ${site_key}
+recaptcha:
+secret: ${secret_key}
+site: ${site_key}
 brand-service:
   base-url: http://localhost:8022
 
