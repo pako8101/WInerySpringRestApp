@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Controller
 @RequestMapping("/cart")
 public class CartController {
@@ -47,5 +50,22 @@ public class CartController {
     @ModelAttribute("cart")
     public ShoppingCart populateCart(@AuthenticationPrincipal UserEntity user) {
         return cartService.getActiveCartForUser(user);
+    }
+    @GetMapping("/date")
+    public String getDateAfterTenDays(Model model) {
+        // Вземи текущата дата
+        LocalDate currentDate = LocalDate.now();
+
+        // Добави 10 дни
+        LocalDate futureDate = currentDate.plusDays(10);
+
+        // Форматиране на датата по желание (не е задължително)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedDate = futureDate.format(formatter);
+
+        // Подаване на датата към Thymeleaf
+        model.addAttribute("futureDate", formattedDate);
+
+        return "cart-view";
     }
 }

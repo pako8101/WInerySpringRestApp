@@ -32,7 +32,18 @@ public class UserEntity extends BaseEntity {
     @OneToOne(fetch = FetchType.EAGER)
     private ProfileImage image;
 
+    private boolean RegistrationEmailSend;
+
     public UserEntity() {
+    }
+
+    public boolean isRegistrationEmailSend() {
+        return RegistrationEmailSend;
+    }
+
+    public UserEntity setRegistrationEmailSend(boolean registrationEmailSend) {
+        RegistrationEmailSend = registrationEmailSend;
+        return this;
     }
 
     public ProfileImage getImage() {

@@ -81,9 +81,11 @@
                     <span><a th:href="@{/wine}">Buy wine</a></span>
                 </li>
             <li>
-                <a th:href="@{/wine/add}" th:text="#{nav_bar_add_wine}">Add New Wine</a>
-            <th:block  sec:authorize="hasRole('ROLE_ADMIN')" >
 
+            <th:block  sec:authorize="hasRole('ROLE_ADMIN')" >
+                <a th:href="@{/wine/add}" th:text="#{nav_bar_add_wine}">Add New Wine</a>
+                <a
+                        th:href="@{/statistic}">Statistics</a>
             </th:block>
             </li>
             <li>
@@ -92,35 +94,35 @@
             </li>
             <li>
                 <span><a th:text="#{nav_bar_contact}"
-                        href="contact.html">contact</a></span>
+                        th:href="@{/contact}">contact</a></span>
             </li>
 
         </ul>
-        <div id="admin" sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown">
-            <nav class="main-nav">
-                <ul>
-                    <li>
-                        <a href="/">Admin Panel</a>
-                        <ul>
-                            <li>
-<!--                                th:text="#{nav_bar_statistics}"-->
-                            <li><a
-                                   th:href="@{/statistic}">Statistics</a></li>
-<!--                            th:text="#{nav_bar_add_articles}"-->
-                            <li><a
-                                   th:href="@{/wine/add}">Add wine</a></li>
-<!--                            th:text="#{nav_bar_all_articles}"-->
-                            <li><a
-                                   th:href="@{/wines }">All Wines</a></li>
+<!--        <div id="admin" sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown">-->
+<!--            <nav class="main-nav">-->
+<!--                <ul>-->
+<!--                    <li>-->
+<!--                        <a href="/">Admin Panel</a>-->
+<!--                        <ul>-->
+<!--                            <li>-->
+<!--&lt;!&ndash;                                th:text="#{nav_bar_statistics}"&ndash;&gt;-->
+<!--                            <li><a-->
+<!--                                   th:href="@{/statistic}">Statistics</a></li>-->
+<!--&lt;!&ndash;                            th:text="#{nav_bar_add_articles}"&ndash;&gt;-->
+<!--                            <li><a-->
+<!--                                   th:href="@{/wine/add}">Add wine</a></li>-->
+<!--&lt;!&ndash;                            th:text="#{nav_bar_all_articles}"&ndash;&gt;-->
+<!--                            <li><a-->
+<!--                                   th:href="@{/wines }">All Wines</a></li>-->
 
 
-                        </ul>
-                    </li>
+<!--                        </ul>-->
+<!--                    </li>-->
 
-                </ul>
-            </nav>
+<!--                </ul>-->
+<!--            </nav>-->
 
-        </div>
+<!--        </div>-->
         <div class="contact">
             <ul>
                 <li class="address">

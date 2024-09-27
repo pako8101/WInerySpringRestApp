@@ -60,24 +60,26 @@ servlet:
         server:
           tomcat:
             uri-encoding=UTF-8:
-#  mail:
-#    host: smtp.gmail.com
-#    port: 578
-#    username: ${email_username}
-#    password: ${password_email}
-#    test-connection: true
+  mail:
+    host: smtp.gmail.com
+    port: 578
+    username: ${email_username}
+    password: ${password_email}
+    test-connection: true
 
-#    properties:
-#      mail:
-#        smtp:
-#          auth=true:
-#
-#            properties:
-#              mail:
-#                smtp:
-#                  starttls:
-#                    enable=true:
+    properties:
+      mail:
+        smtp:
+          auth=true:
 
+            properties:
+              mail:
+                smtp:
+                  starttls:
+                    enable=true:
+                        connectiontimeout: 5000  # Максимално време за изчакване на свързване (в милисекунди)
+                        timeout: 5000            # Максимално време за отговор
+                        writetimeout: 5000
 
 
 HistoryAppNew:
@@ -91,6 +93,8 @@ HistoryAppNew:
 #recaptcha:
 #secret: ${secret_key}
 #site: ${site_key}
+brand-service:
+  base-url: http://localhost:8022
 
 cloudinary:
   name: ${CLOUDINARY_NAME:dy2y8i2de}

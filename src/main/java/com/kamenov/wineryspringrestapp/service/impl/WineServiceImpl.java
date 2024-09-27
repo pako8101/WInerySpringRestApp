@@ -77,11 +77,11 @@ public class WineServiceImpl implements WineService {
     public void addWIne(WineServiceModel wineServiceModel, BrandEntity brand) {
         WineEntity wine = modelMapper.map(wineServiceModel, WineEntity.class);
         BrandDto brandDto = modelMapper.map(brand, BrandDto.class);
-       BrandEntity newBrand = modelMapper.map(brandDto, BrandEntity.class);
+        BrandEntity newBrand = modelMapper.map(brandDto, BrandEntity.class);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
 
-        if (currentUsername== null) {
+        if (currentUsername == null) {
             throw new IllegalArgumentException("User ID cannot be null");
         }
         wine.setDescription(wineServiceModel.getDescription());
@@ -104,7 +104,7 @@ public class WineServiceImpl implements WineService {
 
     @Override
     @Transactional
-   // @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public void delete(Long id) {
         if (userSession.isAdmin()) {
 
@@ -136,15 +136,16 @@ public class WineServiceImpl implements WineService {
                 .map(wine -> modelMapper.map(wine, WineEntity.class))
                 .orElseThrow(() -> new WineNotFoundException("Not found wine with id: " + id));
     }
-@Transactional
+
+    @Transactional
     @Override
     public WineEntity updateWine(Long id, WineEntity updatedWine) {
-        Optional<WineEntity> optionalWine = wineRepository.findById(id);
+       // Optional<WineEntity> optionalWine = wineRepository.findById(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-       // String currentUsername = authentication.getName();
+        // String currentUsername = authentication.getName();
 
-        if (optionalWine.isPresent()) {
-            WineEntity existingWine = optionalWine.get();
+//        if (optionalWine.isPresent()) {
+//            WineEntity existingWine = optionalWine.get();
 
 //            boolean isAdmin = authentication.getAuthorities().stream()
 //                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
@@ -153,33 +154,49 @@ public class WineServiceImpl implements WineService {
 //                throw new WineNotAuthorisedToEditException("You are not authorized to edit this wine.");
 //            }
 
-            BrandEntity existingBrand = brandService.findByName(existingWine.getBrand().getName());
-            if (existingBrand != null) {
-                // Актуализирайте виното с този съществуващ бранд
-                existingWine.setBrand(existingBrand);
-            } else {
-                // Ако няма такъв бранд, създайте нов
-                BrandEntity newBrand = new BrandEntity();
-                newBrand.setName(existingWine.getBrand().getName());
-                newBrand.setDescription(existingWine.getBrand().getDescription());
-                brandRepository.save(newBrand);
-                existingWine.setBrand(newBrand);
-            }
+//            BrandEntity existingBrand = brandService.findByName(existingWine.getBrand().getName());
+//            if (existingBrand != null) {
+//                // Актуализирайте виното с този съществуващ бранд
+//                existingWine.setBrand(existingBrand);
+//            } else {
+//                // Ако няма такъв бранд, създайте нов
+//                BrandEntity newBrand = new BrandEntity();
+//                newBrand.setName(existingWine.getBrand().getName());
+//                newBrand.setDescription(existingWine.getBrand().getDescription());
+//                brandRepository.save(newBrand);
+//                existingWine.setBrand(newBrand);
+//            }
 
-            existingWine.setName(updatedWine.getName());
-            existingWine.setDescription(updatedWine.getDescription());
-            existingWine.setImageUrl(updatedWine.getImageUrl());
-            existingWine.setCategory(updatedWine.getCategory());
+//            existingWine.setName(updatedWine.getName());
+//            existingWine.setDescription(updatedWine.getDescription());
+//            existingWine.setImageUrl(updatedWine.getImageUrl());
+//            existingWine.setCategory(updatedWine.getCategory());
 //            existingWine.setBrand(updatedWine.getBrand());
-            existingWine.setPrice(updatedWine.getPrice());
-            existingWine.setQuantity(updatedWine.getQuantity());
+//            existingWine.setPrice(updatedWine.getPrice());
+//            existingWine.setQuantity(updatedWine.getQuantity());
+//
+//            return wineRepository.save(existingWine);
+//        } else {
+//            throw new WineNotFoundException("Wine not found with id: " + id);
+//        }
+    WineEntity wine = wineRepository.findById(id)
+            .orElseThrow(() -> new WineNotFoundException("Wine not found with id: " + id));
 
-            return wineRepository.save(existingWine);
-        } else {
-            throw new WineNotFoundException("Wine not found with id: " + id);
-        }
-    }
 
+    wine.setImageUrl(updatedWine.getImageUrl());
+    wine.setCategory(updatedWine.getCategory());
+
+    wine.setPrice(updatedWine.getPrice());
+    wine.setQuantity(updatedWine.getQuantity());
+    wine.setName(updatedWine.getName());
+    wine.setDescription(updatedWine.getDescription());
+    wine.setCategory(updatedWine.getCategory());
+    wine.setBrand(updatedWine.getBrand());  // Актуализиране на бранда
+
+        return wineRepository.save(wine);
+
+
+}
     @Override
     public List<WineCategoryViewModel> getAllByCategory(CategoryEnum categoryName) {
       List<WineEntity> wines = wineRepository.findAllByCategory(categoryName);

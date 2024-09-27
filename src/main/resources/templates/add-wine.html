@@ -115,8 +115,11 @@
         </fieldset>
         <form>
         <label for="brand">Select Brand:</label>
-        <select id="brand" th:field="*{brandId}" required>
-            <option value="" disabled selected>Select a Brand</option>
+        <select id="brand"
+                th:field="*{brandId}"
+                type="text" name="brand"
+        >
+            <option value="brand"  >Select a Brand</option>
             <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}">Select a Brand</option>
         </select><br/>
             <small th:if="${#fields.hasErrors('brandId')}" th:errors="*{brandId}" class="text-danger"></small>

@@ -16,17 +16,17 @@ public class BrandDto {
    private String name;
     @NotNull
    private String description;
-    @OneToMany
-  private   List<CategoryEntity> categories =new ArrayList<>();
+//    @OneToMany
+//  private   List<CategoryEntity> categories =new ArrayList<>();
 
 
     public BrandDto() {
     }
 
-    public BrandDto(String name, String description, List<CategoryEntity> collect) {
+    public BrandDto(String name, String description) {
         this.name = name;
         this.description = description;
-        this.categories = collect;
+
     }
 
     public Long getId() {
@@ -56,12 +56,12 @@ public class BrandDto {
         return this;
     }
 
-    public List<CategoryEntity> getCategories() {
-        return categories;
-    }
-
-    public BrandDto setCategories(List<CategoryEntity> categories) {
-        this.categories = categories;
-        return this;
-    }
+//    public List<CategoryEntity> getCategories() {
+//        return categories;
+//    }
+//
+//    public BrandDto setCategories(List<CategoryEntity> categories) {
+//        this.categories = categories;
+//        return this;
+//    }
 }

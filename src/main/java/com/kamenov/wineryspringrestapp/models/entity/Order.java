@@ -1,20 +1,21 @@
 package com.kamenov.wineryspringrestapp.models.entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order extends BaseEntity{
 
 @OneToMany(cascade = CascadeType.ALL)
     private List<OrderItem> orders = new ArrayList<>();
 @ManyToOne
 private UserEntity user;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
 private LocalDateTime orderDate;
 
     public Order() {

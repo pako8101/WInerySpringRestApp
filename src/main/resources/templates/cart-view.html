@@ -10,15 +10,37 @@
 <link href="/skin/frontend/stenik/site/css/open-sans-font.css" rel="stylesheet">
 <body>
 <th:block th:replace="~{fragments/commons::nav}"></th:block>
+<th:block  >
 <div class="cart-sidebar-wrapper">
+    <h1 class="cart-title">Your Cart</h1>
 <div class="shopping-cart-items" id="shopping-cart-table">
-    <div class="cart-row header-row">
-        <div class="cell col1">Продукт</div>
-        <div class="cell col2">Ед. цена</div>
-        <div class="cell col3">Брой</div>
-        <div class="cell col4">Сума</div>
-        <div class="cell col5">&nbsp;</div>
-    </div>
+    <table>
+        <tr>
+            <th>Wine</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        <tr th:each="item : ${cart.items}">
+            <td  th:text="${item.wine.name}"><div class="cell col1" > </div></td>
+            <td  th:text="${item.quantity}"><div class="cell col2" ></div></td>
+            <td  th:text="${item.wine.price * item.quantity}"><div class="cell col3" ></div></td>
+            <td>
+                <form th:action="@{/cart/remove}" method="post">
+                    <input type="hidden" th:value="${item.id}" name="cartItemId" />
+                    <button type="submit">Remove</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+<!--    <div class="cart-row header-row" >-->
+<!--        -->
+<!--        <div class="cell col1" >Your Wine: </div>-->
+<!--        <div class="cell col2" >Ед. цена</div>-->
+<!--        <div class="cell col3">Брой</div>-->
+<!--        <div class="cell col4">Сума</div>-->
+<!--        <div class="cell col5">&nbsp;</div>-->
+<!--     -->
+<!--    </div>-->
 
     <div class="cart-row item">
 
@@ -35,30 +57,26 @@
 
 
 
-                <div class="attribute-list-content">
+                <div class="attribute-list-content" th:each="item : ${cart.getItems()}">
 
                     <ul class="attribute-list">
                         <li>
-                            <strong>
-                                Марка:					</strong>
-                            <span>
-						Cosori					</span>
+                            <strong>Total sum:		</strong>
+                            <span class="special-price">
+                            <span class="price" th:text="${item.wine.price * item.quantity}" ></span></span>
                         </li>
                     </ul>
                 </div>
-                Доставка до <strong>26.09.2024</strong>
+                Доставка до <strong th:text="${futureDate}">26.09.2024</strong>
             </div>
 
         </div>
 
         <div class="cell col2">
             <div class="price-box">
-                <span class="old-price ">
-                        <span class="price-label ">ПЦД:</span>
-                        <span class="price">399<span class="precision">,99</span>&nbsp;<span class="currency">лв.</span></span>                    </span>
 
-                <span class="special-price">
-                    <span class="price">359<span class="precision">,99</span>&nbsp;<span class="currency">лв.</span></span>                                        </span>
+
+                    <span  >359<span class="precision">,99</span>&nbsp;<span class="currency">лв.</span>                                    </span>
             </div>
 
         </div>
@@ -111,25 +129,8 @@
 <!-- -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
 
 <div class="article">
-<h1 class="cart-title">Your Cart</h1>
-<table>
-    <tr>
-        <th>Wine</th>
-        <th>Quantity</th>
-        <th>Price</th>
-    </tr>
-    <tr th:each="item : ${cart.items}">
-        <td th:text="${item.wine.name}"></td>
-        <td th:text="${item.quantity}"></td>
-        <td th:text="${item.wine.price * item.quantity}"></td>
-        <td>
-            <form th:action="@{/cart/remove}" method="post">
-                <input type="hidden" th:value="${item.id}" name="cartItemId" />
-                <button type="submit">Remove</button>
-            </form>
-        </td>
-    </tr>
-</table>
+
+
 
 <a th:href="@{/order/checkout}" style="color: lightpink">Checkout</a>
     <div class="clearH2"></div>
@@ -141,6 +142,7 @@
 </div>
 </div>
 </div>
+</th:block>
 <th:block th:replace="~{fragments/commons::footer}"></th:block>
 </body>
 

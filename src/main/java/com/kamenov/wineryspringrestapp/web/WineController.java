@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -41,21 +42,24 @@ public class WineController {
     @Autowired
     private final WineService wineService;
     private final ModelMapper modelMapper;
-private final BrandService brandService;
-private final CategoryService categoryService;
-@Autowired
+    private final BrandService brandService;
+    private final CategoryService categoryService;
+
+    @Autowired
     public WineController(WineService wineService, ModelMapper modelMapper, BrandService brandService, CategoryService categoryService) {
         this.wineService = wineService;
         this.modelMapper = modelMapper;
         this.brandService = brandService;
-    this.categoryService = categoryService;
-}
+        this.categoryService = categoryService;
+    }
+
     @ModelAttribute("boughtWineDto")
-    BoughtWineDto boughtWineDto (){
+    BoughtWineDto boughtWineDto() {
         return new BoughtWineDto();
     }
+
     @ModelAttribute("wIneAddDto")
-    WIneAddDto wIneAddDto (){
+    WIneAddDto wIneAddDto() {
         return new WIneAddDto();
     }
 
@@ -65,7 +69,8 @@ private final CategoryService categoryService;
         model.addAttribute("wines", wines);
         return "wines";
     }
-//    @GetMapping("/wines/{id}")
+
+    //    @GetMapping("/wines/{id}")
 //    public String viewWine(@PathVariable Long id, Model model) {
 //
 //        WineEntity wine = wineService.getWineById(id).orElseThrow(WineNotFoundException::new);
@@ -84,10 +89,11 @@ private final CategoryService categoryService;
         }
         return "wines";
     }
+
     @GetMapping("/wine/add")
     public String addWIneForm(Model model) {
         model.addAttribute("wine", new WIneAddDto());
-        model.addAttribute("categories",categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("brands",
                 brandService.getAllBrands());
 
@@ -101,20 +107,20 @@ private final CategoryService categoryService;
                           BindingResult bindingResult,
                           RedirectAttributes redirectAttributes,
                           @AuthenticationPrincipal UserDetails principal) {
-        BrandEntity brand = modelMapper.map(brandDto, BrandEntity.class);
+
         if (principal.getUsername() == null) {
-            throw  new UsernameNotFoundException("No user with that name subscribed");
+            throw new UsernameNotFoundException("No user with that name subscribed");
 
         }
 
-        if (bindingResult.hasErrors()){
-            redirectAttributes.addFlashAttribute("wIneAddDto",wIneAddDto);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("wIneAddDto", wIneAddDto);
             redirectAttributes.addFlashAttribute("org.springframework" +
                     ".validation.BindingResult" +
                     ".wIneAddDto", bindingResult);
             return "redirect:add";
         }
-
+        BrandEntity brand = null;
         if (wIneAddDto.getNewBrandName() != null && !wIneAddDto.getNewBrandName().isEmpty()) {
             // Create a new brand if provided
             BrandDto newBrandDTO = new BrandDto();
@@ -128,6 +134,7 @@ private final CategoryService categoryService;
             if (brand == null) {
                 bindingResult.rejectValue("brandId", "error.brandId", "Brand not found!");
                 return "redirect:/wine/add";
+
             }
         } else {
 
@@ -137,10 +144,11 @@ private final CategoryService categoryService;
         }
         WineServiceModel wineServiceModel = modelMapper.map(wIneAddDto, WineServiceModel.class);
         wineServiceModel.setCategory(wIneAddDto.getCategory());
-        wineService.addWIne(wineServiceModel,brand);
+        wineService.addWIne(wineServiceModel, brand);
         model.addAttribute("message", "Wine added successfully!");
         return "redirect:/wines/all";
     }
+
     @GetMapping("/{categoryName}")
     public ModelAndView getByCategory(@PathVariable("categoryName") CategoryEnum categoryName) {
         List<WineCategoryViewModel> wines = wineService.getAllByCategory(categoryName);
@@ -159,28 +167,31 @@ private final CategoryService categoryService;
 
         return modelAndView;
     }
-        @DeleteMapping("wine/{id}")
+
+    @DeleteMapping("wine/{id}")
     public String deleteById(@PathVariable("id") Long id,
-                                                 @AuthenticationPrincipal UserDetails userDetails) {
+                             @AuthenticationPrincipal UserDetails userDetails) {
         wineService.delete(id);
 
-            return "redirect:/wines/all";
+        return "redirect:/wines/all";
 //        return ResponseEntity
 //                .noContent()
 //                .build();
     }
+
     @GetMapping("/details/{id}")
     public String details(@PathVariable("id") Long id, Model model) {
         WineDetailsViewModel wine =
                 wineService.getDetails(id);
 
-        if (wine == null) throw  new WineNotFoundException();
+        if (wine == null) throw new WineNotFoundException();
 
         model.addAttribute("wine",
                 wineService.findWineBId(id));
 
         return "wine-details";
     }
+
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         WineEntity wine = wineService.findWineById(id);
@@ -203,15 +214,38 @@ private final CategoryService categoryService;
     }
 
     @PatchMapping("wines/{id}")
-    public String updateWine(@PathVariable Long id, @ModelAttribute WineEntity wine,BindingResult result) {
-    if (result.hasErrors()){
-        return "edit-wine";
-    }
+    public String updateWine(@PathVariable Long id,
+                             @ModelAttribute WineEntity wine,
+                             @ModelAttribute WIneAddDto wineUpdateDto,
+                             @AuthenticationPrincipal UserDetails principal
+            , BindingResult result) {
+        if (result.hasErrors()) {
+            return "edit-wine";
+        }
+        if (principal == null || !principal.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            throw new WineNotAuthorisedToEditException("Only admins can edit wine.");
+        }
+        if (wineUpdateDto.getNewBrandName() != null && !wineUpdateDto.getNewBrandName().isEmpty()) {
+            // Създаване на нов бранд, ако е въведен нов
+            BrandDto newBrandDto = new BrandDto();
+            newBrandDto.setName(wineUpdateDto.getNewBrandName());
+            newBrandDto.setDescription(wineUpdateDto.getNewBrandDescription());
+            BrandEntity newBrand = brandService.createBrand(newBrandDto);
+            wine.setBrand(newBrand);
+        } else if (wineUpdateDto.getBrandId() != null) {
+            // Актуализиране на бранда със съществуващ
+            BrandEntity existingBrand = brandService.getBrandById(wineUpdateDto.getBrandId());
+            if (existingBrand == null) {
+                result.rejectValue("brandId", "error.brandId", "Brand not found.");
+                return "redirect:/wines/edit/" + id;
+            }
 //        if (wineService.existsByName(wine.getName()) && !wine.getId().equals(id)) {
 //            result.rejectValue("name", "error.wine", "Wine with this name already exists.");
 //            return "edit-wine";
-//        }
-        wineService.updateWine(id, wine);
-        return "redirect:/wines/all";
+       }
+            wineService.updateWine(id, wine);
+            return "redirect:/wines/all";
+        }
     }
-}
+
