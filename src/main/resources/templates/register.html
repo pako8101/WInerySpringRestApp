@@ -19,14 +19,14 @@
             enctype="multipart/form-data"
                     >
 <!--        action="thank-you.html"-->
-                <h2 >Form Registration</h2>
+                <h2 th:text="#{nav_bar_subscribe_form}">Form Registration</h2>
         <input id="image"
         th:field="*{image}"
                class="form-control" type="file"
                accept="image/png, image/jpeg">
 
                         <div class="form-group fullname" >
-                            <label for="fullname">Full Name</label>
+                            <label for="fullname" th:text="#{nav_bar_full_name}">Full Name</label>
                             <input th:field="*{fullName}"
                                    th:errorclass="'is-invalid bg-danger'"
                                    required minlength="3" maxlength="20"
@@ -39,7 +39,7 @@
 
                         </div>
                         <div class="form-group email">
-                            <label for="email">Email Address</label>
+                            <label for="email" th:text="#{nav_bar_email}">Email Address</label>
                             <input th:field="*{email}"
                                    th:errorclass="'is-invalid alert-danger'"
                                     type="text"
@@ -54,7 +54,7 @@
 <!--                            </small>-->
                         </div>
         <div class="form-group username">
-            <label for="email">Username</label>
+            <label for="email" th:text="#{nav_bar_username}">Username</label>
             <input th:field="*{username}"
                    th:errorclass="'is-invalid alert-danger'"
                    required minlength="3" maxlength="20"
@@ -70,7 +70,7 @@
         </div>
 <!--        required minlength="3" maxlength="20"-->
                         <div class="form-group password">
-                            <label for="password">Password</label>
+                            <label for="password" th:text="#{nav_bar_password}">Password</label>
                             <input th:field="*{password}"
                                    th:errorclass="'is-invalid alert-danger'"
                                    required minlength="3" maxlength="20"
@@ -88,7 +88,7 @@
 <!--                            th:text="#{nav_bar_showPass}"-->
                         </div>
 <!--        th:text="#{nav_bar_confirmPass}"-->
-        <label for="confirmPassword"
+        <label for="confirmPassword" th:text="#{nav_bar_re_type_password}"
                >Re-type Password:</label>
 
         <input th:field="*{confirmPassword}"
@@ -105,7 +105,7 @@
 
         <label for="show-password" class="field__toggle" >
             <input style="" type="checkbox" id="show-password" value="yes"
-                   class="field__toggle-input" />Show password</label>
+                   class="field__toggle-input" th:text="#{nav_bar_show_password}"/></label>
             <!--                                th:text="#{nav_bar_showPass}"-->
 
 
@@ -113,7 +113,7 @@
 <!--               id="confirmPasswordError" class="invalid-feedback  form-text bg-danger rounded">-->
 <!--            Password length must be between 3 and 20 characters and passwords should match.</small>-->
         <div class="form-group date">
-                            <label for="age">Age</label>
+                            <label th:text="#{nav_bar_age}" for="age">Age</label>
                             <input th:field="*{age}"
                                  required  min="18" max="90"
                                    th:errorclass="'is-invalid alert-danger'"
@@ -126,10 +126,10 @@
                         </div>
 
                         <div class="form-group gender">
-                            <label for="gender">Gender</label>
+                            <label for="gender" th:text="#{nav_bar_gender}">Gender</label>
                             <select required
                                     id="gender">
-                                <option value="" selected disabled>Select your gender</option>
+                                <option value="" selected disabled >Select your gender</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                                 <option value="Other">Other</option>
