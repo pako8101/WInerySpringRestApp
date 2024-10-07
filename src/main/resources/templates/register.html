@@ -155,7 +155,9 @@
                                    th:attr="data-sitekey=${@captchaSettings.getSite()}"
                                    data-callback='onSubmit'
                                    data-action='submit'
-                                    type="submit" value="Submit">
+                                    type="submit" value="Submit"
+                                  onclick="myFunction()"
+                            >
                         </div>
                                             <p class="text-center text-muted mt-5 mb-0">Have already an account?
                                                 <a th:href="@{/users/login}"
@@ -282,6 +284,13 @@
         }
 
     }
+
+</script>
+<script>
+
+function myFunction (){
+ alert('Are You sure the data you provide is correct?')
+}
 
 </script>
 </html>

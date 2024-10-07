@@ -7,6 +7,7 @@
 </head>
 <link rel="stylesheet" href="/css/style.css" type="text/css">
 <link rel="stylesheet" href="/css/reset-css.css">
+<link rel="stylesheet" href="/css/accordion.css">
 <body>
 	<div id="background">
 		<div id="page">
@@ -94,15 +95,30 @@
 									</div>
 								</li>
 								<li>
-									<img src="/images/wine-ingredient.png" alt="">
-									<div>
+
+									<div id="accordion">
+										<img class="image" src="/images/wine-ingredient.png" alt="">
 										<h3><a href="blog.html">Phasellus nec elementum quam.</a>
 										</h3>
 										<small>07 june 2012</small>
-										<p>
-											In hendrerit sollicitudin eros, sit amet tincidunt magna condimentum id. Phasellus nec elementum quam. Vivamus at lectus purus. <a href="blog.html" class="more">Learn More</a>
-										</p>
+										<div class="head">
+											In hendrerit sollicitudin eros, sit amet tincidunt magna condimentum id.
+											Phasellus nec elementum quam. Vivamus at lectus purus.
+											<span  class="button" onclick="toggle()">More</span>
+										<div id="extra">
+											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+												sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+												Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+												aliquip ex ea commodo consequat. Duis aute
+												irure dolor in reprehenderit in voluptate velit esse
+												cillum dolore eu fugiat nulla pariatur.
+												Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+												officia deserunt mollit anim id est laborum.</p>
+										</div>
+										</div>
 									</div>
+
+
 								</li>
 							</ul>
 						</div>
@@ -114,7 +130,9 @@
 			</div>
 		</div>
 
-
+	<script src="js/accordion.js"></script>
 </body>
 <div th:replace="fragments/commons::footer" id="footer"></div>
+
+
 </html>
