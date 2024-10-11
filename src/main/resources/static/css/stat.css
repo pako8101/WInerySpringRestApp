@@ -27,7 +27,7 @@
 .wrapper{
 
     border-radius: 8px;
-    border: #555555;
+    border: ghostwhite;
 
 }
 thead{
@@ -96,6 +96,9 @@ td{
 .pt-3, .py-3 {
     padding-top: 1rem !important;
 }
+.my-4 w-100 chartjs-render-monitor{
+    color: whitesmoke !important;
+}
 
 .pb-2, .py-2 {
     padding-bottom: .5rem !important;
@@ -126,10 +129,10 @@ td{
     border-radius: .2rem;
 }
 .btn-outline-secondary {
-    color: #6c757d;
+    color: whitesmoke;
     background-color: transparent;
     background-image: none;
-    border-color: #6c757d;
+    border-color: springgreen;
 }
 
 .btn {
