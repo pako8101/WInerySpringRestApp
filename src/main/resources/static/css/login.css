@@ -56,6 +56,13 @@ body{
 .login-top ul li {
     padding: .8em 0;
 }
+.login-top ul li a.google {
+    background:#3b5998;
+    padding: 0.8em 1.7em 0.9em 1em;
+}
+.login-top ul li a.google:hover {
+    background: #244384;
+}
 .login-top ul li a.face {
     background:#3b5998;
     padding: 0.8em 1.7em 0.9em 1em;
@@ -71,6 +78,14 @@ body{
     background:#26A6D5;
 }
 .login-top ul li a span.face {
+    background: url(../images/face.png) no-repeat 0px 0px;
+    width:32px;
+    height:32px;
+    display:inline-block;
+    vertical-align: middle;
+    margin: 0em 1.5em 0em 0em;
+}
+.login-top ul li a span.google {
     background: url(../images/face.png) no-repeat 0px 0px;
     width:32px;
     height:32px;
@@ -107,7 +122,7 @@ body{
     outline: none;
     border-radius: 4px;
     border: 1px solid#f99104;
-    outline: none;
+
     color: #555;
 }
 .login-middle {
@@ -125,7 +140,12 @@ body{
     float: left;
 }
 .login-right {
-    float: right;
+    outline: none;
+    border: 1px solid #f99104;
+    border-radius: 4px ;
+    display:inline-block;
+    vertical-align: middle;
+    margin-top: 0.5rem;
 }
 .login-bottom {
     padding: 1em 2em 4em;

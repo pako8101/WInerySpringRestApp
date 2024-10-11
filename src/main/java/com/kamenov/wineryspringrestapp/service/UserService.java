@@ -16,4 +16,6 @@ public interface UserService {
     public UserViewModel getUserProfile();
 
    public UserViewModel findBId(Long id);
+
+    UserEntity findByName(String username);
 }

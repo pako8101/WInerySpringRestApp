@@ -125,3 +125,19 @@ After 3 years of frustration here is a solution for a working HOT SWAP:
 
 application.yaml:
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 275989394295-mnbcogfo2145eso40g23f3dp7qg3km4e.apps.googleusercontent.com
+            client-secret: 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
+            scope: profile, email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
+

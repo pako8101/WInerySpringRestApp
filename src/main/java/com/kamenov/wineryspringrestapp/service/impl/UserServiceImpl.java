@@ -96,4 +96,10 @@ private final ModelMapper modelMapper;
 //        user = userRepository.findById(id).orElseThrow(NoSuchElementException::new);
 //        return modelMapper.map(user,UserViewModel.class);
     }
+
+    @Override
+    public UserEntity findByName(String username) {
+        return userRepository.findUserEntByUsername(username)
+                .orElseThrow(IllegalArgumentException::new);
+    }
 }
