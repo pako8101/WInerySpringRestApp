@@ -1,8 +1,11 @@
 package com.kamenov.wineryspringrestapp.service;
 
+import com.kamenov.wineryspringrestapp.models.entity.CartItem;
 import com.kamenov.wineryspringrestapp.models.entity.ShoppingCart;
 import com.kamenov.wineryspringrestapp.models.entity.UserEntity;
 import jakarta.transaction.NotSupportedException;
+
+import java.util.List;
 
 public interface CartService {
 
@@ -13,4 +16,8 @@ public interface CartService {
     void removeFromCart(UserEntity user, Long cartItemId);
 
     ShoppingCart createNewCartForUser(UserEntity user);
+
+    List<CartItem> getCartItems();
+
+
 }

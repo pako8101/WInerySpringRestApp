@@ -18,7 +18,7 @@ public class WineEntity extends BaseEntity {
     private String description;
     @NotNull
     @Column
-    private BigDecimal price;
+    private double price;
     @Enumerated(EnumType.STRING)
     private CategoryEnum category;
 
@@ -88,16 +88,17 @@ public class WineEntity extends BaseEntity {
         return this;
     }
 
-    public @NotNull BigDecimal getPrice() {
+    @NotNull
+    public double getPrice() {
         return price;
     }
 
-    public WineEntity setPrice(@NotNull BigDecimal price) {
+    public WineEntity setPrice(@NotNull double price) {
         this.price = price;
         return this;
     }
 
-//    public Set<CategoryEntity> getCategory() {
+    //    public Set<CategoryEntity> getCategory() {
 //        return category;
 //    }
 //

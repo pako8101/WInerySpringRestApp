@@ -9,9 +9,13 @@ import com.kamenov.wineryspringrestapp.repository.ShoppingCartRepository;
 import com.kamenov.wineryspringrestapp.service.CartService;
 import com.kamenov.wineryspringrestapp.service.WineService;
 import jakarta.transaction.NotSupportedException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -47,11 +51,30 @@ private final CartItemRepository cartItemRepository;
 
 
     }
+    @Transactional
 @Override
     public void removeFromCart(UserEntity user, Long cartItemId) {
         ShoppingCart cart = getActiveCartForUser(user);
-        cart.getItems().removeIf(item -> Objects.equals(item.getId(), cartItemId));
-        shoppingCartRepository.save(cart);
+
+    Optional<CartItem> itemToRemove = cart.getItems().stream()
+            .filter(item -> Objects.equals(item.getId(), cartItemId))
+            .findFirst();
+
+    // Ако артикула съществува в количката, го премахваме
+    if (itemToRemove.isPresent()) {
+        CartItem item = itemToRemove.get();
+        // Премахваме артикула от количката
+        cart.getItems().remove(item);
+
+        cartItemRepository.deleteByCartAndItem(cart.getId(), item.getId());
+        cartItemRepository.delete(item); // Изтриваме артикула от базата данни
+    }
+              //cart.getItems().removeIf(item -> Objects.equals(item.getId(), cartItemId));
+    shoppingCartRepository.save(cart);
+//        if (removed){
+//
+//        }
+
     }
 @Override
 public ShoppingCart createNewCartForUser(UserEntity user) {
@@ -59,4 +82,11 @@ public ShoppingCart createNewCartForUser(UserEntity user) {
         cart.setUserEntity(user);
         return shoppingCartRepository.save(cart);
     }
+
+    @Override
+    public List<CartItem> getCartItems() {
+        return cartItemRepository.findAll();
+    }
+
+
 }

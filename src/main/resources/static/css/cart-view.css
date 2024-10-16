@@ -86,6 +86,10 @@ body {
     font-family: 'RobotoCondensed', sans-serif;
     direction: ltr;
 }
+.attribute-list{
+    font-size: large;
+}
+
 .shopping-cart-items .cart-row.header-row .cell {
     font-size: 16px;
     line-height: 18px;
@@ -103,17 +107,21 @@ body {
     text-align: center;
     position: relative;
     vertical-align: middle;
+
 }
 .shopping-cart-items .cell.col1 {
     width: 35%;
     text-align: left;
     font-size: 11px;
+
 }
 .shopping-cart-items .cell.col2 {
     width: 20%;
+
 }
 .shopping-cart-items .cell {
     font-size: 14px;
+
 }
 .shopping-cart-items .cell.col4 {
     width: 20%;

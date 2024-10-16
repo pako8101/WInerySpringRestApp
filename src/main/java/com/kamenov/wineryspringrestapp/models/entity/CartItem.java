@@ -42,4 +42,8 @@ public class CartItem extends BaseEntity {
         this.cart = cart;
         return this;
     }
+    public double  getSubtotal(){
+
+        return quantity * wine.getPrice();
+    }
 }

@@ -14,16 +14,19 @@
 <div class="cart-sidebar-wrapper">
     <h1 class="cart-title">Your Cart</h1>
 <div class="shopping-cart-items" id="shopping-cart-table">
-    <table>
+    <table >
         <tr>
             <th>Wine</th>
             <th>Quantity</th>
             <th>Price</th>
         </tr>
-        <tr th:each="item : ${cart.items}">
-            <td  th:text="${item.wine.name}"><div class="cell col1" > </div></td>
-            <td  th:text="${item.quantity}"><div class="cell col2" ></div></td>
-            <td  th:text="${item.wine.price * item.quantity}"><div class="cell col3" ></div></td>
+        <tr  th:each="item : ${cart.items}">
+            <td style="padding-right: 30px;" th:text="${item.wine.name}"><div class="cell col1" > </div></td>
+            <td th:text="${item.quantity}"><div class="cell col2" ></div></td>
+<!--            <td  th:text="${item.wine.price * item.quantity}"><div class="cell col3" ></div></td>-->
+            <td style="padding-right: 20px;" ><div class="cell col3" > <strong>Subtotal:		</strong></div></td>
+             <td style="padding-right: 20px;">   <span class="special-price">
+                            <span class="price" th:text="${item.subtotal}" ></span></span></td>
             <td>
                 <form th:action="@{/cart/remove}" method="post">
                     <input type="hidden" th:value="${item.id}" name="cartItemId" />
@@ -57,49 +60,51 @@
 
 
 
-                <div class="attribute-list-content" th:each="item : ${cart.getItems()}">
+<!--                <div class="attribute-list-content" th:each="item : ${cart.getItems()}">-->
 
                     <ul class="attribute-list">
                         <li>
-                            <strong>Total sum:		</strong>
+                            <strong >Total sum:		</strong>
                             <span class="special-price">
-                            <span class="price" th:text="${item.wine.price * item.quantity}" ></span></span>
+                            <span class="price" th:text="${total}" ></span></span>
                         </li>
                     </ul>
                 </div>
-                Доставка до <strong th:text="${futureDate}">26.09.2024</strong>
+                Delivery date <strong th:text="${futureDate}"> 26.09.2024</strong>
             </div>
 
         </div>
 
-        <div class="cell col2">
-            <div class="price-box">
+<!--        <div class="cell col2">-->
+<!--            <div class="price-box">-->
 
 
-                    <span  >359<span class="precision">,99</span>&nbsp;<span class="currency">лв.</span>                                    </span>
-            </div>
+<!--                    <span  >359<span class="precision">,99</span>&nbsp;-->
+<!--                        <span class="currency">лв.</span></span>-->
+<!--            </div>-->
 
-        </div>
+<!--        </div>-->
         <!-- inclusive price starts here -->
 
-        <div class="cell col3">
-            <div class="spinner-box">
-                <span class="ui-spinner ui-corner-all ui-widget ui-widget-content" style="height: 30px;">
-                    <input type="text" name="cart[32241637][qty]" class="amount ui-spinner-input" value="1" id="spinner-32241637" title="Брой" aria-valuemin="1" aria-valuemax="50" aria-valuenow="1" autocomplete="off" role="spinbutton">
-                    <a tabindex="-1" aria-hidden="true" class="ui-spinner-button ui-spinner-up ui-corner-tr"></a>
-                    <a tabindex="-1" aria-hidden="true" class="ui-spinner-button ui-spinner-down ui-corner-br"></a></span>
-                <span class="loader" id="row_loader32241637" style="display: none;"></span>
-            </div>
-        </div>
+<!--        <div class="cell col3">-->
+<!--            <div class="spinner-box">-->
+<!--                <span class="ui-spinner ui-corner-all ui-widget ui-widget-content" style="height: 30px;">-->
+<!--                    <input type="text" name="cart[32241637][qty]" class="amount ui-spinner-input" value="1" id="spinner-32241637" title="Брой" aria-valuemin="1" aria-valuemax="50" aria-valuenow="1" autocomplete="off" role="spinbutton">-->
+<!--                    <a tabindex="-1" aria-hidden="true" class="ui-spinner-button ui-spinner-up ui-corner-tr"></a>-->
+<!--                    <a tabindex="-1" aria-hidden="true" class="ui-spinner-button ui-spinner-down ui-corner-br"></a></span>-->
+<!--                <span class="loader" id="row_loader32241637" style="display: none;"></span>-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <div class="cell col4">
-            <div class="price-box">
-            <span class="regular-price">
-                <span class="price">
-                    <span class="price">359<span class="precision">,99</span>&nbsp;<span class="currency">лв.</span></span>                                    </span>
-            </span>
-            </div>
-        </div>
+<!--        <div class="cell col4">-->
+<!--            <div class="price-box">-->
+<!--            <span class="regular-price">-->
+<!--                <span class="price">-->
+<!--                    <span class="price">359<span class="precision">,99</span>&nbsp;-->
+<!--                        <span class="currency">лв.</span></span></span>-->
+<!--            </span>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div class="cell col5">
             <a href=""
@@ -107,17 +112,7 @@
                 <svg aria-hidden="true" class="icon-svg close"><use
                         xlink:href=""></use></svg>
             </a>
-<!--            <script type="text/javascript">-->
-<!--                var productData_32241637 = {-->
-<!--                    ids:'SAFR0000109N',-->
-<!--                    value:'359.99',-->
-<!--                    currency:'BGN',-->
-<!--                    name:'Фритюрник с горещ въздух Cosori - Dual Blaze XXXL, 1750W, 6.4 l, черен'-->
-<!--                };-->
-<!--                jQuery('#delete_item-32241637').mouseup(function() {-->
-<!--                    sFbTrackRemoveFromCart(productData_32241637);-->
-<!--                });-->
-<!--            </script>-->
+
         </div>
     </div>
 
@@ -143,7 +138,8 @@
 </div>
 </div>
 </th:block>
-<th:block th:replace="~{fragments/commons::footer}"></th:block>
-</body>
 
+</body>
+<div style="margin-top: 10rem"
+     th:replace="~{fragments/commons::footer}"></div>
 </html>
