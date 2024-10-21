@@ -60,14 +60,14 @@ private final CartItemRepository cartItemRepository;
             .filter(item -> Objects.equals(item.getId(), cartItemId))
             .findFirst();
 
-    // Ако артикула съществува в количката, го премахваме
+
     if (itemToRemove.isPresent()) {
         CartItem item = itemToRemove.get();
-        // Премахваме артикула от количката
+
         cart.getItems().remove(item);
 
         cartItemRepository.deleteByCartAndItem(cart.getId(), item.getId());
-        cartItemRepository.delete(item); // Изтриваме артикула от базата данни
+        cartItemRepository.delete(item);
     }
               //cart.getItems().removeIf(item -> Objects.equals(item.getId(), cartItemId));
     shoppingCartRepository.save(cart);
