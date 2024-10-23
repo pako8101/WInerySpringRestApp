@@ -20,4 +20,5 @@ public interface CartService {
     List<CartItem> getCartItems();
 
 
+    List<CartItem> getCartItemsForUser(UserEntity user);
 }

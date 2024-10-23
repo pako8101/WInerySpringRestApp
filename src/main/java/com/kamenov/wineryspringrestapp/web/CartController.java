@@ -1,5 +1,6 @@
 package com.kamenov.wineryspringrestapp.web;
 
+import com.kamenov.wineryspringrestapp.exceptions.EmptyCartException;
 import com.kamenov.wineryspringrestapp.models.entity.CartItem;
 import com.kamenov.wineryspringrestapp.models.entity.ShoppingCart;
 import com.kamenov.wineryspringrestapp.models.entity.UserEntity;
@@ -37,7 +38,12 @@ public class CartController {
     @GetMapping
     public String showCart(Model model, @AuthenticationPrincipal UserEntity user) {
         ShoppingCart cart = cartService.getActiveCartForUser(user);
-        List<CartItem> cartItems = cartService.getCartItems();
+        List<CartItem> cartItems = cartService.getCartItemsForUser(user);
+        if (cartItems.isEmpty()) {
+            throw new EmptyCartException("Your cart is empty.");
+
+        }
+        //    List<CartItem> cartItems = cartService.getCartItems();
         double total = cartItems.stream()
                         .mapToDouble(CartItem::getSubtotal).sum();
 
@@ -57,6 +63,7 @@ public class CartController {
 
        // ------
         model.addAttribute("cart", cart);
+        model.addAttribute("cartItems", cartItems);
         model.addAttribute("total", total);
         return "/cart-view"; // thymeleaf страница за кошницата
     }
@@ -86,7 +93,7 @@ public class CartController {
                 .sum();
         System.out.println("total sum: " + totalSum);
 
-        model.addAttribute("cart", cartItems);
+        model.addAttribute("cartItems", cartItems);
         model.addAttribute("total", totalSum);
 
         return "redirect:/cart";
@@ -115,6 +122,10 @@ public class CartController {
 //        return "/cart-view";
 //    }
 
-
+    @ExceptionHandler(EmptyCartException.class)
+    public String handleEmptyCartException(EmptyCartException ex, Model model) {
+        model.addAttribute("message", ex.getMessage());
+        return "/cart-view"; // thymeleaf страница за празната количка
+    }
 
 }

@@ -108,7 +108,10 @@ if (brands.isEmpty()) {
     }
     @Override
     public void  updateBrand(BrandDto brandDTO){
-
+        if (brandDTO == null) {
+            LOGGER.error("BrandDTO is null. Please check the input.");
+            return;  // Излизаме от метода, ако brandDTO е null
+        }
         LOGGER.info("Updating {} brand",brandDTO.getName());
         if (brandDTO.getName() != null) {
             String brandName = brandDTO.getName();

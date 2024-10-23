@@ -14,13 +14,17 @@
 <div class="cart-sidebar-wrapper">
     <h1 class="cart-title">Your Cart</h1>
 <div class="shopping-cart-items" id="shopping-cart-table">
-    <table >
+    <div th:if="${cartItems.isEmpty()}">
+        <p th:text="${message}">Your cart is empty.</p>
+    </div>
+    <table th:if="${not #lists.isEmpty(cartItems)}">
         <tr>
             <th>Wine</th>
             <th>Quantity</th>
             <th>Price</th>
         </tr>
-        <tr  th:each="item : ${cart.items}">
+
+        <tr  th:each="item : ${cartItems}">
             <td style="padding-right: 30px;" th:text="${item.wine.name}"><div class="cell col1" > </div></td>
             <td th:text="${item.quantity}"><div class="cell col2" ></div></td>
 <!--            <td  th:text="${item.wine.price * item.quantity}"><div class="cell col3" ></div></td>-->
@@ -136,7 +140,7 @@
         Continue shopping               </a>
 </div>
 </div>
-</div>
+
 </th:block>
 
 </body>

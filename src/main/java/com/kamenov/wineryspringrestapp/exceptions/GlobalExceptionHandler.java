@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -30,6 +31,11 @@ public class GlobalExceptionHandler {
         model.addAttribute("errorMessage", ex.getMessage());
         ModelAndView modelAndView = new ModelAndView("unauthorized");
         return modelAndView ;  // това може да бъде страница с грешка, която показва съобщение
+    }
+    @ExceptionHandler(EmptyCartException.class)
+    public String handleEmptyCartException(EmptyCartException ex, Model model) {
+        model.addAttribute("message", ex.getMessage());
+        return "/cart-view"; // thymeleaf страница за празната количка
     }
 }
 

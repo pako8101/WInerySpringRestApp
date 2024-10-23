@@ -15,12 +15,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements CartService {
     private final ShoppingCartRepository shoppingCartRepository;
-private final CartItemRepository cartItemRepository;
+    private final CartItemRepository cartItemRepository;
     private final WineService wineService;
 
     public CartServiceImpl(ShoppingCartRepository shoppingCartRepository, CartItemRepository cartItemRepository, WineService wineService) {
@@ -29,12 +28,13 @@ private final CartItemRepository cartItemRepository;
         this.wineService = wineService;
     }
 
-@Override
+    @Override
     public ShoppingCart getActiveCartForUser(UserEntity user) {
         return shoppingCartRepository.findByUserEntityAndCompletedFalse(user)
                 .orElseGet(() -> createNewCartForUser(user));
     }
-@Override
+
+    @Override
     public void addToCart(UserEntity user, Long wineId, int quantity) throws NotSupportedException {
         ShoppingCart cart = getActiveCartForUser(user);
         WineEntity wine = wineService.findWineById(wineId);
@@ -45,39 +45,40 @@ private final CartItemRepository cartItemRepository;
 
         cartItemRepository.save(item);
 
-    cart.getItems().add(item);
+        cart.getItems().add(item);
         shoppingCartRepository.save(cart);
 
 
-
     }
+
     @Transactional
-@Override
+    @Override
     public void removeFromCart(UserEntity user, Long cartItemId) {
         ShoppingCart cart = getActiveCartForUser(user);
 
-    Optional<CartItem> itemToRemove = cart.getItems().stream()
-            .filter(item -> Objects.equals(item.getId(), cartItemId))
-            .findFirst();
+        Optional<CartItem> itemToRemove = cart.getItems().stream()
+                .filter(item -> Objects.equals(item.getId(), cartItemId))
+                .findFirst();
 
 
-    if (itemToRemove.isPresent()) {
-        CartItem item = itemToRemove.get();
+        if (itemToRemove.isPresent()) {
+            CartItem item = itemToRemove.get();
 
-        cart.getItems().remove(item);
+            cart.getItems().remove(item);
 
-        cartItemRepository.deleteByCartAndItem(cart.getId(), item.getId());
-        cartItemRepository.delete(item);
-    }
-              //cart.getItems().removeIf(item -> Objects.equals(item.getId(), cartItemId));
-    shoppingCartRepository.save(cart);
+            cartItemRepository.deleteByCartAndItem(cart.getId(), item.getId());
+            cartItemRepository.delete(item);
+        }
+        //cart.getItems().removeIf(item -> Objects.equals(item.getId(), cartItemId));
+        shoppingCartRepository.save(cart);
 //        if (removed){
 //
 //        }
 
     }
-@Override
-public ShoppingCart createNewCartForUser(UserEntity user) {
+
+    @Override
+    public ShoppingCart createNewCartForUser(UserEntity user) {
         ShoppingCart cart = new ShoppingCart();
         cart.setUserEntity(user);
         return shoppingCartRepository.save(cart);
@@ -86,6 +87,11 @@ public ShoppingCart createNewCartForUser(UserEntity user) {
     @Override
     public List<CartItem> getCartItems() {
         return cartItemRepository.findAll();
+    }
+    @Override
+    public List<CartItem> getCartItemsForUser(UserEntity user) {
+        ShoppingCart cart = getActiveCartForUser(user);
+        return cartItemRepository.findByCart(cart);
     }
 
 

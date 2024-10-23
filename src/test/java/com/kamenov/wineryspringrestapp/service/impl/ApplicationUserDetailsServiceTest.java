@@ -57,7 +57,7 @@ public class ApplicationUserDetailsServiceTest {
 
         Assertions.assertEquals(TEST_USERNAME, userDetails.getUsername());
         Assertions.assertEquals(TEST_PASSWORD, userDetails.getPassword());
-       Assertions.assertEquals("pako", appUserDetails.getFullName());
+       Assertions.assertEquals(testUSer.getFullName(), appUserDetails.getFullName());
 
        Assertions.assertEquals(2, appUserDetails.getAuthorities().size());
 
