@@ -9,7 +9,10 @@ import com.kamenov.wineryspringrestapp.service.ApplicationUserDetailsService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,19 +21,20 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
-
+@ExtendWith(MockitoExtension.class)
 public class ApplicationUserDetailsServiceTest {
 
     private ApplicationUserDetailsService toTest;
 
-     static final String TEST_USERNAME = "pako";
-     static final String TEST_NOT_EXIST_USERNAME = "PEPI";
+    private static final String TEST_USERNAME = "pako";
+    private static final String TEST_NOT_EXIST_USERNAME = "PEPI";
 
-     static final String TEST_PASSWORD = "pako";
+    private static final String TEST_PASSWORD = "pako";
+    @Mock
      private UserRepository mockUserRepo;
     @BeforeEach
     void setUp() {
-     mockUserRepo =   Mockito.mock(UserRepository.class);
+
         toTest = new ApplicationUserDetailsService(mockUserRepo);
     }
 
@@ -42,8 +46,8 @@ public class ApplicationUserDetailsServiceTest {
                 .setPassword(TEST_PASSWORD)
                 .setFullName("pako")
                 .setRoles(List.of(
-                        new UserRoleEntity().setRole(UserRoleEnum.USER),
-                        new UserRoleEntity().setRole(UserRoleEnum.ADMIN)
+                        new UserRoleEntity().setRole(UserRoleEnum.ADMIN),
+                        new UserRoleEntity().setRole(UserRoleEnum.USER)
                 ));
 
         when(mockUserRepo.findUserEntByUsername(TEST_USERNAME))
@@ -59,14 +63,19 @@ public class ApplicationUserDetailsServiceTest {
         Assertions.assertEquals(TEST_PASSWORD, userDetails.getPassword());
        Assertions.assertEquals(testUSer.getFullName(), appUserDetails.getFullName());
 
-       Assertions.assertEquals(2, appUserDetails.getAuthorities().size());
+     var expectedRoles  =   testUSer.getRoles().stream().map(UserRoleEntity::getRole).map(r -> "ROLE_" + r).toList();
 
-        Optional<? extends GrantedAuthority> roleUser = userDetails.getAuthorities().stream()
-                .filter(a -> a.getAuthority().equals("ROLE_USER")).findAny();
-        Assertions.assertTrue(roleUser.isPresent());
-        Optional<? extends GrantedAuthority> roleAdmin = userDetails.getAuthorities().stream()
-                .filter(a -> a.getAuthority().equals("ROLE_ADMIN")).findAny();
-Assertions.assertTrue(roleAdmin.isPresent());
+     var actualRoles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+
+
+       Assertions.assertEquals(expectedRoles, actualRoles);
+
+//        Optional<? extends GrantedAuthority> roleUser = userDetails.getAuthorities().stream()
+//                .filter(a -> a.getAuthority().equals("ROLE_USER")).findAny();
+//        Assertions.assertTrue(roleUser.isPresent());
+//        Optional<? extends GrantedAuthority> roleAdmin = userDetails.getAuthorities().stream()
+//                .filter(a -> a.getAuthority().equals("ROLE_ADMIN")).findAny();
+//Assertions.assertTrue(roleAdmin.isPresent());
 
     }
     @Test

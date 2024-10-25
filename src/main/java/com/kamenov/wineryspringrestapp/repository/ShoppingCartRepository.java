@@ -14,4 +14,5 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long
     Optional<ShoppingCart> findByUserEntityAndCompletedFalse(UserEntity user);
 
 
+
 }

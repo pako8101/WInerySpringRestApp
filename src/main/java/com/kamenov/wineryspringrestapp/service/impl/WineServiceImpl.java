@@ -21,6 +21,8 @@ import com.kamenov.wineryspringrestapp.service.WineService;
 import jakarta.transaction.NotSupportedException;
 import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,6 +42,7 @@ public class WineServiceImpl implements WineService {
     private final UserSession userSession;
     private final BrandService brandService;
     private final BrandRepository brandRepository;
+    private final Logger LOGGER =  LoggerFactory.getLogger(WineServiceImpl.class);
 
     public WineServiceImpl(CategoryService categoryService, WineRepository wineRepository, ModelMapper modelMapper, UserSession userSession, BrandService brandService, BrandRepository brandRepository) {
         this.categoryService = categoryService;
@@ -75,6 +78,10 @@ public class WineServiceImpl implements WineService {
 
     @Override
     public void addWIne(WineServiceModel wineServiceModel, BrandEntity brand) {
+        if (wineServiceModel == null || brand == null) {
+            throw new IllegalArgumentException("WineServiceModel or BrandEntity cannot be null");
+        }
+
         WineEntity wine = modelMapper.map(wineServiceModel, WineEntity.class);
         BrandDto brandDto = modelMapper.map(brand, BrandDto.class);
         BrandEntity newBrand = modelMapper.map(brandDto, BrandEntity.class);
@@ -87,7 +94,16 @@ public class WineServiceImpl implements WineService {
         wine.setDescription(wineServiceModel.getDescription());
         wine.setName(wineServiceModel.getName());
         wine.setBrand(newBrand);
-        wine.setCategory(wineServiceModel.getCategory().get(0));
+        if (wineServiceModel.getCategory() != null
+                && !wineServiceModel.getCategory().isEmpty()) {
+            wine.setCategory(wineServiceModel.getCategory().get(0));
+        }else {
+            throw new IllegalArgumentException("Category cannot be null");
+        }
+
+
+
+
 //                wineServiceModel.getCategory()
 //                .stream()
 //                .map(categoryService::findCategoryByName)
@@ -147,40 +163,47 @@ public class WineServiceImpl implements WineService {
 //        if (optionalWine.isPresent()) {
 //            WineEntity existingWine = optionalWine.get();
 
-//            boolean isAdmin = authentication.getAuthorities().stream()
-//                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
-//
-//            if (!isAdmin) {
-//                throw new WineNotAuthorisedToEditException("You are not authorized to edit this wine.");
-//            }
+            boolean isAdmin = authentication.getAuthorities().stream()
+                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
 
-//            BrandEntity existingBrand = brandService.findByName(existingWine.getBrand().getName());
+            if (!isAdmin) {
+                throw new WineNotAuthorisedToEditException("You are not authorized to edit this wine.");
+            }
+        WineEntity wine = wineRepository.findById(id)
+                .orElseThrow(() -> new WineNotFoundException("Wine not found with id: " + id));
+
+//
+//        BrandEntity existingBrand = brandService.findByName(wine.getBrand().getName());
 //            if (existingBrand != null) {
 //                // Актуализирайте виното с този съществуващ бранд
-//                existingWine.setBrand(existingBrand);
+//                wine.setBrand(existingBrand);
 //            } else {
 //                // Ако няма такъв бранд, създайте нов
 //                BrandEntity newBrand = new BrandEntity();
-//                newBrand.setName(existingWine.getBrand().getName());
-//                newBrand.setDescription(existingWine.getBrand().getDescription());
+//                newBrand.setName(wine.getBrand().getName());
+//                newBrand.setDescription(wine.getBrand().getDescription());
 //                brandRepository.save(newBrand);
-//                existingWine.setBrand(newBrand);
+//                wine.setBrand(newBrand);
 //            }
 
-//            existingWine.setName(updatedWine.getName());
-//            existingWine.setDescription(updatedWine.getDescription());
-//            existingWine.setImageUrl(updatedWine.getImageUrl());
-//            existingWine.setCategory(updatedWine.getCategory());
-//            existingWine.setBrand(updatedWine.getBrand());
-//            existingWine.setPrice(updatedWine.getPrice());
-//            existingWine.setQuantity(updatedWine.getQuantity());
-//
-//            return wineRepository.save(existingWine);
-//        } else {
-//            throw new WineNotFoundException("Wine not found with id: " + id);
-//        }
-    WineEntity wine = wineRepository.findById(id)
-            .orElseThrow(() -> new WineNotFoundException("Wine not found with id: " + id));
+
+        // Проверка дали брандът съществува
+        BrandEntity brand = updatedWine.getBrand();
+        if (brand != null && brand.getName() != null) {
+            Optional<BrandEntity> existingBrand = brandRepository.findByName(brand.getName());
+            if (existingBrand.isPresent()) {
+                LOGGER.info("Brand '{}' already exists, using existing brand.", brand.getName());
+                // Използвайте съществуващия бранд
+                wine.setBrand(existingBrand.get());
+            } else {
+                LOGGER.info("Brand '{}' does not exist, creating new brand.", brand.getName());
+                // Ако брандът не съществува, създайте нов
+                BrandEntity newBrand = new BrandEntity();
+                newBrand.setName(brand.getName());
+                newBrand.setDescription(brand.getDescription());
+                wine.setBrand(brandRepository.save(newBrand));
+            }
+        }
 
 
     wine.setImageUrl(updatedWine.getImageUrl());

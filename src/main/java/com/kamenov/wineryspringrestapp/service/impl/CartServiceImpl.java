@@ -54,6 +54,7 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void removeFromCart(UserEntity user, Long cartItemId) {
+
         ShoppingCart cart = getActiveCartForUser(user);
 
         Optional<CartItem> itemToRemove = cart.getItems().stream()
@@ -65,6 +66,8 @@ public class CartServiceImpl implements CartService {
             CartItem item = itemToRemove.get();
 
             cart.getItems().remove(item);
+
+
 
             cartItemRepository.deleteByCartAndItem(cart.getId(), item.getId());
             cartItemRepository.delete(item);

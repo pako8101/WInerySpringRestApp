@@ -6,6 +6,7 @@ import com.kamenov.wineryspringrestapp.models.dto.WIneAddDto;
 import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
 import com.kamenov.wineryspringrestapp.repository.BrandRepository;
 import com.kamenov.wineryspringrestapp.service.BrandService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,10 +35,23 @@ private final RestClient restClient;
     public List<BrandEntity> getAllBrands() {
 List<BrandEntity> brands = brandRepository.findAll();
 if (brands.isEmpty()) {
+
+    WIneAddDto wineAddDto = new WIneAddDto();
+    String newBrandDescription = wineAddDto.getNewBrandDescription();
+    String newBrandName = wineAddDto.getNewBrandName();
+
+    if (newBrandDescription == null) {
+        newBrandDescription = "Bulgarian most popular winery";
+    }
+    if (newBrandName == null) {
+        newBrandName = "Domayn Boyar";
+    }
     BrandEntity brand = new BrandEntity();
-    brand.setDescription(new WIneAddDto().getNewBrandDescription());
-    brand.setName(new WIneAddDto().getNewBrandName());
+    brand.setDescription(newBrandDescription);
+    brand.setName(newBrandName);
     brandRepository.save(brand);
+
+
 }
        return brandRepository.findAll();
 //        return brandRepository.getAllBrands().stream()
@@ -56,9 +70,10 @@ if (brands.isEmpty()) {
     public BrandEntity getBrandById(Long id) {
         return brandRepository.findById(id).orElseThrow(() -> new BrandNotFoundException("Brand not found"));
     }
+    @Transactional
 @Override
     public BrandEntity createBrand(BrandDto brandDTO) {
-    List<BrandEntity> existingBrands = brandRepository.findByName(brandDTO.getName());
+    Optional<BrandEntity> existingBrands = brandRepository.findByName(brandDTO.getName());
     if (existingBrands.isEmpty()) {
         BrandEntity newBrand = new BrandEntity();
         newBrand.setName(brandDTO.getName());
@@ -66,8 +81,8 @@ if (brands.isEmpty()) {
         //newBrand.setCategories(brandDTO.getCategories());
         return brandRepository.save(newBrand);
     } else {
-        if (!existingBrands.isEmpty()) {
-            return existingBrands.get(0);
+        if (existingBrands.isPresent()) {
+            return existingBrands.get();
         } else {
             throw new BrandNotFoundException("Brand should exist but wasn't found");
         }
@@ -157,7 +172,7 @@ if (brands.isEmpty()) {
 
     @Override
     public BrandEntity findByName(String name) {
-        return brandRepository.findByName(name).get(0);
+        return brandRepository.findByName(name).get();
     }
 
 

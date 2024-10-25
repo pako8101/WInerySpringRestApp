@@ -14,10 +14,10 @@
 <div class="cart-sidebar-wrapper">
     <h1 class="cart-title">Your Cart</h1>
 <div class="shopping-cart-items" id="shopping-cart-table">
-    <div th:if="${cartItems.isEmpty()}">
+    <div th:if="${cartItems == null} or ${cartItems.isEmpty()}">
         <p th:text="${message}">Your cart is empty.</p>
     </div>
-    <table th:if="${not #lists.isEmpty(cartItems)}">
+    <table th:if="${cartItems != null} and ${!cartItems.isEmpty()}">
         <tr>
             <th>Wine</th>
             <th>Quantity</th>

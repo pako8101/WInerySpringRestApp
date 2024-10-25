@@ -10,7 +10,9 @@ import java.util.List;
 @Table(name = "shopping_cart")
 public class ShoppingCart extends BaseEntity {
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,fetch = FetchType.EAGER)
     private List<CartItem> items = new ArrayList<>();
 @OneToOne
     private UserEntity userEntity;

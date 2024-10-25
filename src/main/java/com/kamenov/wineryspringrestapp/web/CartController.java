@@ -4,9 +4,11 @@ import com.kamenov.wineryspringrestapp.exceptions.EmptyCartException;
 import com.kamenov.wineryspringrestapp.models.entity.CartItem;
 import com.kamenov.wineryspringrestapp.models.entity.ShoppingCart;
 import com.kamenov.wineryspringrestapp.models.entity.UserEntity;
+import com.kamenov.wineryspringrestapp.repository.ShoppingCartRepository;
 import com.kamenov.wineryspringrestapp.service.CartService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.NotSupportedException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,12 +25,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/cart")
 public class CartController {
-
+private final ShoppingCartRepository shoppingCartRepository;
     private final CartService cartService;
-   ;
+
 @Autowired
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
+    public CartController(ShoppingCartRepository shoppingCartRepository, CartService cartService) {
+    this.shoppingCartRepository = shoppingCartRepository;
+    this.cartService = cartService;
     }
     @ModelAttribute("cart")
     public ShoppingCart getCart() {
@@ -39,6 +42,9 @@ public class CartController {
     public String showCart(Model model, @AuthenticationPrincipal UserEntity user) {
         ShoppingCart cart = cartService.getActiveCartForUser(user);
         List<CartItem> cartItems = cartService.getCartItemsForUser(user);
+        if (cartItems == null) {
+            cartItems = new ArrayList<>();
+        }
         if (cartItems.isEmpty()) {
             throw new EmptyCartException("Your cart is empty.");
 
@@ -75,11 +81,12 @@ public class CartController {
         cartService.addToCart(user, wineId, quantity);
         return "redirect:/wines/all";
     }
-
+@Transactional
     @PostMapping("/remove")
     public String removeFromCart(@AuthenticationPrincipal UserEntity user,
                                  @RequestParam("cartItemId") Long cartItemId,
                                  Model model, HttpSession session) {
+
         cartService.removeFromCart(user, cartItemId);
 
      //   cartItems.removeIf(item -> item.getWine().getId().equals(cartItemId));
