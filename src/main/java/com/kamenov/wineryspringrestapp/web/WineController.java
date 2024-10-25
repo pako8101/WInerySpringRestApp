@@ -120,7 +120,7 @@ public class WineController {
                     ".wIneAddDto", bindingResult);
             return "redirect:add";
         }
-        BrandEntity brand = null;
+        BrandEntity brand;
         if (brandId == null && wIneAddDto.getNewBrandName() != null && !wIneAddDto.getNewBrandName().isEmpty()) {
             BrandEntity existingBrand = brandService.findByName(wIneAddDto.getNewBrandName());
             if (existingBrand != null) {
@@ -128,8 +128,8 @@ public class WineController {
             } else {
                 // Create a new brand if provided
                 BrandDto newBrandDTO = new BrandDto();
-                newBrandDTO.setName(wIneAddDto.getNewBrandName());
-                newBrandDTO.setDescription(wIneAddDto.getNewBrandDescription());
+//                newBrandDTO.setName(wIneAddDto.getNewBrandName());
+//                newBrandDTO.setDescription(wIneAddDto.getNewBrandDescription());
                 brand = brandService.createBrand(newBrandDTO);
             }
 
@@ -138,6 +138,7 @@ public class WineController {
             // Избор на съществуващ бранд
             brand = brandService.getBrandById(brandId);
             if (brand == null) {
+                brandService.createBrand(brandDto);
                 bindingResult.rejectValue("brandId", "error.brandId", "Brand not found!");
                 redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wIneAddDto", bindingResult);
                 return "redirect:/wine/add";

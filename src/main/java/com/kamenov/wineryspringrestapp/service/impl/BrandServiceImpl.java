@@ -172,7 +172,7 @@ if (brands.isEmpty()) {
 
     @Override
     public BrandEntity findByName(String name) {
-        return brandRepository.findByName(name).get();
+        return brandRepository.findByName(name).orElseThrow(()-> new BrandNotFoundException("Brand not found"));
     }
 
 

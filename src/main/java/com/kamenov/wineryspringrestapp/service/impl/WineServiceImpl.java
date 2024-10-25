@@ -81,7 +81,7 @@ public class WineServiceImpl implements WineService {
         if (wineServiceModel == null || brand == null) {
             throw new IllegalArgumentException("WineServiceModel or BrandEntity cannot be null");
         }
-
+        brand.setId(0);
         WineEntity wine = modelMapper.map(wineServiceModel, WineEntity.class);
         BrandDto brandDto = modelMapper.map(brand, BrandDto.class);
         BrandEntity newBrand = modelMapper.map(brandDto, BrandEntity.class);

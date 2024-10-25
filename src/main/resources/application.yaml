@@ -82,7 +82,7 @@ servlet:
                         writetimeout: 5000
 
 
-HistoryAppNew:
+WineryRestApp:
   default.admin.pass: ${default.admin.pass}
   remember.me.key: ${remember.me.key}
 
