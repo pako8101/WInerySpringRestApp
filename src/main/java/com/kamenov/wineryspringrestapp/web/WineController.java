@@ -121,15 +121,16 @@ public class WineController {
             return "redirect:add";
         }
         BrandEntity brand;
-        if (brandId == null && wIneAddDto.getNewBrandName() != null && !wIneAddDto.getNewBrandName().isEmpty()) {
+        if (brandId == null && wIneAddDto.getNewBrandName() != null
+                && !wIneAddDto.getNewBrandName().isEmpty()) {
             BrandEntity existingBrand = brandService.findByName(wIneAddDto.getNewBrandName());
             if (existingBrand != null) {
                 brand = existingBrand;
             } else {
                 // Create a new brand if provided
                 BrandDto newBrandDTO = new BrandDto();
-//                newBrandDTO.setName(wIneAddDto.getNewBrandName());
-//                newBrandDTO.setDescription(wIneAddDto.getNewBrandDescription());
+               newBrandDTO.setName(wIneAddDto.getNewBrandName());
+                newBrandDTO.setDescription(wIneAddDto.getNewBrandDescription());
                 brand = brandService.createBrand(newBrandDTO);
             }
 

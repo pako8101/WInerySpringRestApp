@@ -50,7 +50,8 @@ private final RestClient restClient;
 
 
     @PutMapping("/api/{id}")
-    public ResponseEntity<WIneViewModel> updateWine(@PathVariable Long id, @RequestBody WIneViewModel wIneViewModel) throws NotSupportedException {
+    public ResponseEntity<WIneViewModel> updateWine(@PathVariable Long id,
+                                                    @RequestBody WIneViewModel wIneViewModel) throws NotSupportedException {
         return wineRepository.findById(id)
                 .map(wine -> {
                     wine.setDescription(wIneViewModel.getDescription());
