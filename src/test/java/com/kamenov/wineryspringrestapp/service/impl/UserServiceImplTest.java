@@ -4,25 +4,20 @@ import com.kamenov.wineryspringrestapp.models.dto.UserRegisterDto;
 import com.kamenov.wineryspringrestapp.models.entity.UserEntity;
 import com.kamenov.wineryspringrestapp.models.user.UserSession;
 import com.kamenov.wineryspringrestapp.models.view.UserViewModel;
+import com.kamenov.wineryspringrestapp.repository.RoleRepository;
 import com.kamenov.wineryspringrestapp.repository.UserRepository;
-import com.kamenov.wineryspringrestapp.service.ApplicationUserDetailsService;
 import com.kamenov.wineryspringrestapp.service.ProfileImageService;
 import com.kamenov.wineryspringrestapp.service.RoleService;
-import com.kamenov.wineryspringrestapp.service.UserService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -39,7 +34,7 @@ import static org.mockito.Mockito.*;
 public class UserServiceImplTest {
 
     @Mock
-    private UserRepository userRepository;
+    private UserRepository mockUserRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -53,50 +48,76 @@ public class UserServiceImplTest {
 
     @Mock
     private ProfileImageService profileImageService;
-
-    @Mock
-    private RoleService roleService;
+@Mock
+   private UserDetails userDetails;
+    @Captor
+    private ArgumentCaptor<UserEntity> userEntityArgumentCaptor
+            = ArgumentCaptor.forClass(UserEntity.class);
 
     @Mock
     private UserSession loggedUser;
+    @Mock
+    private RoleService mockRoleService;
 
-    @InjectMocks
-    private UserServiceImpl userService;
+   // @InjectMocks
+    private UserServiceImpl toTest;
 
     @BeforeEach
     void setUp() {
+        toTest = new UserServiceImpl(
+                mockUserRepository,
+                passwordEncoder,
+                new ModelMapper(),
+                loggedUser,userDetailsService,profileImageService,mockRoleService);
+
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void registerUser_ShouldRegisterUserSuccessfully() {
-        UserRegisterDto userRegisterDto = new UserRegisterDto();
-        userRegisterDto.setUsername("testuser");
-        userRegisterDto.setPassword("password123");
-        userRegisterDto.setFullName("Test User");
-        userRegisterDto.setEmail("test@example.com");
+        //arrange
+        UserRegisterDto userRegisterDto =
+         new UserRegisterDto().
+        setUsername("testuser").
+        setPassword("password123").
+       setFullName("Test User").
+       setEmail("test@example.com");
 
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername("testuser");
 
         when(modelMapper.map(userRegisterDto, UserEntity.class)).thenReturn(userEntity);
         when(passwordEncoder.encode(userRegisterDto.getPassword())).thenReturn("encodedPassword");
-        when(userRepository.save(any(UserEntity.class))).thenReturn(userEntity);
+        when(mockUserRepository.save(any(UserEntity.class))).thenReturn(userEntity);
 
-        UserDetails userDetails = Mockito.mock(UserDetails.class);
+        //UserDetails userDetails = Mockito.mock(UserDetails.class);
         Mockito.lenient().
                 when(userDetailsService.loadUserByUsername(userRegisterDto.getUsername())).thenReturn(userDetails);
 
 
+//act
+       Consumer<Authentication> successfulRegister = mock(Consumer.class);
+        toTest.registerUser(userRegisterDto,successfulRegister);
+        //assert
+        verify(mockUserRepository,times(2))
+                .save(userEntityArgumentCaptor.capture());
+      UserEntity actualEntity =   userEntityArgumentCaptor.getValue();
 
-        Consumer<Authentication> successfulRegister = mock(Consumer.class);
+        Assertions.assertEquals(userRegisterDto.getUsername(),
+                actualEntity.getUsername());
+        Assertions.assertEquals(userRegisterDto.getFullName(),
+                actualEntity.getFullName());
+        Assertions.assertEquals(userRegisterDto.getPassword(),
+                actualEntity.getPassword());
 
-        UserEntity registeredUser = userService.registerUser(userRegisterDto, successfulRegister);
 
-        assertNotNull(registeredUser);
-        verify(passwordEncoder).encode(userRegisterDto.getPassword());
-        verify(userRepository).save(any(UserEntity.class));
-        verify(successfulRegister).accept(any(Authentication.class));
+//
+//        UserEntity registeredUser = userService.registerUser(userRegisterDto, successfulRegister);
+
+//        assertNotNull(registeredUser);
+//        verify(passwordEncoder).encode(userRegisterDto.getPassword());
+//        verify(userRepository).save(any(UserEntity.class));
+//        verify(successfulRegister).accept(any(Authentication.class));
     }
 
     @Test
@@ -109,7 +130,7 @@ public class UserServiceImplTest {
         when(loggedUser.get()).thenReturn(userEntity);
         when(modelMapper.map(userEntity, UserViewModel.class)).thenReturn(userViewModel);
 
-        UserViewModel userProfile = userService.getUserProfile();
+        UserViewModel userProfile = toTest.getUserProfile();
 
         assertNotNull(userProfile);
         assertEquals("testuser", userProfile.getUsername());
@@ -123,13 +144,13 @@ public class UserServiceImplTest {
         userEntity.setId(userId);
         UserViewModel userViewModel = new UserViewModel();
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
+        when(mockUserRepository.findById(userId)).thenReturn(Optional.of(userEntity));
         when(modelMapper.map(userEntity, UserViewModel.class)).thenReturn(userViewModel);
 
-        UserViewModel foundUser = userService.findBId(userId);
+        UserViewModel foundUser = toTest.findBId(userId);
 
         assertNotNull(foundUser);
-        verify(userRepository).findById(userId);
+        verify(mockUserRepository).findById(userId);
         verify(modelMapper).map(userEntity, UserViewModel.class);
     }
 
@@ -139,22 +160,22 @@ public class UserServiceImplTest {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(username);
 
-        when(userRepository.findUserEntByUsername(username)).thenReturn(Optional.of(userEntity));
+        when(mockUserRepository.findUserEntByUsername(username)).thenReturn(Optional.of(userEntity));
 
-        UserEntity foundUser = userService.findByName(username);
+        UserEntity foundUser = toTest.findByName(username);
 
         assertNotNull(foundUser);
         assertEquals(username, foundUser.getUsername());
-        verify(userRepository).findUserEntByUsername(username);
+        verify(mockUserRepository).findUserEntByUsername(username);
     }
 
     @Test
     void findByName_ShouldThrowExceptionIfUserNotFound() {
         String username = "unknownuser";
 
-        when(userRepository.findUserEntByUsername(username)).thenReturn(Optional.empty());
+        when(mockUserRepository.findUserEntByUsername(username)).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> userService.findByName(username));
+        assertThrows(IllegalArgumentException.class, () -> toTest.findByName(username));
     }
 
 }

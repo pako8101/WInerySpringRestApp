@@ -78,6 +78,7 @@ if (brands.isEmpty()) {
         BrandEntity newBrand = new BrandEntity();
         newBrand.setName(brandDTO.getName());
         newBrand.setDescription(brandDTO.getDescription());
+        newBrand.setId(brandDTO.getId());
         //newBrand.setCategories(brandDTO.getCategories());
         return brandRepository.save(newBrand);
     } else {

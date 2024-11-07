@@ -103,7 +103,7 @@ public class WineController {
     @PostMapping("/wine/add")
     public String addWine(@Valid WIneAddDto wIneAddDto,
                           Model model,
-                          BrandDto brandDto,
+                          BrandDto brandDto,BrandEntity brand,
                           BindingResult bindingResult,
                           RedirectAttributes redirectAttributes,
                           @AuthenticationPrincipal UserDetails principal,
@@ -120,38 +120,40 @@ public class WineController {
                     ".wIneAddDto", bindingResult);
             return "redirect:add";
         }
-        BrandEntity brand;
+        ;
         if (brandId == null && wIneAddDto.getNewBrandName() != null
                 && !wIneAddDto.getNewBrandName().isEmpty()) {
-            BrandEntity existingBrand = brandService.findByName(wIneAddDto.getNewBrandName());
-            if (existingBrand != null) {
-                brand = existingBrand;
-            } else {
-                // Create a new brand if provided
-                BrandDto newBrandDTO = new BrandDto();
-               newBrandDTO.setName(wIneAddDto.getNewBrandName());
-                newBrandDTO.setDescription(wIneAddDto.getNewBrandDescription());
-                brand = brandService.createBrand(newBrandDTO);
-            }
+//            BrandEntity existingBrand = brandService.findByName(wIneAddDto.getNewBrandName());
+//            if (existingBrand != null) {
+//                brand = existingBrand;
+//            } else {
+            // Create a new brand if provided
+           // BrandDto newBrandDTO = new BrandDto();
+            brandDto.setName(wIneAddDto.getNewBrandName());
+            brandDto.setDescription(wIneAddDto.getNewBrandDescription());
+            brand = brandService.createBrand(brandDto);
+            //   }
 
 
         } else if (brandId != null) {
             // Избор на съществуващ бранд
-            brand = brandService.getBrandById(brandId);
-            if (brand == null) {
-                brandService.createBrand(brandDto);
-                bindingResult.rejectValue("brandId", "error.brandId", "Brand not found!");
-                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wIneAddDto", bindingResult);
-                return "redirect:/wine/add";
-
-            }
-        } else {
-
-            bindingResult.rejectValue("brandId", "error.brandId", "You must select an existing brand or create a new one.");
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wIneAddDto", bindingResult);
+           brand = brandService.getBrandById(brandId);
             return "redirect:/wine/add";
-
         }
+//            if (brand == null) {
+//                brandService.createBrand(brandDto);
+//                bindingResult.rejectValue("brandId", "error.brandId", "Brand not found!");
+//                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wIneAddDto", bindingResult);
+//                return "redirect:/wine/add";
+//
+//            }
+//        } else {
+//
+//            bindingResult.rejectValue("brandId", "error.brandId", "You must select an existing brand or create a new one.");
+//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wIneAddDto", bindingResult);
+//            return "redirect:/wine/add";
+//
+//        }
 //        if (wIneAddDto.getBrandId() == null || !isNumeric(wIneAddDto.getBrandId())) {
 //            throw new IllegalArgumentException("Invalid brandId: must be a number");
 //
