@@ -13,8 +13,11 @@ public class Order extends BaseEntity{
 
 @OneToMany(cascade = CascadeType.ALL)
     private List<OrderItem> orders = new ArrayList<>();
-@ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
 private UserEntity user;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
 private LocalDateTime orderDate;
 

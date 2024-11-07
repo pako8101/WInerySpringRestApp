@@ -15,11 +15,12 @@ public class OrderServiceImpl implements OrderService {
     private final CartService cartService;
     private final ShoppingCartRepository shoppingCartRepository;
     private final OrderRepository orderRepository;
-
-    public OrderServiceImpl(CartService cartService, ShoppingCartRepository shoppingCartRepository, OrderRepository orderRepository) {
+private final UserRepository userRepository;
+    public OrderServiceImpl(CartService cartService, ShoppingCartRepository shoppingCartRepository, OrderRepository orderRepository, UserRepository userRepository) {
         this.cartService = cartService;
         this.shoppingCartRepository = shoppingCartRepository;
         this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -27,7 +28,9 @@ public class OrderServiceImpl implements OrderService {
         ShoppingCart cart = shoppingCartRepository.findByUserEntityAndCompletedFalse(user)
                 .orElseThrow(() -> new RuntimeException("No active cart found"));
 
+
         Order order = new Order();
+
         order.setUser(user);
         order.setOrderDate(LocalDateTime.now());
 
@@ -40,7 +43,9 @@ public class OrderServiceImpl implements OrderService {
 
         cart.setCompleted(true);
         shoppingCartRepository.save(cart);
-
+        if (order.getUser().getId() == user.getId()) {
+            userRepository.save(order.getUser());
+        }
         return orderRepository.save(order);
     }
 

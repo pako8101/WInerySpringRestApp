@@ -24,6 +24,7 @@ public class UserEntity extends BaseEntity {
     private String username;
 
     @Column(nullable = false)
+    @NotNull
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

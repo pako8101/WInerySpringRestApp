@@ -87,12 +87,18 @@ public class UserServiceImplTest {
         userEntity.setUsername("testuser");
 
         when(modelMapper.map(userRegisterDto, UserEntity.class)).thenReturn(userEntity);
-        when(passwordEncoder.encode(userRegisterDto.getPassword())).thenReturn("encodedPassword");
+        when(passwordEncoder.encode(userRegisterDto.getPassword())).
+                thenReturn("encodedPassword");
         when(mockUserRepository.save(any(UserEntity.class))).thenReturn(userEntity);
 
         //UserDetails userDetails = Mockito.mock(UserDetails.class);
+        UserDetails userDetails = Mockito.mock(UserDetails.class);
+        when(userDetails.getUsername()).thenReturn("testuser");
+        when(userDetails.getPassword()).thenReturn("encodedPassword");
+
         Mockito.lenient().
-                when(userDetailsService.loadUserByUsername(userRegisterDto.getUsername())).thenReturn(userDetails);
+                when(userDetailsService.loadUserByUsername(userRegisterDto.getUsername()))
+                .thenReturn(userDetails);
 
 
 //act
@@ -107,7 +113,7 @@ public class UserServiceImplTest {
                 actualEntity.getUsername());
         Assertions.assertEquals(userRegisterDto.getFullName(),
                 actualEntity.getFullName());
-        Assertions.assertEquals(userRegisterDto.getPassword(),
+        Assertions.assertEquals("encodedPassword",
                 actualEntity.getPassword());
 
 
