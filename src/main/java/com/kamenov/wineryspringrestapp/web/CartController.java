@@ -91,6 +91,7 @@ private final PaymentService paymentService;
                                  @RequestParam("cartItemId") Long cartItemId,
                                  Model model, HttpSession session) {
 
+
         cartService.removeFromCart(user, cartItemId);
 
      //   cartItems.removeIf(item -> item.getWine().getId().equals(cartItemId));
@@ -112,19 +113,51 @@ private final PaymentService paymentService;
 
     }
     @GetMapping("/payment/{itemId}")
-    public String showPaymentPage(@PathVariable Long itemId, Model model) {
+    public String showPaymentPage(@PathVariable Long itemId, Model model,HttpSession session) {
         ShoppingCart cart = shoppingCartRepository.getReferenceById(itemId);
         List<CartItem> cartItems = cart.getItems();
+        session.setAttribute("cart", cart);
+
+        double totalSum = cartItems.stream()
+                .mapToDouble(CartItem::getSubtotal)
+                .sum();
+        System.out.println("total sum: " + totalSum);
+
         model.addAttribute("cartItems", cartItems);
+        model.addAttribute("total", totalSum);
         return "payment-page";  // Промени на името на страницата за плащане
     }
 
     // Стъпка 3: Обработи плащането и завърши поръчката
     @PostMapping("/pay/{itemId}")
-    public String processPayment(@PathVariable Long itemId, Model model) {
+    public String processPayment(@PathVariable Long itemId, Model model,HttpSession session) {
+    //date
+        LocalDate currentDate = LocalDate.now();
+
+        // Добави 10 дни
+        LocalDate futureDate = currentDate.plusDays(10);
+
+        // Форматиране на датата по желание (не е задължително)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedDate = futureDate.format(formatter);
+
+        // Подаване на датата към Thymeleaf
+        model.addAttribute("futureDate", formattedDate);
+        //------------------------------
+        ShoppingCart cart = shoppingCartRepository.getReferenceById(itemId);
+        List<CartItem> cartItems = cart.getItems();
+        session.setAttribute("cart", cart);
+
+        double totalSum = cartItems.stream()
+                .mapToDouble(CartItem::getSubtotal)
+                .sum();
+        System.out.println("total sum: " + totalSum);
+
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("total", totalSum);
         boolean isPaymentSuccessful = paymentService.processPayment(itemId);
         if (isPaymentSuccessful) {
-            return "redirect:/order/confirmation/" + itemId;
+            return "redirect:pay/" + itemId;
         } else {
             model.addAttribute("error", "Плащането не беше успешно. Опитайте отново.");
             return "payment-page";
