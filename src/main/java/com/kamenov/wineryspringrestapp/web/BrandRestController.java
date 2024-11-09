@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -35,4 +36,14 @@ public class BrandRestController {
     public ResponseEntity<BrandEntity> getBrandById(@PathVariable Long id) {
         return ResponseEntity.ok(brandService.getBrandById(id));
     }
+//    @PostMapping
+//    public ResponseEntity<BrandEntity> createBrand(@Valid @RequestBody BrandDto brandDTO) {
+//        BrandEntity createdBrand = brandService.createBrand(brandDTO);
+//        return ResponseEntity.created(ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{id}")
+//                .buildAndExpand(brandDTO.getId())
+//                .toUri())
+//                .body(createdBrand);
+//    }
 }

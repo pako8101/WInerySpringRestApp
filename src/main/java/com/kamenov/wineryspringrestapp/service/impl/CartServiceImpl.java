@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -95,6 +96,11 @@ public class CartServiceImpl implements CartService {
     public List<CartItem> getCartItemsForUser(UserEntity user) {
         ShoppingCart cart = getActiveCartForUser(user);
         return cartItemRepository.findByCart(cart);
+    }
+
+    @Override
+    public CartItem findById(Long itemId) {
+        return cartItemRepository.findById(itemId).orElseThrow(NoSuchElementException::new);
     }
 
 

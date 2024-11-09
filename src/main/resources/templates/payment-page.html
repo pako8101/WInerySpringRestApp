@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="~{fragments/commons::head}"></th:block>
+</head>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/cart-view.css">
+<link rel="stylesheet" href="/css/reset-css.css">
+<link href="/skin/frontend/stenik/site/css/open-sans-font.css" rel="stylesheet">
+<body>
+<th:block th:replace="~{fragments/commons::nav}"></th:block>
+<th:block  >
+    <div class="cart-sidebar-wrapper">
+        <h1 class="cart-title">Your Cart</h1>
+        <div class="shopping-cart-items" id="shopping-cart-table">
+            <div th:if="${cartItems == null} or ${cartItems.isEmpty()}">
+                <p th:text="${message}">Your cart is empty.</p>
+            </div>
+            <table th:if="${cartItems != null} and ${!cartItems.isEmpty()}">
+                <tr>
+                    <th>Wine</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+
+                <tr  th:each="item : ${cartItems}">
+                    <td style="padding-right: 30px;" th:text="${item.wine.name}"><div class="cell col1" > </div></td>
+                    <td th:text="${item.quantity}"><div class="cell col2" ></div></td>
+                    <!--            <td  th:text="${item.wine.price * item.quantity}"><div class="cell col3" ></div></td>-->
+                    <td style="padding-right: 20px;" ><div class="cell col3" > <strong>Subtotal:		</strong></div></td>
+                    <td style="padding-right: 20px;">   <span class="special-price">
+                            <span class="price" th:text="${item.subtotal}" ></span></span></td>
+                    <td>
+                        <form th:action="@{/cart/remove}" method="post">
+                            <input type="hidden" th:value="${item.id}" name="cartItemId" />
+                            <button type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="cart-row item">
+
+                <div class="cell col1">
+                    <a href=""
+                       title="Wine" class="cart-img-wrapper">
+                        <img >
+                    </a>
+
+                    <div class="cart-info">
+                        <a class="item-title"
+                           href="">
+                        </a>
+
+                        <ul class="attribute-list">
+                            <li>
+                                <strong >Total sum:		</strong>
+                                <span class="special-price">
+                            <span class="price" th:text="${total}" ></span></span>
+                            </li>
+                        </ul>
+                    </div>
+                    Delivery date <strong th:text="${futureDate}"> 26.09.2024</strong>
+                </div>
+            </div>
+
+            <div class="cell col5">
+                <a href=""
+                   id="delete_item" class="item-remove" title="Remove">
+                    <svg aria-hidden="true" class="icon-svg close"><use
+                            xlink:href=""></use></svg>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="article">
+            <form th:action="@{'/order/pay/' + ${itemId}}" method="post">
+                <button type="submit">Потвърди плащането</button>
+            </form>
+
+            <p th:if="${error}" th:text="${error}"></p>
+
+            <a href="javascript:;" style="color: lightgoldenrodyellow"
+               class="button continue-shopping left white-background" onclick="window.history.back(); return false;">
+                <span class="back-arrow"></span>
+                Continue shopping               </a>
+        </div>
+    </div>
+
+</th:block>
+</body>
+
+</html>

@@ -114,5 +114,8 @@ public class BrandControllerTest {
                 .addFlashAttribute("org.springframework.validation.BindingResult.brandDto", bindingResult);
         verify(brandService, never()).createBrand(any(BrandDto.class));
     }
+
+
+
 }
 

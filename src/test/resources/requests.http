@@ -1,0 +1,20 @@
+### Send POST request with json body
+POST https://localhost:8022/wine
+Content-Type: application/json
+
+
+{
+  "name": "Red carpet",
+  "brand": {
+    "id": 1,
+    "name":  "Kamenovi Family Winery",
+    "description": "Bulgarian most popular winery",
+    "categories": []
+  },
+  "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkMxS4jlgr7Ql9eAApD6ahjzmofjMvaF-7Qg&usqp=CAU",
+  "quantity": 100,
+  "price": 45,
+  "year": 2020,
+  "category": "RED",
+  "description": "Blooody vamp wine"
+}

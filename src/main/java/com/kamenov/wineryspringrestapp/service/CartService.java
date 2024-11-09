@@ -21,4 +21,6 @@ public interface CartService {
 
 
     List<CartItem> getCartItemsForUser(UserEntity user);
+
+    CartItem findById(Long itemId);
 }

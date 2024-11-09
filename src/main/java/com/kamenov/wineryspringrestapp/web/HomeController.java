@@ -35,5 +35,9 @@ public class HomeController {
     public String wine() {
         return "wine";
     }
+    @GetMapping("/payment")
+    public String pay() {
+        return "payment-page";
+    }
 
 }

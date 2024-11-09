@@ -2,10 +2,12 @@ package com.kamenov.wineryspringrestapp.web;
 
 import com.kamenov.wineryspringrestapp.exceptions.EmptyCartException;
 import com.kamenov.wineryspringrestapp.models.entity.CartItem;
+import com.kamenov.wineryspringrestapp.models.entity.Order;
 import com.kamenov.wineryspringrestapp.models.entity.ShoppingCart;
 import com.kamenov.wineryspringrestapp.models.entity.UserEntity;
 import com.kamenov.wineryspringrestapp.repository.ShoppingCartRepository;
 import com.kamenov.wineryspringrestapp.service.CartService;
+import com.kamenov.wineryspringrestapp.service.PaymentService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.NotSupportedException;
 import jakarta.transaction.Transactional;
@@ -21,18 +23,20 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/cart")
 public class CartController {
 private final ShoppingCartRepository shoppingCartRepository;
     private final CartService cartService;
-
+private final PaymentService paymentService;
 @Autowired
-    public CartController(ShoppingCartRepository shoppingCartRepository, CartService cartService) {
+    public CartController(ShoppingCartRepository shoppingCartRepository, CartService cartService, PaymentService paymentService) {
     this.shoppingCartRepository = shoppingCartRepository;
     this.cartService = cartService;
-    }
+    this.paymentService = paymentService;
+}
     @ModelAttribute("cart")
     public ShoppingCart getCart() {
     return new ShoppingCart();
@@ -106,6 +110,25 @@ private final ShoppingCartRepository shoppingCartRepository;
         return "redirect:/cart";
 
 
+    }
+    @GetMapping("/payment/{itemId}")
+    public String showPaymentPage(@PathVariable Long itemId, Model model) {
+        ShoppingCart cart = shoppingCartRepository.getReferenceById(itemId);
+        List<CartItem> cartItems = cart.getItems();
+        model.addAttribute("cartItems", cartItems);
+        return "payment-page";  // Промени на името на страницата за плащане
+    }
+
+    // Стъпка 3: Обработи плащането и завърши поръчката
+    @PostMapping("/pay/{itemId}")
+    public String processPayment(@PathVariable Long itemId, Model model) {
+        boolean isPaymentSuccessful = paymentService.processPayment(itemId);
+        if (isPaymentSuccessful) {
+            return "redirect:/order/confirmation/" + itemId;
+        } else {
+            model.addAttribute("error", "Плащането не беше успешно. Опитайте отново.");
+            return "payment-page";
+        }
     }
     @ModelAttribute("cart")
     public ShoppingCart populateCart(@AuthenticationPrincipal UserEntity user) {
