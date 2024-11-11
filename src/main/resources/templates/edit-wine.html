@@ -82,7 +82,17 @@
                        placeholder="Wine description">
                 <small th:each="error :${#fields.errors('brand.description')}"
                        th:text="${error}"
-                       th:class="'invalid-feedback text-danger'"  id="inputBrandDescError"> can't be empty!</small>
+                       th:class="'invalid-feedback text-danger'"
+                       id="inputBrandDescError"> can't be empty!</small>
+
+                <form  class="button" style="margin-top: 1rem" th:method="delete"
+                      th:action="@{/brands/delete/{id}(id=${brand.id})}">
+                    <input style="background-color: #0a7eb3;
+                            color: darkorange;
+                            font-size: medium"
+                           type="submit" value="Remove"/><br><br>
+
+                </form>
 <!--                th:text="#{nav_bar_login_art_category}"-->
 <!--                <label class="p-2" for="categories" >Category:</label>-->
 <!--                <input  th:each="c:${T(com.kamenov.wineryspringrestapp.models.enums.CategoryEnum).values()}"-->
@@ -109,7 +119,7 @@
 <!--&lt;!&ndash;                                th:value="${c}" th:text="${c}"&ndash;&gt;-->
 <!--&lt;!&ndash;                                value="white"></option> &ndash;&gt;-->
 <!--                    </optgroup>-->
-<!--                </select>-->
+                </select>
                 <small th:each="error :${#fields.errors('category')}"
                        th:text="${error}"
                        th:class="'invalid-feedback text-danger'"  id="inputCategoryError"> Category can't be empty!</small>

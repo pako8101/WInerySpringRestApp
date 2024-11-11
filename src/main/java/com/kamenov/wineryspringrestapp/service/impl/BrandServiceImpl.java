@@ -68,7 +68,8 @@ if (brands.isEmpty()) {
     }
 @Override
     public BrandEntity getBrandById(Long id) {
-        return brandRepository.findById(id).orElseThrow(() -> new BrandNotFoundException("Brand not found"));
+        return brandRepository.findById(id)
+                .orElseThrow(() -> new BrandNotFoundException("Brand not found"));
     }
     @Transactional
 @Override
@@ -173,7 +174,8 @@ if (brands.isEmpty()) {
 
     @Override
     public BrandEntity findByName(String name) {
-        return brandRepository.findByName(name).orElseThrow(()-> new BrandNotFoundException("Brand not found"));
+        return brandRepository.findByName(name)
+                .orElseThrow(()-> new BrandNotFoundException("Brand not found"));
     }
 
 

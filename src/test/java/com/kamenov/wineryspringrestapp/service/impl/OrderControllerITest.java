@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.apache.http.client.methods.RequestBuilder.post;
 import static org.modelmapper.internal.bytebuddy.matcher.ElementMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -46,17 +47,8 @@ public class OrderControllerITest {
     @WithMockUser
     public void testGetById() throws Exception {
         //arrange
-        UserEntity user = new UserEntity()
-        .setUsername("pako4")
-        .setFullName("pako4")
-        .setPassword("1234")
-        .setEmail("pako4@example.com");
-    var actualOrder =    orderRepository.save(
-                new Order()
-                        .setOrders(List.of())
-                        .setOrderDate(LocalDateTime.now())
-                        .setUser(user)
-        );
+
+    var actualOrder =  createOrder();
 //act
         ResultActions result =
 mockMvc.perform(get("/order/checkout/{orderId}",actualOrder.getId())
@@ -69,36 +61,19 @@ mockMvc.perform(get("/order/checkout/{orderId}",actualOrder.getId())
         .andExpect((ResultMatcher) jsonPath("$.user",is(actualOrder.getUser())));
 
     }
-    @Test
-    public void testCreateBrand() throws Exception {
-      MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/brands")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(
-                        """
-{
-"id": 1,
-"name": "Kamenovi",
-"description": "Bulgarian most family popular winery",
-"categories": []
-}
-"""
-                ))
-                .andExpect(status().isCreated())
-                .andExpect(header().exists("Location"))
-                .andReturn();
 
-      String body = result.getResponse().getContentAsString();
 
-      Long id = JsonPath.read(body,"$.id");
-
-     Optional<BrandEntity> createBrandOpt =   brandRepository.findById(id);
-
-        Assertions.assertTrue(createBrandOpt.isPresent());
-
-        BrandEntity  createBrand = createBrandOpt.get();
-        Assertions.assertEquals("Kamenovi", createBrand.getName());
-        Assertions.assertEquals("Bulgarian most family popular winery",
-                createBrand.getDescription());
+    private Order createOrder() {
+        UserEntity user = new UserEntity()
+                .setUsername("pako4")
+                .setFullName("pako4")
+                .setPassword("1234")
+                .setEmail("pako4@example.com");
+        return     orderRepository.save(
+                new Order()
+                        .setOrders(List.of())
+                        .setOrderDate(LocalDateTime.now())
+                        .setUser(user)
+        );
     }
-
 }

@@ -123,6 +123,7 @@
             <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}">Select a Brand</option>
         </select><br/>
             <small th:if="${#fields.hasErrors('brandId')}" th:errors="*{brandId}" class="text-danger"></small>
+
         <!-- Create New Brand (Optional) -->
             <h3>Or Add New Brand</h3>
             <label for="newBrandName">New Brand Name:</label>

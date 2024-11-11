@@ -6,6 +6,7 @@ import com.kamenov.wineryspringrestapp.repository.BrandRepository;
 import com.kamenov.wineryspringrestapp.service.BrandService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -45,4 +46,11 @@ public class BrandController {
         return "redirect:/brands";
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteBrand(@PathVariable("id") Long id) {
+
+        brandService.deleteBrand(id);
+        return ResponseEntity.noContent().build();
+
+    }
 }

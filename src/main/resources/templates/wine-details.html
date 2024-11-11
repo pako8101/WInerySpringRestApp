@@ -13,9 +13,9 @@
 <div class="wine-details-main">
     <div class="article">
     <th:block th:each="w : ${wine}">
-    <a class="figure" href="#"><img th:src="${wine.imageUrl}" alt=""></a>
-    <h3 th:text="${wine.name}">Lorem ipsum</h3>
-    <p th:text="${wine.description}">
+    <a class="figure" href="#"><img th:src="${imageUrl}" alt=""></a>
+    <h3 th:text="${name}">Lorem ipsum</h3>
+    <p th:text="${description}">
         Pellentesque a placerat dui. Suspendisse laoreet placerat turpis vel semper.
     </p>
     <h2 > <span >Quantity:</span>  <span th:text="${wine.quantity}"></span></h2><br>
@@ -42,7 +42,7 @@
 <!--        sec:authorize="hasRole('ROLE_ADMIN')"-->
         <div id="admin" >
         <form class="button" style="margin-top: 1rem" th:method="delete"
-              th:action="@{/wine/{id}(id=${wine.getId()})}">
+              th:action="@{/wine/{id}(id=${wine.id})}">
             <input style="background-color: #0a7eb3;
                             color: darkorange;
                             font-size: medium"
