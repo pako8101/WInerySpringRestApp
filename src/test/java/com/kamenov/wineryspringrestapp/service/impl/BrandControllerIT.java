@@ -6,6 +6,7 @@ import com.kamenov.wineryspringrestapp.models.entity.Order;
 import com.kamenov.wineryspringrestapp.models.entity.UserEntity;
 import com.kamenov.wineryspringrestapp.repository.BrandRepository;
 import com.kamenov.wineryspringrestapp.repository.OrderRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,12 @@ public class BrandControllerIT {
     private BrandRepository brandRepository;
     @Autowired
     private MockMvc mockMvc;
+
+    @AfterEach
+    public void tearDown() {
+        brandRepository.deleteAll();
+    }
+
     @Test
     @WithMockUser
     public void testGetById() throws Exception {

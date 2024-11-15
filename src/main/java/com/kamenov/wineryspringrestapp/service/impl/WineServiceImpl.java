@@ -3,9 +3,7 @@ package com.kamenov.wineryspringrestapp.service.impl;
 import com.kamenov.wineryspringrestapp.exceptions.WineNotAuthorisedToEditException;
 import com.kamenov.wineryspringrestapp.exceptions.WineNotFoundException;
 import com.kamenov.wineryspringrestapp.models.dto.BrandDto;
-import com.kamenov.wineryspringrestapp.models.dto.WIneAddDto;
 import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
-import com.kamenov.wineryspringrestapp.models.entity.CategoryEntity;
 import com.kamenov.wineryspringrestapp.models.entity.WineEntity;
 import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
 import com.kamenov.wineryspringrestapp.models.service.WineServiceModel;
@@ -18,12 +16,10 @@ import com.kamenov.wineryspringrestapp.repository.WineRepository;
 import com.kamenov.wineryspringrestapp.service.BrandService;
 import com.kamenov.wineryspringrestapp.service.CategoryService;
 import com.kamenov.wineryspringrestapp.service.WineService;
-import jakarta.transaction.NotSupportedException;
-import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -31,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,7 +72,7 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
-    public void addWIne(WineServiceModel wineServiceModel, BrandEntity brand) {
+    public Publisher<?> addWIne(WineServiceModel wineServiceModel, BrandEntity brand) {
         if (wineServiceModel == null || brand == null) {
             throw new IllegalArgumentException("WineServiceModel or BrandEntity cannot be null");
         }
@@ -111,6 +106,7 @@ public class WineServiceImpl implements WineService {
 
         wineRepository.save(wine);
 
+        return null;
     }
 
     @Override

@@ -1,10 +1,6 @@
 package com.kamenov.wineryspringrestapp.service;
 
-import com.kamenov.wineryspringrestapp.models.dto.BoughtWineDto;
-import com.kamenov.wineryspringrestapp.models.dto.BrandDto;
-import com.kamenov.wineryspringrestapp.models.dto.WIneAddDto;
 import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
-import com.kamenov.wineryspringrestapp.models.entity.CategoryEntity;
 import com.kamenov.wineryspringrestapp.models.entity.WineEntity;
 import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
 import com.kamenov.wineryspringrestapp.models.service.WineServiceModel;
@@ -12,7 +8,7 @@ import com.kamenov.wineryspringrestapp.models.view.WIneViewModel;
 import com.kamenov.wineryspringrestapp.models.view.WineCategoryViewModel;
 import com.kamenov.wineryspringrestapp.models.view.WineDetailsViewModel;
 import jakarta.transaction.NotSupportedException;
-import org.modelmapper.ModelMapper;
+import org.reactivestreams.Publisher;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +21,7 @@ public interface WineService {
 
     Optional<WineEntity> getWineById(Long id);
 
-    public void addWIne(WineServiceModel wineServiceModel, BrandEntity brand);
+    public Publisher<?> addWIne(WineServiceModel wineServiceModel, BrandEntity brand);
 
     List<WineEntity> getAllWInes();
 
