@@ -178,5 +178,10 @@ if (brands.isEmpty()) {
                 .orElseThrow(()-> new BrandNotFoundException("Brand not found"));
     }
 
+    @Override
+    public BrandEntity save(BrandEntity brand) {
+        return brandRepository.save(brand);
+    }
+
 
 }

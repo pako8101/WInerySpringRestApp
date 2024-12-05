@@ -21,7 +21,7 @@ public interface WineService {
 
     Optional<WineEntity> getWineById(Long id);
 
-    public Publisher<?> addWIne(WineServiceModel wineServiceModel, BrandEntity brand);
+    public void addWIne(WineServiceModel wineServiceModel, BrandEntity brand);
 
     List<WineEntity> getAllWInes();
 

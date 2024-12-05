@@ -23,6 +23,8 @@ public interface BrandService {
 
     BrandEntity findByName(String name);
 
+    BrandEntity save(BrandEntity brand);
+
     // Optional<String> finBrand(String brandName);
 
 }

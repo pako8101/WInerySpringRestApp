@@ -72,14 +72,21 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
-    public Publisher<?> addWIne(WineServiceModel wineServiceModel, BrandEntity brand) {
+    public void addWIne(WineServiceModel wineServiceModel, BrandEntity brand) {
         if (wineServiceModel == null || brand == null) {
             throw new IllegalArgumentException("WineServiceModel or BrandEntity cannot be null");
         }
-        brand.setId(0);
+
+        // Persist the brand if it is new
+        if ( brand.getId() == 0) {
+            brand = brandService.save(brand);
+        }
+
+      brand.setId(0);
         WineEntity wine = modelMapper.map(wineServiceModel, WineEntity.class);
-        BrandDto brandDto = modelMapper.map(brand, BrandDto.class);
-        BrandEntity newBrand = modelMapper.map(brandDto, BrandEntity.class);
+//        BrandDto brandDto = modelMapper.map(brand, BrandDto.class);
+//        BrandEntity newBrand = modelMapper.map(brandDto, BrandEntity.class);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
 
@@ -88,7 +95,7 @@ public class WineServiceImpl implements WineService {
         }
         wine.setDescription(wineServiceModel.getDescription());
         wine.setName(wineServiceModel.getName());
-        wine.setBrand(newBrand);
+        wine.setBrand(brand);
         if (wineServiceModel.getCategory() != null
                 && !wineServiceModel.getCategory().isEmpty()) {
             wine.setCategory(wineServiceModel.getCategory().get(0));
@@ -106,7 +113,7 @@ public class WineServiceImpl implements WineService {
 
         wineRepository.save(wine);
 
-        return null;
+
     }
 
     @Override

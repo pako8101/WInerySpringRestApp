@@ -37,6 +37,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static com.nimbusds.oauth2.sdk.util.StringUtils.isNumeric;
+
 @Controller
 public class WineController {
     @Autowired
@@ -102,8 +104,6 @@ public class WineController {
 
     @PostMapping("/wine/add")
     public String addWine(@Valid WIneAddDto wIneAddDto,
-                          Model model,
-                          BrandDto brandDto,BrandEntity brand,
                           BindingResult bindingResult,
                           RedirectAttributes redirectAttributes,
                           @AuthenticationPrincipal UserDetails principal,
@@ -120,55 +120,93 @@ public class WineController {
                     ".wIneAddDto", bindingResult);
             return "redirect:add";
         }
-        ;
-        if (brandId == null && wIneAddDto.getNewBrandName() != null
-                && !wIneAddDto.getNewBrandName().isEmpty()) {
+        BrandEntity brand = null;
+
+        // Handle existing brand selection
+        if (brandId != null) {
+            brand = brandService.getBrandById(brandId);
+            if (brand == null) {
+                bindingResult.rejectValue("brandId", "error.brandId", "Selected brand does not exist!");
+                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wineAddDto", bindingResult);
+                return "redirect:/wine/add";
+            }
+        } else if (wIneAddDto.getNewBrandName() != null && !wIneAddDto.getNewBrandName().isEmpty()) {
+            // Handle new brand creation
+            brand = brandService.findByName(wIneAddDto.getNewBrandName());
+            if (brand == null) {
+                BrandDto newBrandDto = new BrandDto();
+                newBrandDto.setName(wIneAddDto.getNewBrandName());
+                newBrandDto.setDescription(wIneAddDto.getNewBrandDescription());
+                brand = brandService.createBrand(newBrandDto);
+            }
+        } else {
+            bindingResult.rejectValue("brandId", "error.brandId", "You must select an existing brand or create a new one.");
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wineAddDto", bindingResult);
+            return "redirect:/wine/add";
+        }
+
+        // Map DTO to service model and save the wine
+        WineServiceModel wineServiceModel = modelMapper.map(wIneAddDto, WineServiceModel.class);
+        wineServiceModel.setBrand(brand);
+
+        wineService.addWIne(wineServiceModel,brand);
+
+        redirectAttributes.addFlashAttribute("message", "Wine added successfully!");
+        return "redirect:/wines/all";
+//        if (brandId == null && wIneAddDto.getNewBrandName() != null
+//                && !wIneAddDto.getNewBrandName().isEmpty()) {
+//
 //            BrandEntity existingBrand = brandService.findByName(wIneAddDto.getNewBrandName());
+//
 //            if (existingBrand != null) {
 //                brand = existingBrand;
 //            } else {
-            // Create a new brand if provided
-           // BrandDto newBrandDTO = new BrandDto();
-            brandDto.setName(wIneAddDto.getNewBrandName());
-            brandDto.setDescription(wIneAddDto.getNewBrandDescription());
-            brand = brandService.createBrand(brandDto);
-            //   }
-
-
-        } else if (brandId != null) {
-            // Избор на съществуващ бранд
-           brand = brandService.getBrandById(brandId);
-            return "redirect:/wine/add";
-        }
-//            if (brand == null) {
-//                brandService.createBrand(brandDto);
-//                bindingResult.rejectValue("brandId", "error.brandId", "Brand not found!");
-//                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wIneAddDto", bindingResult);
-//                return "redirect:/wine/add";
-//
+//                // Create a new brand if provided
+//                BrandDto newBrandDTO = new BrandDto();
+//                brandDto.setName(wIneAddDto.getNewBrandName());
+//                brandDto.setDescription(wIneAddDto.getNewBrandDescription());
+//                brand = brandService.createBrand(brandDto);
 //            }
+//
+//
+//        } else if (brandId != null) {
+//            // Избор на съществуващ бранд
+//            brand = brandService.getBrandById(brandId);
+//            return "redirect:/wine/add";
+//        }
+//
+//        if (brand == null) {
+//            brandService.createBrand(brandDto);
+//            bindingResult.rejectValue("brandId", "error.brandId", "Brand not found!");
+//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wIneAddDto", bindingResult);
+//            return "redirect:/wine/add";
+//
+//
 //        } else {
 //
 //            bindingResult.rejectValue("brandId", "error.brandId", "You must select an existing brand or create a new one.");
 //            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wIneAddDto", bindingResult);
 //            return "redirect:/wine/add";
 //
+//
 //        }
-//        if (wIneAddDto.getBrandId() == null || !isNumeric(wIneAddDto.getBrandId())) {
-//            throw new IllegalArgumentException("Invalid brandId: must be a number");
+////        if (wIneAddDto.getBrandId() == null || !isNumeric(wIneAddDto.getBrandId().toString())) {
+////            throw new IllegalArgumentException("Invalid brandId: must be a number");
+////
+////        }
+////
+////            // Друг код за обработка на виното
 //
 //
-//            // Друг код за обработка на виното
-//        }
+//            WineServiceModel wineServiceModel = modelMapper.map(wIneAddDto, WineServiceModel.class);
+//            wineServiceModel.setBrand(brand);
+//            wineService.addWIne(wineServiceModel, brand);
+//
+//            model.addAttribute("message", "Wine added successfully!");
+//            return "redirect:/wines/all";
 
-        WineServiceModel wineServiceModel = modelMapper.map(wIneAddDto, WineServiceModel.class);
-        wineServiceModel.setCategory(wIneAddDto.getCategory());
-        wineService.addWIne(wineServiceModel, brand);
 
-        model.addAttribute("message", "Wine added successfully!");
-        return "redirect:/wines/all";
     }
-
 
     @GetMapping("/{categoryName}")
     public ModelAndView getByCategory(@PathVariable("categoryName") CategoryEnum categoryName) {
