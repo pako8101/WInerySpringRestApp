@@ -3,6 +3,7 @@ package com.kamenov.wineryspringrestapp.service.impl;
 import com.kamenov.wineryspringrestapp.exceptions.WineNotAuthorisedToEditException;
 import com.kamenov.wineryspringrestapp.exceptions.WineNotFoundException;
 import com.kamenov.wineryspringrestapp.models.dto.BrandDto;
+import com.kamenov.wineryspringrestapp.models.dto.WIneAddDto;
 import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
 import com.kamenov.wineryspringrestapp.models.entity.WineEntity;
 import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
@@ -16,6 +17,7 @@ import com.kamenov.wineryspringrestapp.repository.WineRepository;
 import com.kamenov.wineryspringrestapp.service.BrandService;
 import com.kamenov.wineryspringrestapp.service.CategoryService;
 import com.kamenov.wineryspringrestapp.service.WineService;
+import jakarta.persistence.EntityManager;
 import org.modelmapper.ModelMapper;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
@@ -29,6 +31,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.hibernate.graph.EntityGraphs.executeList;
+import static org.hibernate.graph.EntityGraphs.merge;
+
 @Service
 public class WineServiceImpl implements WineService {
     private final CategoryService categoryService;
@@ -36,15 +41,17 @@ public class WineServiceImpl implements WineService {
     private final ModelMapper modelMapper;
     private final UserSession userSession;
     private final BrandService brandService;
+    private final EntityManager entityManager;
     private final BrandRepository brandRepository;
-    private final Logger LOGGER =  LoggerFactory.getLogger(WineServiceImpl.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(WineServiceImpl.class);
 
-    public WineServiceImpl(CategoryService categoryService, WineRepository wineRepository, ModelMapper modelMapper, UserSession userSession, BrandService brandService, BrandRepository brandRepository) {
+    public WineServiceImpl(CategoryService categoryService, WineRepository wineRepository, ModelMapper modelMapper, UserSession userSession, BrandService brandService, EntityManager entityManager, BrandRepository brandRepository) {
         this.categoryService = categoryService;
         this.wineRepository = wineRepository;
         this.modelMapper = modelMapper;
         this.userSession = userSession;
         this.brandService = brandService;
+        this.entityManager = entityManager;
         this.brandRepository = brandRepository;
     }
 
@@ -71,50 +78,88 @@ public class WineServiceImpl implements WineService {
         return wineRepository.findById(wineId);
     }
 
+    @Transactional
     @Override
     public void addWIne(WineServiceModel wineServiceModel, BrandEntity brand) {
         if (wineServiceModel == null || brand == null) {
             throw new IllegalArgumentException("WineServiceModel or BrandEntity cannot be null");
         }
 
-        // Persist the brand if it is new
-        if ( brand.getId() == 0) {
-            brand = brandService.save(brand);
+        // Проверка дали брандът вече съществува
+        if (brand.getId() == 0) {
+            brand = brandService.save(brand); // Запазваме новия бранд
         }
 
-      brand.setId(0);
         WineEntity wine = modelMapper.map(wineServiceModel, WineEntity.class);
-//        BrandDto brandDto = modelMapper.map(brand, BrandDto.class);
-//        BrandEntity newBrand = modelMapper.map(brandDto, BrandEntity.class);
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
 
+        String currentUsername = authentication.getName();
         if (currentUsername == null) {
             throw new IllegalArgumentException("User ID cannot be null");
         }
+
         wine.setDescription(wineServiceModel.getDescription());
         wine.setName(wineServiceModel.getName());
+
+        // Задаване на бранда
         wine.setBrand(brand);
-        if (wineServiceModel.getCategory() != null
-                && !wineServiceModel.getCategory().isEmpty()) {
+
+        if (wineServiceModel.getCategory() != null && !wineServiceModel.getCategory().isEmpty()) {
             wine.setCategory(wineServiceModel.getCategory().get(0));
-        }else {
+        } else {
             throw new IllegalArgumentException("Category cannot be null");
         }
 
-
-
-
-//                wineServiceModel.getCategory()
-//                .stream()
-//                .map(categoryService::findCategoryByName)
-//                .collect(Collectors.toSet()));
-
-        wineRepository.save(wine);
-
-
+        wineRepository.save(wine); // Запазваме виното
     }
+
+//    @Transactional
+//    @Override
+//    public void addWIne(WineServiceModel wineServiceModel, BrandEntity brand) {
+//        if (wineServiceModel == null || brand == null) {
+//            throw new IllegalArgumentException("WineServiceModel or BrandEntity cannot be null");
+//        }
+//
+//        // Persist the brand if it is new
+//        if (brand.getId() == 0) {
+//            brand = brandService.save(brand);
+//
+//        }
+//
+//        brand.setId(0);
+//        WineEntity wine = modelMapper.map(wineServiceModel, WineEntity.class);
+////        BrandDto brandDto = modelMapper.map(brand, BrandDto.class);
+////        BrandEntity newBrand = modelMapper.map(brandDto, BrandEntity.class);
+////        wine.setBrand(newBrand);
+//
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentUsername = authentication.getName();
+//
+//        if (currentUsername == null) {
+//            throw new IllegalArgumentException("User ID cannot be null");
+//        }
+//        wine.setDescription(wineServiceModel.getDescription());
+//        wine.setName(wineServiceModel.getName());
+//        brandRepository.save(brand);
+//        wine.setBrand(brand);
+//
+//        if (wineServiceModel.getCategory() != null
+//                && !wineServiceModel.getCategory().isEmpty()) {
+//            wine.setCategory(wineServiceModel.getCategory().get(0));
+//        } else {
+//            throw new IllegalArgumentException("Category cannot be null");
+//        }
+//
+//
+////                wineServiceModel.getCategory()
+////                .stream()
+////                .map(categoryService::findCategoryByName)
+////                .collect(Collectors.toSet()));
+//
+//        wineRepository.save(wine);
+//
+//
+//    }
 
     @Override
     public List<WineEntity> getAllWInes() {
@@ -159,19 +204,19 @@ public class WineServiceImpl implements WineService {
     @Transactional
     @Override
     public WineEntity updateWine(Long id, WineEntity updatedWine) {
-       // Optional<WineEntity> optionalWine = wineRepository.findById(id);
+        // Optional<WineEntity> optionalWine = wineRepository.findById(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // String currentUsername = authentication.getName();
 
 //        if (optionalWine.isPresent()) {
 //            WineEntity existingWine = optionalWine.get();
 
-            boolean isAdmin = authentication.getAuthorities().stream()
-                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
 
-            if (!isAdmin) {
-                throw new WineNotAuthorisedToEditException("You are not authorized to edit this wine.");
-            }
+        if (!isAdmin) {
+            throw new WineNotAuthorisedToEditException("You are not authorized to edit this wine.");
+        }
         WineEntity wine = wineRepository.findById(id)
                 .orElseThrow(() -> new WineNotFoundException("Wine not found with id: " + id));
 
@@ -209,32 +254,33 @@ public class WineServiceImpl implements WineService {
         }
 
 
-    wine.setImageUrl(updatedWine.getImageUrl());
-    wine.setCategory(updatedWine.getCategory());
+        wine.setImageUrl(updatedWine.getImageUrl());
+        wine.setCategory(updatedWine.getCategory());
 
-    wine.setPrice(updatedWine.getPrice());
-    wine.setQuantity(updatedWine.getQuantity());
-    wine.setName(updatedWine.getName());
-    wine.setDescription(updatedWine.getDescription());
-    wine.setCategory(updatedWine.getCategory());
-    wine.setBrand(updatedWine.getBrand());  // Актуализиране на бранда
+        wine.setPrice(updatedWine.getPrice());
+        wine.setQuantity(updatedWine.getQuantity());
+        wine.setName(updatedWine.getName());
+        wine.setDescription(updatedWine.getDescription());
+        wine.setCategory(updatedWine.getCategory());
+        wine.setBrand(updatedWine.getBrand());  // Актуализиране на бранда
 
         return wineRepository.save(wine);
 
 
-}
+    }
+
     @Override
     public List<WineCategoryViewModel> getAllByCategory(CategoryEnum categoryName) {
-      List<WineEntity> wines = wineRepository.findAllByCategory(categoryName);
-      List<WineCategoryViewModel> vieWInes = wines.stream()
-              .map(wine -> modelMapper.map(wine, WineCategoryViewModel.class))
-              .toList();
+        List<WineEntity> wines = wineRepository.findAllByCategory(categoryName);
+        List<WineCategoryViewModel> vieWInes = wines.stream()
+                .map(wine -> modelMapper.map(wine, WineCategoryViewModel.class))
+                .toList();
 
         return vieWInes;
     }
 
     @Override
-    public WIneViewModel findById(Long id){
+    public WIneViewModel findById(Long id) {
         return wineRepository.findWineById(id);
     }
 

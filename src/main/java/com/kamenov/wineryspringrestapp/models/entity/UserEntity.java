@@ -2,8 +2,12 @@ package com.kamenov.wineryspringrestapp.models.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.util.List;
+import java.util.UUID;
+
+import static java.sql.Types.VARCHAR;
 
 @Entity
 @Table(name = "user")
@@ -12,14 +16,18 @@ public class UserEntity extends BaseEntity {
     @Column(name = "full_name")
     private String fullName;
 
+    @UUIDSequence
+    @JdbcTypeCode(VARCHAR)
+    private UUID uuid;
+
     @Column(name = "age")
     @NotNull
     private int age;
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     @NotNull
     private String email;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     @NotNull
     private String username;
 
@@ -28,7 +36,7 @@ public class UserEntity extends BaseEntity {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<UserRoleEntity> roles ;
+    private List<UserRoleEntity> roles;
 
     @OneToOne(fetch = FetchType.EAGER)
     private ProfileImage image;
@@ -36,6 +44,15 @@ public class UserEntity extends BaseEntity {
     private boolean RegistrationEmailSend;
 
     public UserEntity() {
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public UserEntity setUuid(UUID uuid) {
+        this.uuid = uuid;
+        return this;
     }
 
     public boolean isRegistrationEmailSend() {

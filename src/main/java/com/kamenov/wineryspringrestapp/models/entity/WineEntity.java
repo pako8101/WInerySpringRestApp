@@ -27,8 +27,9 @@ public class WineEntity extends BaseEntity {
 //    @NotNull
 //    private Set<CategoryEntity> category;
     @NotNull
-    @ManyToOne( fetch = FetchType.EAGER,
+    @ManyToOne( fetch = FetchType.EAGER,optional = false,
             cascade = CascadeType.MERGE)
+    @JoinColumn(name = "brand_id",nullable = false)
     private BrandEntity brand;
 @Column
     private int quantity;

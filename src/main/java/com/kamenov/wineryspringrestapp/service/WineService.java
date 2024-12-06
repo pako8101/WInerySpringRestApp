@@ -1,5 +1,6 @@
 package com.kamenov.wineryspringrestapp.service;
 
+import com.kamenov.wineryspringrestapp.models.dto.WIneAddDto;
 import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
 import com.kamenov.wineryspringrestapp.models.entity.WineEntity;
 import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;

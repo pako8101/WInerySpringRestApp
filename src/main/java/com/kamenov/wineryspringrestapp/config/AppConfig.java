@@ -1,5 +1,6 @@
 package com.kamenov.wineryspringrestapp.config;
 
+import com.kamenov.wineryspringrestapp.repository.RoleRepository;
 import com.nimbusds.jose.shaded.gson.Gson;
 import com.nimbusds.jose.shaded.gson.GsonBuilder;
 import org.modelmapper.ModelMapper;
@@ -7,8 +8,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
@@ -66,5 +71,21 @@ public class AppConfig {
         return restTemplateBuilder
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
+    }
+    @Bean
+    DataSourceInitializer dataSourceInitializer(DataSource dataSource,
+                                                RoleRepository roleRepository,
+                                                ResourceLoader resourceLoader) {
+        DataSourceInitializer initializer = new DataSourceInitializer();
+        initializer.setDataSource(dataSource);
+
+        if (roleRepository != null) {
+            ResourceDatabasePopulator databasePopulator =
+                    new ResourceDatabasePopulator();
+            databasePopulator.addScript(resourceLoader
+                    .getResource("classpath:data.sql"));
+            initializer.setDatabasePopulator(databasePopulator);
+        }
+    return initializer;
     }
 }
