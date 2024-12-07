@@ -79,7 +79,7 @@ public class AppConfig {
         DataSourceInitializer initializer = new DataSourceInitializer();
         initializer.setDataSource(dataSource);
 
-        if (roleRepository != null) {
+        if (roleRepository == null) {
             ResourceDatabasePopulator databasePopulator =
                     new ResourceDatabasePopulator();
             databasePopulator.addScript(resourceLoader

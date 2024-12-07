@@ -3,6 +3,7 @@ package com.kamenov.wineryspringrestapp.models.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,8 +16,8 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "full_name")
     private String fullName;
-
-    @UUIDSequence
+@UuidGenerator
+   // @UUIDSequence
     @JdbcTypeCode(VARCHAR)
     private UUID uuid;
 

@@ -113,9 +113,9 @@ user.deletion: P300D
 log:
   deletion: P30D
 
-offers:
+wines:
   api:
-    baseUrl: "http//localhost:8022"
+    baseUrl: "http//localhost:8022/api"
 
 After 3 years of frustration here is a solution for a working HOT SWAP:
 

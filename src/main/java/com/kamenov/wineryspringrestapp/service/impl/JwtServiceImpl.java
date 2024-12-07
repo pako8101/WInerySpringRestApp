@@ -70,7 +70,8 @@ public class JwtServiceImpl implements JwtService {
         byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-    private String generateTokenValue(Map<String, Object> claims, String username) {
+    @Override
+    public String generateTokenValue(Map<String, Object> claims, String username) {
         return Jwts
                 .builder()
                 .setClaims(claims)

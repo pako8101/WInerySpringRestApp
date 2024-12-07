@@ -32,6 +32,7 @@ public class WineEntity extends BaseEntity {
     @JoinColumn(name = "brand_id",nullable = false)
     private BrandEntity brand;
 @Column
+@NotNull
     private int quantity;
 
     @NotNull

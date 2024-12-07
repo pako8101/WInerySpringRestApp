@@ -84,9 +84,10 @@ public class WineServiceImpl implements WineService {
         if (wineServiceModel == null || brand == null) {
             throw new IllegalArgumentException("WineServiceModel or BrandEntity cannot be null");
         }
-
+        brand.setId(1);
         // Проверка дали брандът вече съществува
         if (brand.getId() == 0) {
+
             brand = brandService.save(brand); // Запазваме новия бранд
         }
 
@@ -103,7 +104,7 @@ public class WineServiceImpl implements WineService {
 
         // Задаване на бранда
         wine.setBrand(brand);
-
+brandRepository.save(brand);
         if (wineServiceModel.getCategory() != null && !wineServiceModel.getCategory().isEmpty()) {
             wine.setCategory(wineServiceModel.getCategory().get(0));
         } else {

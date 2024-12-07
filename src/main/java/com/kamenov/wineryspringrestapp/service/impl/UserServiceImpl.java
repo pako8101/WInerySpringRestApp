@@ -2,6 +2,7 @@ package com.kamenov.wineryspringrestapp.service.impl;
 
 import com.kamenov.wineryspringrestapp.models.dto.UserRegisterDto;
 import com.kamenov.wineryspringrestapp.models.entity.UserEntity;
+import com.kamenov.wineryspringrestapp.models.user.AppUserDetails;
 import com.kamenov.wineryspringrestapp.models.user.UserSession;
 import com.kamenov.wineryspringrestapp.models.view.UserViewModel;
 import com.kamenov.wineryspringrestapp.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Consumer;
 @Service
 public class UserServiceImpl implements UserService {
@@ -101,5 +104,17 @@ private final ModelMapper modelMapper;
     public UserEntity findByName(String username) {
         return userRepository.findUserEntByUsername(username)
                 .orElseThrow(IllegalArgumentException::new);
+    }
+
+    @Override
+    public Optional<AppUserDetails> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if ( authentication != null &&
+                authentication.getPrincipal()
+                        instanceof AppUserDetails appUserDetails) {
+return Optional.of(appUserDetails);
+        }
+
+        return Optional.empty();
     }
 }

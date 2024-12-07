@@ -34,7 +34,7 @@ public class ApplicationUserDetailsService implements UserDetailsService {
         return new AppUserDetails(
                 userEntity.getUsername(),
                 userEntity.getPassword(),
-                extractAuthorities(userEntity)
+                extractAuthorities(userEntity),userEntity.getUuid()
         ).setAge(userEntity.getAge()).
                 setFullName(userEntity.getFullName());
 
