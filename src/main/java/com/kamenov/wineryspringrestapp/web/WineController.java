@@ -202,7 +202,7 @@ public String addWine(@Valid WIneAddDto wineAddDto,
     }
 
     BrandEntity brand = null;
-
+WineEntity wine = modelMapper.map(wineAddDto, WineEntity.class);
     if (brandId != null) {
         // Избор на съществуващ бранд
         brand = brandService.getBrandById(brandId);
@@ -220,11 +220,14 @@ public String addWine(@Valid WIneAddDto wineAddDto,
             newBrandDTO.setName(wineAddDto.getNewBrandName());
             newBrandDTO.setDescription(wineAddDto.getNewBrandDescription());
             brand = brandService.createBrand(newBrandDTO);
+            BrandEntity brandEntity = modelMapper.map(brand, BrandEntity.class);
+            wine.setBrand(brandEntity);
         }
     }
 
     if (brand == null) {
-        bindingResult.rejectValue("brandId", "error.brandId", "You must select an existing brand or create a new one.");
+        bindingResult.rejectValue("brandId", "error.brandId",
+                "You must select an existing brand or create a new one.");
         return "redirect:add";
     }
 

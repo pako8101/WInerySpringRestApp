@@ -17,6 +17,8 @@ public class WIneViewModel {
     private CategoryEnum category;
     private String description;
 
+
+
     public WIneViewModel() {
     }
 

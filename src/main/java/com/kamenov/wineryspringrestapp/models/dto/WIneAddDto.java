@@ -3,10 +3,7 @@ package com.kamenov.wineryspringrestapp.models.dto;
 import com.kamenov.wineryspringrestapp.models.entity.BrandEntity;
 import com.kamenov.wineryspringrestapp.models.entity.CategoryEntity;
 import com.kamenov.wineryspringrestapp.models.enums.CategoryEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -30,10 +27,9 @@ public class WIneAddDto {
     private String imageUrl;
 @NotNull
     private List<CategoryEnum> category;
-//@ManyToOne
-//@JoinColumn(name = "brand_id")
-//@NotNull(message = "Brand must not be null")
-//    private BrandEntity brand;
+@ManyToOne(fetch = FetchType.EAGER)
+@NotNull(message = "Brand must not be null")
+    private BrandEntity brand;
     @NotNull(message = "You have to write quantity of wine!")
     @PositiveOrZero
     private Integer quantity;
@@ -48,6 +44,15 @@ public class WIneAddDto {
     private String newBrandName;
     private String newBrandDescription;
     public WIneAddDto() {
+    }
+
+    public @NotNull(message = "Brand must not be null") BrandEntity getBrand() {
+        return brand;
+    }
+
+    public WIneAddDto setBrand(@NotNull(message = "Brand must not be null") BrandEntity brand) {
+        this.brand = brand;
+        return this;
     }
 
     public @NotNull(message = "You have to write quantity of wine!") @PositiveOrZero Integer getQuantity() {
@@ -148,6 +153,7 @@ public class WIneAddDto {
         this.price = price;
         return this;
     }
+
 
 
 //    public BrandEntity getBrand() {
