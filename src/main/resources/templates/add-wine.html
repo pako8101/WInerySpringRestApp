@@ -125,7 +125,7 @@
             <small th:if="${#fields.hasErrors('brandId')}" th:errors="*{brandId}" class="text-danger"></small>
 
         <!-- Create New Brand (Optional) -->
-            <h3>Or Add New Brand</h3>
+            <h3 >Or Add New Brand</h3>
             <label for="newBrandName">New Brand Name:</label>
             <input type="text" id="newBrandName" th:field="*{newBrandName}" /><br/>
             <small th:if="${#fields.hasErrors('newBrandName')}" th:errors="*{newBrandName}" class="text-danger"></small>

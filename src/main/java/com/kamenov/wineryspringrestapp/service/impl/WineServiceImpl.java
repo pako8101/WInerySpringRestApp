@@ -88,7 +88,7 @@ public class WineServiceImpl implements WineService {
 //        brand.setId(1);
 
         // Проверка дали брандът вече съществува
-        if (brand.getId() == 0) {
+        if (brand.getId() <= 0 || brand.getName() == null) {
 
             brand = brandService.save(brand); // Запазваме новия бранд
         }

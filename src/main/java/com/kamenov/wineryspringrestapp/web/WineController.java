@@ -182,68 +182,147 @@ public class WineController {
 //
 //
 //    }
-@PostMapping("/wine/add")
-public String addWine(@Valid WIneAddDto wineAddDto,
-                      BindingResult bindingResult,
-                      Model model,
-                      BrandDto brandDto,
-                      RedirectAttributes redirectAttributes,
-                      @AuthenticationPrincipal UserDetails principal,
-                      @RequestParam(required = false) Long brandId) {
 
-    if (principal.getUsername() == null) {
-        throw new UsernameNotFoundException("No user with that name subscribed");
-    }
+    @PostMapping("/wine/add")
+    public String addWine(@Valid WIneAddDto wineAddDto,
+                          BindingResult bindingResult,
+                          Model model,
+                          BrandDto brandDto,
+                          RedirectAttributes redirectAttributes,
+                          @AuthenticationPrincipal UserDetails principal,
+                          @RequestParam(required = false) String brandIdStr) {
 
-    if (bindingResult.hasErrors()) {
-        redirectAttributes.addFlashAttribute("wineAddDto", wineAddDto);
-        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wineAddDto", bindingResult);
-        return "redirect:add";
-    }
+        if (principal.getUsername() == null) {
+            throw new UsernameNotFoundException("No user with that name subscribed");
+        }
 
-    BrandEntity brand = null;
-WineEntity wine = modelMapper.map(wineAddDto, WineEntity.class);
-    if (brandId != null) {
-        // Избор на съществуващ бранд
-        brand = brandService.getBrandById(brandId);
-        if (brand == null) {
-            bindingResult.rejectValue("brandId", "error.brandId", "Selected brand not found!");
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("wineAddDto", wineAddDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wineAddDto", bindingResult);
             return "redirect:add";
         }
-    } else if (wineAddDto.getNewBrandName() != null && !wineAddDto.getNewBrandName().isEmpty()) {
-        // Създаване на нов бранд
-        BrandEntity existingBrand = brandService.findByName(wineAddDto.getNewBrandName());
-        if (existingBrand != null) {
-            brand = existingBrand;
-        } else {
-            BrandDto newBrandDTO = new BrandDto();
-            newBrandDTO.setName(wineAddDto.getNewBrandName());
-            newBrandDTO.setDescription(wineAddDto.getNewBrandDescription());
-            brand = brandService.createBrand(newBrandDTO);
-            BrandEntity brandEntity = modelMapper.map(brand, BrandEntity.class);
-            wine.setBrand(brandEntity);
+
+        BrandEntity brand = null;
+        WineEntity wine = modelMapper.map(wineAddDto, WineEntity.class);
+
+        Long brandId = null;
+        if (brandIdStr != null && !brandIdStr.isEmpty()) {
+            try {
+                brandId = Long.parseLong(brandIdStr);
+            } catch (NumberFormatException e) {
+                bindingResult.rejectValue("brandId", "error.brandId", "Invalid brandId: must be a number");
+                return "redirect:add";
+            }
         }
+
+        if (brandId != null) {
+            // Избор на съществуващ бранд
+            brand = brandService.getBrandById(brandId);
+            if (brand == null) {
+                bindingResult.rejectValue("brandId", "error.brandId", "Selected brand not found!");
+                return "redirect:add";
+            }
+        } else if (wineAddDto.getNewBrandName() != null && !wineAddDto.getNewBrandName().isEmpty()) {
+            // Създаване на нов бранд
+            BrandEntity existingBrand = brandService.findByName(wineAddDto.getNewBrandName());
+            if (existingBrand != null) {
+                brand = existingBrand;
+            } else {
+                BrandDto newBrandDTO = new BrandDto();
+                newBrandDTO.setName(wineAddDto.getNewBrandName());
+                newBrandDTO.setDescription(wineAddDto.getNewBrandDescription());
+                brand = brandService.createBrand(newBrandDTO);
+                if (brand == null) {
+                    bindingResult.rejectValue("brandId", "error.brandId",
+                            "You must select an existing brand or create a new one.");
+                    return "redirect:add";
+                }
+            }
+        }
+
+        if (brand == null) {
+            bindingResult.rejectValue("brandId", "error.brandId",
+                    "You must select an existing brand or create a new one.");
+            return "redirect:add";
+        }
+
+        // Проверка за валидност на brandId
+//        if (wineAddDto.getBrandId() == null || !isNumeric(wineAddDto.getBrandId().toString())) {
+//            throw new IllegalArgumentException("Invalid brandId: must be a number");
+//        }
+
+        // Обработка на виното
+        WineServiceModel wineServiceModel = modelMapper.map(wine, WineServiceModel.class);
+        wineServiceModel.setBrand(brand);
+        wineService.addWIne(wineServiceModel, brand);
+
+        model.addAttribute("message", "Wine added successfully!");
+        return "redirect:/wines/all";
     }
 
-    if (brand == null) {
-        bindingResult.rejectValue("brandId", "error.brandId",
-                "You must select an existing brand or create a new one.");
-        return "redirect:add";
-    }
 
-    // Проверка за валидност на brandId
-    if (wineAddDto.getBrandId() == null || !isNumeric(wineAddDto.getBrandId().toString())) {
-        throw new IllegalArgumentException("Invalid brandId: must be a number");
-    }
-
-    // Обработка на виното
-    WineServiceModel wineServiceModel = modelMapper.map(wineAddDto, WineServiceModel.class);
-    wineServiceModel.setBrand(brand);
-    wineService.addWIne(wineServiceModel, brand);
-
-    model.addAttribute("message", "Wine added successfully!");
-    return "redirect:/wines/all";
-}
+//@PostMapping("/wine/add")
+//public String addWine(@Valid WIneAddDto wineAddDto,
+//                      BindingResult bindingResult,
+//                      Model model,
+//                      BrandDto brandDto,
+//                      RedirectAttributes redirectAttributes,
+//                      @AuthenticationPrincipal UserDetails principal,
+//                      @RequestParam(required = false) Long brandId) {
+//
+//    if (principal.getUsername() == null) {
+//        throw new UsernameNotFoundException("No user with that name subscribed");
+//    }
+//
+//    if (bindingResult.hasErrors()) {
+//        redirectAttributes.addFlashAttribute("wineAddDto", wineAddDto);
+//        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wineAddDto", bindingResult);
+//        return "redirect:add";
+//    }
+//
+//    BrandEntity brand = null;
+//WineEntity wine = modelMapper.map(wineAddDto, WineEntity.class);
+//    if (brandId != null) {
+//        // Избор на съществуващ бранд
+//        brand = brandService.getBrandById(brandId);
+//        if (brand == null) {
+//            bindingResult.rejectValue("brandId", "error.brandId", "Selected brand not found!");
+//            return "redirect:add";
+//        }
+//    } else if ( wineAddDto.getNewBrandName() != null && !wineAddDto.getNewBrandName().isEmpty()) {
+//        // Създаване на нов бранд
+//        BrandEntity existingBrand = brandService.findByName(wineAddDto.getNewBrandName());
+//        if (existingBrand != null) {
+//            brand = existingBrand;
+//        } else {
+//            BrandDto newBrandDTO = new BrandDto();
+//            newBrandDTO.setName(wineAddDto.getNewBrandName());
+//            newBrandDTO.setDescription(wineAddDto.getNewBrandDescription());
+//            brand = brandService.createBrand(newBrandDTO);
+//            BrandEntity brandEntity = modelMapper.map(brand, BrandEntity.class);
+//            wine.setBrand(brandEntity);
+//        }
+//    }
+//
+//    if (brand == null) {
+//        bindingResult.rejectValue("brandId", "error.brandId",
+//                "You must select an existing brand or create a new one.");
+//        return "redirect:add";
+//    }
+//
+//    // Проверка за валидност на brandId
+//    if (wineAddDto.getBrandId() == null || !isNumeric(wineAddDto.getBrandId().toString())) {
+//        throw new IllegalArgumentException("Invalid brandId: must be a number");
+//    }
+//
+//    // Обработка на виното
+//    WineServiceModel wineServiceModel = modelMapper.map(wineAddDto, WineServiceModel.class);
+//    wineServiceModel.setBrand(brand);
+//    wineService.addWIne(wineServiceModel, brand);
+//
+//    model.addAttribute("message", "Wine added successfully!");
+//    return "redirect:/wines/all";
+//}
 
     @GetMapping("/{categoryName}")
     public ModelAndView getByCategory(@PathVariable("categoryName") CategoryEnum categoryName) {
