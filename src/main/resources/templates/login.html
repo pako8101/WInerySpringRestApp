@@ -20,8 +20,10 @@
             <div class="login-top">
                 <p>Login with social</p>
                 <ul>
-                    <li><a class="face" href="#"><span class="face"> </span>Login with Facebook</a></li>
-                    <li><a class="google" href="/oauth2/authorization/google"><span class="google"> </span>Login with Google</a></li>
+                    <li><a class="face" th:href="@{/oauth2/authorization/facebook}">
+                        <span class="face"> </span>Login with Facebook</a></li>
+                    <li><a class="google" href="/oauth2/authorization/google">
+                        <span class="google"> </span>Login with Google</a></li>
                     <li><a class="twit" href="#"><span class="twit"> </span>Login with Twitter</a></li>
                 </ul>
             </div>
