@@ -14,7 +14,7 @@ public class WIneAddDto {
 
 
     private long id;
-    @Size(min = 3,max = 100, message = "Article title must be between 3 and 100 characters")
+    @Size(min = 3,max = 100, message = "Wine title must be between 3 and 100 characters")
     @NotNull
     private String name;
     @NotNull(message = "{add.article.content.message}")

@@ -10,55 +10,56 @@
 <link rel="stylesheet" href="/css/register.css">
 <link rel="stylesheet" href="/css/style.css">
 <body>
-<header th:replace="fragments/commons::nav"></header><br>
-<div  class="wrapper">
+<header th:replace="fragments/commons::nav"></header>
+<br>
+<div class="wrapper">
     <form
             th:method="POST"
             th:action="@{/users/register}"
             th:object="${userRegisterDto}"
             enctype="multipart/form-data"
-                    >
-<!--        action="thank-you.html"-->
-                <h2 th:text="#{nav_bar_subscribe_form}">Form Registration</h2>
+    >
+        <!--        action="thank-you.html"-->
+        <h2 th:text="#{nav_bar_subscribe_form}">Form Registration</h2>
         <input id="image"
-        th:field="*{image}"
+               th:field="*{image}"
                class="form-control" type="file"
                accept="image/png, image/jpeg">
 
-                        <div class="form-group fullname" >
-                            <label for="fullname" th:text="#{nav_bar_full_name}">Full Name</label>
-                            <input th:field="*{fullName}"
-                                   th:errorclass="'is-invalid bg-danger'"
-                                   required minlength="3" maxlength="20"
-                                    type="text"
-                                    id="fullname"
-                                    placeholder="Enter your full name">
-                            <small th:each="e :${#fields.errors('fullName')}" th:text="${e}"
-                                   id="fullNameError" class="invalid-feedback form-text bg-danger rounded">
-                                Full name length must be more than 3 characters</small>
+        <div class="form-group fullname">
+            <label for="fullname" th:text="#{nav_bar_full_name}">Full Name</label>
+            <input th:field="*{fullName}"
+                   th:errorclass="'is-invalid bg-danger'"
+                   required minlength="3" maxlength="20"
+                   type="text"
+                   id="fullname"
+                   placeholder="Enter your full name">
+            <small th:each="e :${#fields.errors('fullName')}" th:text="${e}"
+                   id="fullNameError" class="invalid-feedback form-text bg-danger rounded">
+                Full name length must be more than 3 characters</small>
 
-                        </div>
-                        <div class="form-group email">
-                            <label for="email" th:text="#{nav_bar_email}">Email Address</label>
-                            <input th:field="*{email}"
-                                   th:errorclass="'is-invalid alert-danger'"
-                                    type="text"
-                                    id="email"
-                                    placeholder="Enter your email address">
-                            <small th:each="e :${#fields.errors('email')}" th:text="${e}"
-                                   id="emailError" class="invalid-feedback form-text bg-danger rounded">
-                                Email must be valid.</small>
-<!--                            <small th:if="${#fields.hasErrors('email')}"-->
-<!--                                   id="emailError" class="bg-danger text-light rounded invalid-feedback">-->
-<!--                                Email must be valid.-->
-<!--                            </small>-->
-                        </div>
+        </div>
+        <div class="form-group email">
+            <label for="email" th:text="#{nav_bar_email}">Email Address</label>
+            <input th:field="*{email}"
+                   th:errorclass="'is-invalid alert-danger'"
+                   type="text"
+                   id="email"
+                   placeholder="Enter your email address">
+            <small th:each="e :${#fields.errors('email')}" th:text="${e}"
+                   id="emailError" class="invalid-feedback form-text bg-danger rounded">
+                Email must be valid.</small>
+            <!--                            <small th:if="${#fields.hasErrors('email')}"-->
+            <!--                                   id="emailError" class="bg-danger text-light rounded invalid-feedback">-->
+            <!--                                Email must be valid.-->
+            <!--                            </small>-->
+        </div>
         <div class="form-group username">
-            <label for="email" th:text="#{nav_bar_username}">Username</label>
+            <label for="username" th:text="#{nav_bar_username}">Username</label>
             <input th:field="*{username}"
                    th:errorclass="'is-invalid alert-danger'"
                    required minlength="3" maxlength="20"
-                    type="text" id="username"
+                   type="text" id="username"
                    placeholder="Enter your username">
             <small th:if="${userExistsError}" id="usernameUniqueError"
                    class=" bg-danger rounded">Username is already occupied</small>
@@ -68,28 +69,28 @@
 
 
         </div>
-<!--        required minlength="3" maxlength="20"-->
-                        <div class="form-group password">
-                            <label for="password" th:text="#{nav_bar_password}">Password</label>
-                            <input th:field="*{password}"
-                                   th:errorclass="'is-invalid alert-danger'"
-                                   required minlength="3" maxlength="20"
-                                    type="password"
-                                   id="password"
-                                    name="password"
-                                   placeholder="Enter your password">
-<!--                            <small th:if="${#fields.hasErrors('password')}"-->
-<!--                                   id="passwordError" class="bg-danger text-light rounded invalid-feedback">-->
-<!--                                Password length must be more than 3 characters long.-->
-<!--                            </small>-->
-                            <small th:each="e :${#fields.errors('password')}" th:text="${e}"
-                                   id="passwordError" class="invalid-feedback  form-text bg-danger rounded">
-                                Password length must be between 3 and 20 characters and passwords should match.</small>
-<!--                            th:text="#{nav_bar_showPass}"-->
-                        </div>
-<!--        th:text="#{nav_bar_confirmPass}"-->
+        <!--        required minlength="3" maxlength="20"-->
+        <div class="form-group password">
+            <label for="password" th:text="#{nav_bar_password}">Password</label>
+            <input th:field="*{password}"
+                   th:errorclass="'is-invalid alert-danger'"
+                   required minlength="3" maxlength="20"
+                   type="password"
+                   id="password"
+                   name="password"
+                   placeholder="Enter your password">
+            <!--                            <small th:if="${#fields.hasErrors('password')}"-->
+            <!--                                   id="passwordError" class="bg-danger text-light rounded invalid-feedback">-->
+            <!--                                Password length must be more than 3 characters long.-->
+            <!--                            </small>-->
+            <small th:each="e :${#fields.errors('password')}" th:text="${e}"
+                   id="passwordError" class="invalid-feedback  form-text bg-danger rounded">
+                Password length must be between 3 and 20 characters and passwords should match.</small>
+            <!--                            th:text="#{nav_bar_showPass}"-->
+        </div>
+        <!--        th:text="#{nav_bar_confirmPass}"-->
         <label for="confirmPassword" th:text="#{nav_bar_re_type_password}"
-               >Re-type Password:</label>
+        >Re-type Password:</label>
 
         <input th:field="*{confirmPassword}"
                required minlength="3" maxlength="20"
@@ -103,38 +104,38 @@
             Password length must be more than 3 characters long.
         </small>
 
-        <label for="show-password" class="field__toggle" >
+        <label for="show-password" class="field__toggle">
             <input style="" type="checkbox" id="show-password" value="yes"
                    class="field__toggle-input" th:text="#{nav_bar_show_password}"/></label>
-            <!--                                th:text="#{nav_bar_showPass}"-->
+        <!--                                th:text="#{nav_bar_showPass}"-->
 
 
-<!--        <small th:each="e :${#fields.errors('password')}" th:text="${e}"-->
-<!--               id="confirmPasswordError" class="invalid-feedback  form-text bg-danger rounded">-->
-<!--            Password length must be between 3 and 20 characters and passwords should match.</small>-->
+        <!--        <small th:each="e :${#fields.errors('password')}" th:text="${e}"-->
+        <!--               id="confirmPasswordError" class="invalid-feedback  form-text bg-danger rounded">-->
+        <!--            Password length must be between 3 and 20 characters and passwords should match.</small>-->
         <div class="form-group date">
-                            <label th:text="#{nav_bar_age}" for="age">Age</label>
-                            <input th:field="*{age}"
-                                 required  min="18" max="90"
-                                   th:errorclass="'is-invalid alert-danger'"
-                                    type="number"
-                                    id="age"
-                                    name="age"
-                                   placeholder="Enter your age">
+            <label th:text="#{nav_bar_age}" for="age">Age</label>
+            <input th:field="*{age}"
+                   required min="18" max="90"
+                   th:errorclass="'is-invalid alert-danger'"
+                   type="number"
+                   id="age"
+                   name="age"
+                   placeholder="Enter your age">
             <small th:each="e :${#fields.errors('age')}" th:text="${e}"
                    class="invalid-feedback text-danger">Age is invalid!</small>
-                        </div>
+        </div>
 
-                        <div class="form-group gender">
-                            <label for="gender" th:text="#{nav_bar_gender}">Gender</label>
-                            <select required
-                                    id="gender">
-                                <option value="" selected disabled >Select your gender</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
+        <div class="form-group gender">
+            <label for="gender" th:text="#{nav_bar_gender}">Gender</label>
+            <select required
+                    id="gender">
+                <option value="" selected disabled>Select your gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
         <div class="form-group row">
             <div class="col-sm-12">
                 <div class="col-sm-12">
@@ -150,135 +151,136 @@
                 </div>
             </div>
         </div>
-                        <div class="form-group submit-btn">
-                            <input class="g-recaptcha btn btn-info btn-lg"
-                                   th:attr="data-sitekey=${@captchaSettings.getSite()}"
-                                   data-callback='onSubmit'
-                                   data-action='submit'
-                                    type="submit" value="Submit"
-                                  onclick="myFunction()"
-                            >
-                        </div>
-                                            <p class="text-center text-muted mt-5 mb-0">Have already an account?
-                                                <a th:href="@{/users/login}"
-                                                   class="fw-bold text-body"><u>Login here</u></a></p>
-                    </form>
+        <div class="form-group submit-btn">
+            <input class="g-recaptcha btn btn-info btn-lg"
+                   th:attr="data-sitekey=${@captchaSettings.getSite()}"
+                   data-callback='onSubmit'
+                   data-action='submit'
+                   type="submit" value="Submit"
+                   onclick="myFunction()"
+            >
+        </div>
+        <p class="text-center text-muted mt-5 mb-0">Have already an account?
+            <a th:href="@{/users/login}"
+               class="fw-bold text-body"><u>Login here</u></a></p>
+    </form>
 
-                    <script src="script.js"></script>
-                <!--    <section class="vh-100 bg-image"-->
-<!--             style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">-->
-<!--        <div class="mask d-flex align-items-center h-100 gradient-custom-3">-->
-<!--            <div class="container h-100">-->
-<!--                <div class="row d-flex justify-content-center align-items-center h-100">-->
-<!--                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">-->
-<!--                        <div class="card" style="border-radius: 15px;">-->
-<!--                            <div class="card-body p-5">-->
+    <script src="script.js"></script>
+    <!--    <section class="vh-100 bg-image"-->
+    <!--             style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">-->
+    <!--        <div class="mask d-flex align-items-center h-100 gradient-custom-3">-->
+    <!--            <div class="container h-100">-->
+    <!--                <div class="row d-flex justify-content-center align-items-center h-100">-->
+    <!--                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">-->
+    <!--                        <div class="card" style="border-radius: 15px;">-->
+    <!--                            <div class="card-body p-5">-->
 
-<!--                                <h2 class="text-uppercase text-center mb-5">Create an account</h2>-->
-<!--&lt;!&ndash;                                <small th:text="#{pictureNotRequired} + ':'"></small>&ndash;&gt;-->
-<!--                                <form th:method="post" th:action="@{/users/register}"-->
-<!--                                      th:object="${userRegisterDto}" enctype="multipart/form-data">-->
-<!--&lt;!&ndash;                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"&ndash;&gt;-->
-<!--&lt;!&ndash;                                         class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"&ndash;&gt;-->
-<!--&lt;!&ndash;                                         alt="Sample photo">&ndash;&gt;-->
-<!--                                    <input id="image"-->
-<!--                                           th:field="*{image}"-->
-<!--                                           class="form-control" type="file"-->
-<!--                                           accept="image/png, image/jpeg">-->
-<!--                                    <div data-mdb-input-init class="form-outline mb-4">-->
-<!--                                        <input th:field="*{fullName}"-->
-<!--                                                type="text" id="fullName"-->
-<!--                                               class="form-control form-control-lg" />-->
-<!--                                        <label class="form-label" for="fullName">Your Name</label>-->
-<!--                                    </div>-->
+    <!--                                <h2 class="text-uppercase text-center mb-5">Create an account</h2>-->
+    <!--&lt;!&ndash;                                <small th:text="#{pictureNotRequired} + ':'"></small>&ndash;&gt;-->
+    <!--                                <form th:method="post" th:action="@{/users/register}"-->
+    <!--                                      th:object="${userRegisterDto}" enctype="multipart/form-data">-->
+    <!--&lt;!&ndash;                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"&ndash;&gt;-->
+    <!--&lt;!&ndash;                                         class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"&ndash;&gt;-->
+    <!--&lt;!&ndash;                                         alt="Sample photo">&ndash;&gt;-->
+    <!--                                    <input id="image"-->
+    <!--                                           th:field="*{image}"-->
+    <!--                                           class="form-control" type="file"-->
+    <!--                                           accept="image/png, image/jpeg">-->
+    <!--                                    <div data-mdb-input-init class="form-outline mb-4">-->
+    <!--                                        <input th:field="*{fullName}"-->
+    <!--                                                type="text" id="fullName"-->
+    <!--                                               class="form-control form-control-lg" />-->
+    <!--                                        <label class="form-label" for="fullName">Your Name</label>-->
+    <!--                                    </div>-->
 
-<!--                                    <div data-mdb-input-init class="form-outline mb-4">-->
-<!--                                        <input th:field="*{username}"-->
-<!--                                               type="text" id="username"-->
-<!--                                               class="form-control form-control-lg" />-->
-<!--                                        <label class="form-label" for="username">Username</label>-->
-<!--                                    </div>-->
+    <!--                                    <div data-mdb-input-init class="form-outline mb-4">-->
+    <!--                                        <input th:field="*{username}"-->
+    <!--                                               type="text" id="username"-->
+    <!--                                               class="form-control form-control-lg" />-->
+    <!--                                        <label class="form-label" for="username">Username</label>-->
+    <!--                                    </div>-->
 
-<!--                                    <div data-mdb-input-init class="form-outline mb-4">-->
-<!--                                        <input th:field="*{email}"-->
-<!--                                                type="email" id="email"-->
-<!--                                               class="form-control form-control-lg" />-->
-<!--                                        <label class="form-label" for="email">Your Email</label>-->
-<!--                                    </div>-->
+    <!--                                    <div data-mdb-input-init class="form-outline mb-4">-->
+    <!--                                        <input th:field="*{email}"-->
+    <!--                                                type="email" id="email"-->
+    <!--                                               class="form-control form-control-lg" />-->
+    <!--                                        <label class="form-label" for="email">Your Email</label>-->
+    <!--                                    </div>-->
 
-<!--                                    <div data-mdb-input-init class="form-outline mb-4">-->
-<!--                                        <input th:field="*{password}" type="password" id="password"-->
-<!--                                               class="form-control form-control-lg" />-->
-<!--                                        <label class="form-label" for="password">Password</label>-->
-<!--                                    </div>-->
+    <!--                                    <div data-mdb-input-init class="form-outline mb-4">-->
+    <!--                                        <input th:field="*{password}" type="password" id="password"-->
+    <!--                                               class="form-control form-control-lg" />-->
+    <!--                                        <label class="form-label" for="password">Password</label>-->
+    <!--                                    </div>-->
 
-<!--                                    <div data-mdb-input-init class="form-outline mb-4">-->
-<!--                                        <input th:field="*{confirmPassword}"-->
-<!--                                                type="password" id="confirmPassword"-->
-<!--                                                class="form-control form-control-lg" />-->
-<!--                                        <label class="form-label" for="confirmPassword">Repeat your password</label>-->
-<!--                                    </div>-->
+    <!--                                    <div data-mdb-input-init class="form-outline mb-4">-->
+    <!--                                        <input th:field="*{confirmPassword}"-->
+    <!--                                                type="password" id="confirmPassword"-->
+    <!--                                                class="form-control form-control-lg" />-->
+    <!--                                        <label class="form-label" for="confirmPassword">Repeat your password</label>-->
+    <!--                                    </div>-->
 
-<!--                                    <div class="form-check d-flex justify-content-center mb-5">-->
-<!--                                        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />-->
-<!--                                        <label class="form-check-label" for="form2Example3cg">-->
-<!--                                            I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>-->
-<!--                                        </label>-->
-<!--                                    </div>-->
+    <!--                                    <div class="form-check d-flex justify-content-center mb-5">-->
+    <!--                                        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />-->
+    <!--                                        <label class="form-check-label" for="form2Example3cg">-->
+    <!--                                            I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>-->
+    <!--                                        </label>-->
+    <!--                                    </div>-->
 
-<!--                                    <div class="d-flex justify-content-center">-->
-<!--                                        <button  type="button" data-mdb-button-init-->
-<!--                                                 data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>-->
-<!--                                    </div>-->
+    <!--                                    <div class="d-flex justify-content-center">-->
+    <!--                                        <button  type="button" data-mdb-button-init-->
+    <!--                                                 data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>-->
+    <!--                                    </div>-->
 
-<!--                                    <p class="text-center text-muted mt-5 mb-0">Have already an account?-->
-<!--                                        <a href="/users/login"-->
-<!--                                           class="fw-bold text-body"><u>Login here</u></a></p>-->
+    <!--                                    <p class="text-center text-muted mt-5 mb-0">Have already an account?-->
+    <!--                                        <a href="/users/login"-->
+    <!--                                           class="fw-bold text-body"><u>Login here</u></a></p>-->
 
-<!--                                </form>-->
+    <!--                                </form>-->
 
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </section>-->
 </div>
 
 
 </body>
-<div style="margin: 85rem auto auto -50rem"><footer th:replace="fragments/commons::footer"></footer></div>
+<div style="margin: 85rem auto auto -50rem">
+    <footer th:replace="fragments/commons::footer"></footer>
+</div>
 
 <script type="text/javascript">
 
 
-    var username = document.querySelector( "#username" );
-    var password = document.querySelector( "#password" );
-    var confirmPassword = document.querySelector( "#confirmPassword" );
-    var toggle = document.querySelector( "#show-password" );
-
+    var username = document.querySelector("#username");
+    var password = document.querySelector("#password");
+    var confirmPassword = document.querySelector("#confirmPassword");
+    var toggle = document.querySelector("#show-password");
 
 
     username.value = "";
     password.value = "";
     confirmPassword.value = "";
 
-    toggle.addEventListener( "click", handleToggleClick, false );
+    toggle.addEventListener("click", handleToggleClick, false);
 
-    function handleToggleClick( event ) {
+    function handleToggleClick(event) {
 
-        if ( this.checked ) {
+        if (this.checked) {
 
-            console.warn( "Change input 'type' to: text" );
+            console.warn("Change input 'type' to: text");
             password.type = "text";
             confirmPassword.type = "text";
 
         } else {
 
-            console.warn( "Change input 'type' to: password" );
+            console.warn("Change input 'type' to: password");
             password.type = "password";
-            console.warn( "Change input 'type' to: confirmPassword" );
+            console.warn("Change input 'type' to: confirmPassword");
             confirmPassword.type = "confirmPassword";
 
         }
@@ -288,9 +290,9 @@
 </script>
 <script>
 
-function myFunction (){
- alert('Are You sure the data you provide is correct?')
-}
+    function myFunction() {
+        alert('Are You sure the data you provide is correct?')
+    }
 
 </script>
 </html>
